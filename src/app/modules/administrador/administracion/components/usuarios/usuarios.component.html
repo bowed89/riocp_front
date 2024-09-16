@@ -1,0 +1,40 @@
+<div class="table-container">
+    <div class="filter-container">
+        <p-dropdown class="filter-element" [options]="roles" [(ngModel)]="selectedRol" placeholder="Roles" (onChange)="showAllDropDown()"></p-dropdown>
+        <input class="filter-element" type="text" pInputText placeholder="Filtrar por nombre" [(ngModel)]="searchText" (change)="showAllInput()" />
+        <button class="filter-element" pButton type="button" label="Buscar" (click)="applyFilter()"></button>
+    </div>
+
+    <p-table #dt [value]="users" [rows]="10" [paginator]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Rol</th>
+                <th>Estado</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-users>
+            <tr>
+                <td>{{ users.nombre }} {{ users.apellido }}</td>
+                <td>{{ users.apellido }}</td>
+                <td>{{ users.rol }}</td>
+                <td>
+                    <i *ngIf="users.estado; else inactive" class="pi pi-check" style="color: green;"></i>
+                    <ng-template #inactive>
+                        <i class="pi pi-times" style="color: red;"></i>
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No Existe Usuarios.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+

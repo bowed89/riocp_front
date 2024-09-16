@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, Subject } from 'rxjs';
+import { map, Observable, of, Subject } from 'rxjs';
 import { MenuChangeEvent } from '../api/menuchangeevent';
-import { API } from '../../shared/api/api';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ResponseMenu } from '../interfaces/response-menu.interface';
+import { Response } from '../../shared/interfaces/response.interface';
+import { API } from '../../shared/api/api';
+import { capitalizeFirstLetter } from 'src/app/shared/utils/capitalizeFirstLetter';
+import { Menu } from '../interfaces/menu.interface';
 
 interface ResultMenu {
     label: string,
@@ -28,9 +30,9 @@ export class MenuService {
         };
     }
 
-    GetMenuByUser(token: string): Observable<ResponseMenu> {
+    GetMenuByUser(token: string): Observable<Response<Menu>> {
         const url = `${API.local}/menu/rol/user`;
-        return this.http.get<ResponseMenu>(url, this.getHttpOptions(token));
+        return this.http.get<Response<Menu>>(url, this.getHttpOptions(token));
     }
 
     StructureMenu(): Observable<ResultMenu> {
@@ -48,7 +50,7 @@ export class MenuService {
             const menus: any[] = [];
 
             data.forEach(menu => {
-                const transformedType = this.capitalizeFirstLetter(menu.tipo);
+                const transformedType = capitalizeFirstLetter(menu.tipo);
                 let existingLabel = menus.find(group => group.label === transformedType);
                 name = this.getNameByRol(menu.rol);
 
@@ -91,11 +93,6 @@ export class MenuService {
             return 'Seguimiento';
         }
         return 'Desconocido';
-    }
-
-    capitalizeFirstLetter(type: string): string {
-        if (!type) return '';
-        return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
     }
 
     menuSource$ = this.menuSource.asObservable();
