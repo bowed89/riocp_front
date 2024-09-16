@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './shared/components/notfound/notfound.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -11,9 +12,10 @@ import { NotfoundComponent } from './shared/components/notfound/notfound.compone
     ],
     imports: [
         AppRoutingModule,
-        AppLayoutModule
+        AppLayoutModule,
     ],
     providers: [
+        MessageService,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
     ],
     bootstrap: [AppComponent]

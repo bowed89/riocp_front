@@ -2,15 +2,14 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './shared/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
+import { authGuard } from './modules/auth/guards/auth.guard';
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
             {
-                path: '', redirectTo: 'auth/login', pathMatch: 'full'  // Redirigir a login cuando se accede a la ruta base
-            },
-            {
                 path: '', component: AppLayoutComponent,
+                canActivate: [authGuard], 
                 children: [
                     { path: '', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
                 ]
