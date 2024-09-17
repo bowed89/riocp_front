@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API } from 'src/app/shared/api/api';
 import { Response } from '../../../../shared/interfaces/response.interface';
-import { Usuarios } from '../interfaces/usuarios.interface';
+import { Entidades } from '../interfaces/entidades.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class EntidadeService {
 
   constructor(
     private http: HttpClient
@@ -23,14 +23,9 @@ export class UsuariosService {
     };
   }
 
-  GetUsers(token: string): Observable<Response<Usuarios>> {
-    const url = `${API.local}/usuarios`;
-    return this.http.get<Response<Usuarios>>(url, this.getHttpOptions(token));
-  }
-
-  CreateUser(usuario: Usuarios, token: string): Observable<Response<Usuarios>> {
-    const url = `${API.local}/usuarios`;
-    return this.http.post<Response<Usuarios>>(url, usuario, this.getHttpOptions(token));
+  GetEntidades(token: string): Observable<Response<Entidades>> {
+    const url = `${API.local}/entidades`;
+    return this.http.get<Response<Entidades>>(url, this.getHttpOptions(token));
   }
 
 }

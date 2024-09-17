@@ -1,0 +1,31 @@
+.table-container {
+  width: 100%;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.filter-element {
+  margin: 0 0.5rem;
+}
+
+
+
+input {
+  flex: 1;
+}
+
+.add-user-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.p-button-secondary {
+  font-size: 1px;
+}
+

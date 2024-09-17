@@ -1,0 +1,25 @@
+.table-container {
+    width: 100%;
+  }
+  
+  .filter-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 1rem; 
+  }
+  
+  .filter-element {
+    margin: 0 0.5rem; 
+  }
+  
+  p-dropdown {
+    width: 200px; 
+  }
+  
+  input {
+    flex: 1; 
+  }
+  
+
+  

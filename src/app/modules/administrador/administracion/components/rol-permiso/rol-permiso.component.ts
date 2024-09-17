@@ -4,26 +4,14 @@ import { capitalizeFirstLetter } from 'src/app/shared/utils/capitalizeFirstLette
 import { RoleService } from '../../services/roles.service';
 
 @Component({
-  selector: 'usuarios-component',
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.scss']
+  selector: 'rol-permiso-component',
+  templateUrl: './rol-permiso.component.html',
+  styleUrls: ['./rol-permiso.component.scss']
 })
-export class UsuariosComponent {
+export class RolPermisoComponent {
   users: any[] = [];
   roles: any[] = [];
-
-  categories = [
-    { label: 'All', value: null },
-    { label: 'Electronics', value: 'Electronics' },
-    { label: 'Fashion', value: 'Fashion' },
-    { label: 'Accessories', value: 'Accessories' },
-  ];
-
-  statuses = [
-    { label: 'All', value: null },
-    { label: 'Available', value: 'Available' },
-    { label: 'Out of Stock', value: 'Out of Stock' },
-  ];
+  newVisible: boolean = false;
 
   selectedCategory: string | null = null;
   selectedRol: string | null = null;
@@ -41,6 +29,10 @@ export class UsuariosComponent {
     this.GetAllRoles();
   }
 
+  addUser() {
+    this.newVisible = true;
+  }
+
   getAllUsers() {
     const token = localStorage.getItem('token');
     if (token !== null) {
@@ -53,7 +45,7 @@ export class UsuariosComponent {
         this.users = data;
 
         console.log(this.users);
-        
+
       });
     }
   }
@@ -98,4 +90,13 @@ export class UsuariosComponent {
     });
   }
 
+  editUser(id: number) {
+    console.log(id);
+  }
+
+  // Método para actualizar la tabla cuando se agrega un usuario
+  onUserAdded() {
+    this.getAllUsers();
+  }
+  
 }

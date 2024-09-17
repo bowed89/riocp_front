@@ -1,0 +1,37 @@
+<div class="table-container">
+    <div class="filter-container">
+        <input class="filter-element" type="text" pInputText placeholder="Filtrar por rol" [(ngModel)]="searchText" (change)="filterChanges()" />
+        <button class="filter-element" pButton type="button" label="Buscar" (click)="filterRol()"></button>
+    </div>
+
+    <p-table [value]="roles" [rows]="10" [paginator]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Rol</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-roles>
+            <tr>
+                <td>{{ roles.rol }}</td>
+                <td>{{ roles.descripcion }}</td>
+                <td>
+                    <i *ngIf="roles.estado; else inactive" class="pi pi-check" style="color: green;"> </i>
+                    <ng-template #inactive>
+                        <i class="pi pi-times" style="color: red;"> </i>
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No Existen Roles.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+

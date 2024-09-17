@@ -9,7 +9,8 @@
         <ng-template pTemplate="header">
             <tr>
                 <th>Nombre</th>
-                <th>Apellido</th>
+                <th>Correo Electrónico</th>
+                <th>Usuario</th>
                 <th>Rol</th>
                 <th>Estado</th>
             </tr>
@@ -17,12 +18,13 @@
         <ng-template pTemplate="body" let-users>
             <tr>
                 <td>{{ users.nombre }} {{ users.apellido }}</td>
-                <td>{{ users.apellido }}</td>
+                <td>{{ users.correo }}</td>
+                <td>{{ users.nombre_usuario }}</td>
                 <td>{{ users.rol }}</td>
                 <td>
-                    <i *ngIf="users.estado; else inactive" class="pi pi-check" style="color: green;"></i>
+                    <i *ngIf="users.estado; else inactive" class="pi pi-check" style="color: green;"> ACTIVO</i>
                     <ng-template #inactive>
-                        <i class="pi pi-times" style="color: red;"></i>
+                        <i class="pi pi-times" style="color: red;"> INACTIVO</i>
                     </ng-template>
                 </td>
             </tr>
