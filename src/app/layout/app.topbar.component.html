@@ -1,20 +1,27 @@
 <div class="layout-topbar">
     <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/demo/images/mefp/logo2_mefp_1_0.png" height="250" width="250" class="mb-3" alt="mefp logo">
+        <img src="assets/demo/images/mefp/logo2_mefp_1_0.png" height="200" width="200" class="mb-3" alt="mefp logo">
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
     </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
-        <i class="pi pi-ellipsis-v"></i>
-    </button>
+    <div class="p-menubar">
+        <p-dropdown [options]="entidad" placeholder="Entidad"></p-dropdown>
+        <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
+        <input id="user" type="text" pInputText placeholder="Juan Pérez">
+    </div>
 
-    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button" (click)="menu.toggle($event)">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
+
+        <!-- Submenu  -->
+        <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
     </div>
+
 </div>

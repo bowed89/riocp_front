@@ -21,6 +21,8 @@ export class AppMenuComponent implements OnInit {
 
     getAllmenu()  {
         this._menuService.StructureMenu().subscribe(res => {
+            console.log(res);
+            
             this.model.push(res);
         });
     }

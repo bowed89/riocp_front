@@ -2,40 +2,41 @@
 
     <div class="filter-container">
         <p-dropdown class="filter-element" [options]="roles" [(ngModel)]="selectedRol" placeholder="Roles"
-            (onChange)="showAllDropDown()"></p-dropdown>
+            ></p-dropdown>
         <input class="filter-element" type="text" pInputText placeholder="Filtrar por nombre" [(ngModel)]="searchText"
-            (change)="showAllInput()" />
+             />
         <button class="filter-element" pButton type="button" icon="pi pi-search" (click)="applyFilter()"></button>
         <button pButton type="button" class="p-button-success" icon="pi pi-user-plus" (click)="addUser()"></button>
 
     </div>
 
-    <p-table #dt [value]="users" [rows]="10" [paginator]="true">
+    <p-table #dt [value]="menus" [rows]="10" [paginator]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th>Nombre</th>
-                <th>Correo Electrónico</th>
-                <th>Usuario</th>
+                <th>Tipo</th>
+                <th>Url</th>
+                <th>Icono</th>
                 <th>Rol</th>
-                <th>Estado</th>
                 <th>Acción</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-users>
+        <ng-template pTemplate="body" let-menus>
             <tr>
-                <td>{{ users.nombre }} {{ users.apellido }}</td>
-                <td>{{ users.correo }}</td>
-                <td>{{ users.nombre_usuario }}</td>
-                <td>{{ users.rol }}</td>
-                <td>
+                <td>{{ menus.nombre }}</td>
+                <td>{{ menus.tipo }}</td>
+                <td>{{ menus.url }}</td>
+                <td>{{ menus.icono }}</td>
+                <td>{{ menus.rol }}</td>
+               <!--  <td>
                     <i *ngIf="users.estado; else inactive" class="pi pi-check" style="color: green;"></i>
                     <ng-template #inactive>
                         <i class="pi pi-times" style="color: red;"></i>
                     </ng-template>
-                </td>
+                </td> -->
                 <td>
                     <button pButton type="button" icon="pi pi-lock" class="p-button-secondary"
-                        (click)="updateUser(users.id)"></button>
+                        ></button>
                 </td>
             </tr>
         </ng-template>
@@ -49,6 +50,6 @@
 
 </div>
 
-<!-- Modals -->
+<!-- Modals --><!-- 
 <app-entidad-modal [(visible)]="newVisible" (userAdded)="onUserAdded()"></app-entidad-modal>
-<app-entidad-modificar-modal [(visible)]="newVisibleUpdate" [getId]="id" (userAdded)="onUserAdded()"></app-entidad-modificar-modal>
+<app-entidad-modificar-modal [(visible)]="newVisibleUpdate" [getId]="id" (userAdded)="onUserAdded()"></app-entidad-modificar-modal> -->

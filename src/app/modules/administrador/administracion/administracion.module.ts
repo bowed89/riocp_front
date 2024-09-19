@@ -6,6 +6,7 @@ import { AdministracionRoutingModule } from './administracion-routing.module';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { RolesComponent } from './components/roles/roles.component';
 import { RolPermisoComponent } from './components/rol-permiso/rol-permiso.component';
+import { MenuPermisoComponent } from './components/menu-permiso/menu-permiso.component';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -16,14 +17,17 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { EntidadModalComponent } from './modals/permisos/entidad-modal.component';
+import { EntidadModalComponent } from './modals/entidad/entidad-modal.component';
+import { EntidadModificarModalComponent } from './modals/entidad-modificar/entidad-modificar-modal.component';
 
 @NgModule({
   declarations: [
     UsuariosComponent,
     RolesComponent,
     RolPermisoComponent,
-    EntidadModalComponent
+    MenuPermisoComponent,
+    EntidadModalComponent,
+    EntidadModificarModalComponent
   ],
   imports: [
     CommonModule,

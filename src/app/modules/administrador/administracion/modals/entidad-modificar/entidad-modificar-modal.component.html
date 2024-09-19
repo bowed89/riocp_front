@@ -1,0 +1,78 @@
+<p-dialog header="Modificar Usuario" [(visible)]="visible" [modal]="true" [style]="{ width: '600px' }">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid grid">
+            <div class="col-12">
+                <div class="grid">
+                    <div class="col-6">
+                        <p-dropdown class="filter-element" [options]="roles" formControlName="rol_id"
+                            placeholder="Roles" (onChange)="selectedEntidad()" [(ngModel)]="selectedRol"></p-dropdown>
+                    </div>
+                    <div class="col-6">
+                        <div class="field-checkbox">
+                            <label for="estado">Activar Usuario</label>
+                            <p-checkbox formControlName="estado" inputId="estado" [binary]="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="nombre">Nombre</label>
+                <input id="nombre" type="text" pInputText formControlName="nombre" />
+                <div *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched" class="p-error">
+                    Nombre es requerido.
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="apellido">Apellido</label>
+                <input id="apellido" type="text" pInputText formControlName="apellido" />
+                <div *ngIf="userForm.get('apellido')?.invalid && userForm.get('apellido')?.touched" class="p-error">
+                    Apellido es requerido.
+                </div>
+            </div>
+            
+            <div class="col-6">
+                <label for="nombre_usuario">Nombre de Usuario</label>
+                <input id="nombre_usuario" type="text" pInputText formControlName="nombre_usuario" />
+                <div *ngIf="userForm.get('nombre_usuario')?.invalid && userForm.get('nombre_usuario')?.touched"
+                    class="p-error">
+                    Nombre de usuario es requerido.
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="correo">Correo Electrónico</label>
+                <input id="correo" type="email" pInputText formControlName="correo" />
+                <div *ngIf="userForm.get('correo')?.invalid && userForm.get('correo')?.touched" class="p-error">
+                    Correo electrónico es inválido.
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="ci">Cédula de Identidad</label>
+                <input id="ci" type="number" pInputText formControlName="ci" />
+                <div *ngIf="userForm.get('ci')?.invalid && userForm.get('ci')?.touched" class="p-error">
+                    Cédula de Identidad es requerida.
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="password">Nueva Contraseña</label>
+                <p-password id="password" formControlName="password" [feedback]="false"></p-password>
+            </div>
+
+            <div class="col-12" *ngIf="flagEntidad">
+                <p-dropdown class="filter-element" formControlName="entidad_id" [options]="entidades"
+                    placeholder="Entidades" (onChange)="selectedEntidad()"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="p-dialog-footer">
+            <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
+                class="p-button-text"></button>
+            <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="userForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>

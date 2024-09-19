@@ -2,15 +2,19 @@ import { Component, ViewChild } from '@angular/core';
 import { UsuariosService } from '../../services/usuarios.service';
 import { capitalizeFirstLetter } from 'src/app/shared/utils/capitalizeFirstLetter';
 import { RoleService } from '../../services/roles.service';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
-  selector: 'rol-permiso-component',
-  templateUrl: './rol-permiso.component.html',
-  styleUrls: ['./rol-permiso.component.scss']
+  selector: 'menu-permiso-component',
+  templateUrl: './menu-permiso.component.html',
+  styleUrls: ['./menu-permiso.component.scss']
 })
-export class RolPermisoComponent {
+export class MenuPermisoComponent {
+
   users: any[] = [];
   roles: any[] = [];
+  menus: any[] = [];
+
   newVisible: boolean = false;
   newVisibleUpdate: boolean = false;
   id: number = 0;
@@ -20,14 +24,11 @@ export class RolPermisoComponent {
 
 
   constructor(
-    public _usuariosService: UsuariosService,
-    public _roleService: RoleService
-
+    public _menuService: MenuService
   ) { }
 
   ngOnInit() {
-    this.getAllUsers();
-    this.GetAllRoles();
+    this.getAllMenus();
   }
 
   addUser() {
@@ -40,51 +41,40 @@ export class RolPermisoComponent {
     this.newVisibleUpdate = true;
   }
 
-  getAllUsers() {
+  getAllMenus() {
     const token = localStorage.getItem('token');
     if (token !== null) {
-      this._usuariosService.GetUsers(token).subscribe(({ data }) => {
-        data.map(user => {
-          if (user.rol !== undefined) {
-            user.rol = capitalizeFirstLetter(user.rol)
+      this._menuService.GetMenus(token).subscribe(({ data }) => {
+
+        data.map(value => {
+          if (value.rol === 1) {
+            value.rol = 'Solicitante'
+          } else if (value.rol === 2) {
+            value.rol = 'Administrador'
+          } else if (value.rol === 3) {
+            value.rol = 'Operador'
+          } else if (value.rol === 4) {
+            value.rol = 'Seguimiento'
           }
-        });
-        this.users = data;
 
-        console.log(this.users);
+        });
+
+        /*  data.map(user => {
+           if (user.rol !== undefined) {
+             user.rol = capitalizeFirstLetter(user.rol)
+           }
+         }); */
+        this.menus = data;
+
 
       });
     }
   }
 
-  GetAllRoles() {
-    const token = localStorage.getItem('token');
-    if (token !== null) {
-      this._roleService.GetRoles(token).subscribe(({ data }) => {
-        const all = { label: 'Mostrar Todo', value: 0 }
-        this.roles.push(all)
-        data.map((value) => {
-          value.rol = capitalizeFirstLetter(value.rol);
-          this.roles.push({
-            label: value.rol,
-            value: value.id
-          });
-        });
-      });
-    }
-  }
 
-  showAllDropDown() {
-    if (Number(this.selectedRol) === 0) {
-      this.getAllUsers();
-    }
-  }
 
-  showAllInput() {
-    if (this.searchText === '') {
-      this.getAllUsers();
-    }
-  }
+
+
 
   applyFilter() {
     this.users = this.users.filter(user => {
@@ -101,9 +91,6 @@ export class RolPermisoComponent {
     console.log(id);
   }
 
-  // Método para actualizar la tabla cuando se agrega un usuario
-  onUserAdded() {
-    this.getAllUsers();
-  }
-  
+
+
 }
