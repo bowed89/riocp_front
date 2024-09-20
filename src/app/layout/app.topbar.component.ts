@@ -4,6 +4,7 @@ import { LayoutService } from "./service/app.layout.service";
 import { AuthService } from '../modules/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { EntidadeService } from '../modules/administrador/administracion/services/entidades.service';
+import { TopBarService } from '../shared/services/topbar.service';
 
 @Component({
     selector: 'app-topbar',
@@ -38,10 +39,9 @@ export class AppTopBarComponent {
         public layoutService: LayoutService,
         public _authService: AuthService,
         public _entidadeService: EntidadeService,
+        private _topBarService: TopBarService,
         private router: Router
     ) { }
-
-
 
     ngOnInit() {
         this.getAllEntidades()
@@ -63,16 +63,33 @@ export class AppTopBarComponent {
 
     getAllEntidades() {
         const token = localStorage.getItem('token');
+        const id = localStorage.getItem('id');
+        const idrol = localStorage.getItem('id_rol');
+        let ex;
         if (token !== null) {
-            this._entidadeService.GetEntidades(token).subscribe(({ data }) => {
-                data.map((value) => {
-                    this.entidad.push({
-                        label: value.denominacion,
-                        value: value.id
+            if (Number(idrol) !== 1) {
+                this._entidadeService.GetEntidades(token).subscribe(({ data }) => {
+                    data.map((value) => {
+                        this.entidad.push({
+                            label: value.denominacion,
+                            value: value.id
+                        });
                     });
                 });
 
-            });
+            } else {
+                this._topBarService.GetEntidadSolicitante(Number(id), token).subscribe({
+                    next: ({ data }) => {
+                        ex = {
+                            label: data[0].denominacion,
+                            value: data[0].entidad_id
+                        }
+                        this.entidad.push(ex)
+
+                    }
+                })
+
+            }
 
         }
     }

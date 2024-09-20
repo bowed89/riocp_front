@@ -9,6 +9,7 @@ import { MenuService } from './service/app.menu.service';
 })
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
+    url: any[] = [];
 
     constructor(
         public layoutService: LayoutService,
@@ -19,10 +20,9 @@ export class AppMenuComponent implements OnInit {
         this.getAllmenu();
     }
 
-    getAllmenu()  {
+    getAllmenu() {
         this._menuService.StructureMenu().subscribe(res => {
             console.log(res);
-            
             this.model.push(res);
         });
     }

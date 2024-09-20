@@ -17,8 +17,16 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
+
 import { EntidadModalComponent } from './modals/entidad/entidad-modal.component';
 import { EntidadModificarModalComponent } from './modals/entidad-modificar/entidad-modificar-modal.component';
+
+// Dashboard
+import { ChartModule } from 'primeng/chart';
+import { MenuModule } from 'primeng/menu';
+import { StyleClassModule } from 'primeng/styleclass';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { InicioAdminComponent } from '../inicio/components/inicio-admin/inicio-admin.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +35,8 @@ import { EntidadModificarModalComponent } from './modals/entidad-modificar/entid
     RolPermisoComponent,
     MenuPermisoComponent,
     EntidadModalComponent,
-    EntidadModificarModalComponent
+    EntidadModificarModalComponent,
+    InicioAdminComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +49,11 @@ import { EntidadModificarModalComponent } from './modals/entidad-modificar/entid
     PasswordModule,
     ButtonModule,
     FormsModule,
-    DialogModule
+    DialogModule,
+    ChartModule,
+    MenuModule,
+    StyleClassModule,
+    PanelMenuModule,
   ]
 })
 export class AdministracionModule { }

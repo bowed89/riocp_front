@@ -4,9 +4,11 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { RolesComponent } from './components/roles/roles.component';
 import { RolPermisoComponent } from './components/rol-permiso/rol-permiso.component';
 import { MenuPermisoComponent } from './components/menu-permiso/menu-permiso.component';
+import { InicioAdminComponent } from '../inicio/components/inicio-admin/inicio-admin.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
+        { path: 'inicio', component: InicioAdminComponent },
         { path: 'usuarios', component: UsuariosComponent },
         { path: 'roles', component: RolesComponent },
         { path: 'roles-permisos', component: RolPermisoComponent },

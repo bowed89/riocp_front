@@ -8,7 +8,7 @@
     </button>
 
     <div class="p-menubar">
-        <p-dropdown [options]="entidad" placeholder="Entidad"></p-dropdown>
+        <p-dropdown [options]="entidad"></p-dropdown>
         <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
         <input id="user" type="text" pInputText placeholder="Juan Pérez">
     </div>
@@ -19,7 +19,6 @@
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
-
         <!-- Submenu  -->
         <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
     </div>
