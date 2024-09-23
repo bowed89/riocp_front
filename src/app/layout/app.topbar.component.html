@@ -8,9 +8,9 @@
     </button>
 
     <div class="p-menubar">
-        <p-dropdown [options]="entidad"></p-dropdown>
+        <p-dropdown [options]="entidad" [(ngModel)]="selectedEntidad"></p-dropdown>
         <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
-        <input id="user" type="text" pInputText placeholder="Juan Pérez">
+        <input type="text" pInputText [(ngModel)]="nombreUsuario" disabled>
     </div>
 
     <div #topbarmenu class="layout-topbar-menu"

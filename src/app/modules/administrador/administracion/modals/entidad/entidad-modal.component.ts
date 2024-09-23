@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, Output, ChangeDetectorRef } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../../services/roles.service';
 import { capitalizeFirstLetter } from 'src/app/shared/utils/capitalizeFirstLetter';
-import { EntidadeService } from '../../services/entidades.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { EntidadeService } from 'src/app/shared/services/entidades.service';
 
 @Component({
   selector: 'app-entidad-modal',

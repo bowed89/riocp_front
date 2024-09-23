@@ -3,8 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
 import { AuthService } from '../modules/auth/services/auth.service';
 import { Router } from '@angular/router';
-import { EntidadeService } from '../modules/administrador/administracion/services/entidades.service';
-import { TopBarService } from '../shared/services/topbar.service';
+import { EntidadeService } from '../shared/services/entidades.service';
 
 @Component({
     selector: 'app-topbar',
@@ -12,24 +11,15 @@ import { TopBarService } from '../shared/services/topbar.service';
 
 })
 export class AppTopBarComponent {
-
+    selectedEntidad: any;
+    nombreUsuario: any;
     items: MenuItem[] = [];
-
     entidad: any[] = [];
-
-    entidades = [
-        { label: 'Entidad 1', value: 1 },
-        { label: 'Entidad 2', value: 2 },
-        { label: 'Entidad 3', value: 3 }
-    ];
-
     solicitudes = [
         { label: 'Solicitud 1', value: 1 },
         { label: 'Solicitud 2', value: 2 },
         { label: 'Solicitud 3', value: 3 }
     ];
-
-    //items!: MenuItem[];
 
     @ViewChild('menubutton') menuButton!: ElementRef;
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
@@ -39,12 +29,11 @@ export class AppTopBarComponent {
         public layoutService: LayoutService,
         public _authService: AuthService,
         public _entidadeService: EntidadeService,
-        private _topBarService: TopBarService,
         private router: Router
     ) { }
 
     ngOnInit() {
-        this.getAllEntidades()
+        this.getEntidadesByUserRol()
         this.items = [
             { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.logout() }
         ];
@@ -61,36 +50,34 @@ export class AppTopBarComponent {
         }
     }
 
-    getAllEntidades() {
+    getEntidadesByUserRol() {
         const token = localStorage.getItem('token');
-        const id = localStorage.getItem('id');
-        const idrol = localStorage.getItem('id_rol');
-        let ex;
         if (token !== null) {
-            if (Number(idrol) !== 1) {
-                this._entidadeService.GetEntidades(token).subscribe(({ data }) => {
-                    data.map((value) => {
-                        this.entidad.push({
-                            label: value.denominacion,
-                            value: value.id
-                        });
+            this._entidadeService.GetEntidadByUserRol(token).subscribe(({ data }: any) => {
+                console.log(data);
+
+                if (data.length > 0 && data[0]?.denominacion) { // si es rol solicitante                    
+                    this.entidad.push({
+                        label: data[0].denominacion,
+                        value: data[0].entidad_id
                     });
-                });
 
-            } else {
-                this._topBarService.GetEntidadSolicitante(Number(id), token).subscribe({
-                    next: ({ data }) => {
-                        ex = {
-                            label: data[0].denominacion,
-                            value: data[0].entidad_id
-                        }
-                        this.entidad.push(ex)
+                    this.selectedEntidad = this.entidad[0].value;
+                    this.nombreUsuario = `${data[0].nombre} ${data[0].apellido}`
 
-                    }
-                })
-
-            }
-
+                } else if (data.length > 0) {
+                    this.nombreUsuario = `${data[0].nombre} ${data[0].apellido}`
+                    this._entidadeService.GetEntidades(token).subscribe(({ data }) => {
+                        data.map((value) => {
+                            this.entidad.push({
+                                label: value.denominacion,
+                                value: value.id
+                            });
+                        });
+                        this.selectedEntidad = this.entidad[0].value;
+                    });
+                }
+            });
         }
     }
 

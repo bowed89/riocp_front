@@ -23,14 +23,12 @@ import { TopBarService } from 'src/app/shared/services/topbar.service';
 export class LoginComponent {
     body: Login = { correo: '', password: '' };
     valCheck: string[] = ['remember'];
-    token: string | null = '';
 
     constructor(
         public layoutService: LayoutService,
         public _authService: AuthService,
         public _messagesService: MessagesService,
         private _menuService: MenuService,
-        private _topBarService: TopBarService,
         private router: Router
     ) { }
 
@@ -38,14 +36,6 @@ export class LoginComponent {
         this._authService.AuthLogin(this.body).subscribe({
             next: (data: ResponseLogin) => {
                 localStorage.setItem('token', data.token);
-
-                if (data.data.id !== undefined) {
-                    localStorage.setItem('id', (data.data.id).toString());
-                    localStorage.setItem('id_rol', (data.data.rol_id).toString());
-
-                }
-
-                this.token = localStorage.getItem('token');
                 this._messagesService.MessageSuccess('Bienvenido', 'Inicio de Sesión Correctamente');
                 const token = localStorage.getItem('token');
 

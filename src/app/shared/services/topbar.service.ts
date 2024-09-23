@@ -15,18 +15,5 @@ export class TopBarService {
     private http: HttpClient,
   ) { }
 
-  private getHttpOptions(token: string): { headers: HttpHeaders } {
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      })
-    };
-  }
-
-  GetEntidadSolicitante(id: number, token: string): Observable<any> {
-    const url = `${API.local}/entidades/solicitante/${id}`;
-    return this.http.get(url, this.getHttpOptions(token));
-  }
 
 }

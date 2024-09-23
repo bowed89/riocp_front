@@ -36,7 +36,6 @@ export class MenuService {
     }
 
     StructureMenu(): Observable<ResultMenu> {
-        let name = '';
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -48,52 +47,41 @@ export class MenuService {
 
         return this.GetMenuByUser(token).pipe(map(({ data }) => {
             const menus: any[] = [];
+            let transformedType = '';
 
-            data.forEach(menu => {
-                const transformedType = capitalizeFirstLetter(menu.tipo);
-                let existingLabel = menus.find(group => group.label === transformedType);
-                name = this.getNameByRol(menu.rol);
+            data.forEach(({ tipo, nombre, icono, url }) => {
+                if (tipo !== undefined) {
+                    transformedType = capitalizeFirstLetter(tipo);
+                    let existingLabel = menus.find(group => group.label === transformedType);
 
-                const item = {
-                    label: menu.nombre,
-                    icon: menu.icono,
-                    routerLink: [menu.url]
-                };
+                    const item = {
+                        label: nombre,
+                        icon: icono,
+                        routerLink: [url]
+                    };
 
-                if (existingLabel) {
-                    existingLabel.items.push(item);
+                    if (existingLabel) {
+                        existingLabel.items.push(item);
 
-                } else {
-                    menus.push({
-                        label: transformedType,
-                        items: [item]
-                    });
+                    } else {
+                        menus.push({
+                            label: transformedType,
+                            items: [item]
+                        });
+                    }
                 }
+
             });
 
+
             return {
-                label: name,
+                label: data[0].rol ? capitalizeFirstLetter(data[0].rol) : 'SIN ROLES',
                 items: menus
             };
 
         }));
     }
 
-    getNameByRol(id: number): string {
-        if (id === 1) {
-            return 'Entidad Solicitante';
-        }
-        if (id === 2) {
-            return 'Administrador';
-        }
-        if (id === 3) {
-            return 'Operador';
-        }
-        if (id === 4) {
-            return 'Seguimiento';
-        }
-        return 'Desconocido';
-    }
 
     menuSource$ = this.menuSource.asObservable();
     resetSource$ = this.resetSource.asObservable();
