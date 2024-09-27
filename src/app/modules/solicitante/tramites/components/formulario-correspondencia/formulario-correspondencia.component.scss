@@ -1,0 +1,42 @@
+.form-field {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.form-field label {
+    flex: 0 0 40%;
+    padding-right: 10px;
+}
+
+.form-field input, 
+.form-field p-fileUpload {
+    flex: 1 0 60%;
+}
+
+.error-message {
+    flex-basis: 100%; 
+    margin-top: 0.75rem; 
+    align-items: center;
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 768px) {
+    .form-field {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-field label {
+        margin-bottom: 0.5rem;
+        flex: none;
+    }
+
+    .form-field input, 
+    .form-field p-fileUpload {
+        flex: none;
+        width: 100%;
+    }
+}

@@ -1,0 +1,87 @@
+<div class="form-container">
+    <div class="grid justify-content-center">
+        <!-- Cabecera -->
+        <div class="col-12">
+            <div class="text-center">
+                <h3 class="titulo">
+                    CRONOGRAMA DEL SERVICIO DE LA DEUDA
+                </h3>
+            </div>
+        </div>
+
+
+
+        <!-- Sección 2: Información General -->
+        <div class="col-12 section">
+            <!-- 2.3 Características de la Operación -->
+            <div class="caracteristicas-operacion">
+                <div class="row">
+                    <label>Acreedor:</label>
+                    <input pInputText id="prueba1" />
+                </div>
+                <div class="row">
+                    <label>Objeto:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+            </div>
+
+            <!-- 2.4 Objeto de la Operación -->
+            <div class="cuadro-pagos">
+                <h6>CUADRO DE PAGOS PROGRAMADOS</h6>
+                <div class="pago-detalle">
+                    <label>Moneda:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+            </div>
+            <p>(Expresado en Moneda de Origen,
+                a partir del 1 de enero de la
+                gestión corriente)</p>
+        </div>
+
+    </div>
+    <!-- Tabla -->
+    <div class="col-12 section">
+        <p-table [value]="pagos" styleClass="table-full">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Capital</th>
+                    <th>Interés</th>
+                    <th>Comisiones</th>
+                    <th>Total</th>
+                    <th>Saldo</th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-pago let-i="rowIndex">
+                <tr>
+                    <td><input pInputText [(ngModel)]="pago.fechaVencimiento" /></td>
+                    <td><input pInputText [(ngModel)]="pago.capital" type="number" /></td>
+                    <td><input pInputText [(ngModel)]="pago.interes" type="number" /></td>
+                    <td><input pInputText [(ngModel)]="pago.comisiones" type="number" /></td>
+                    <td><input pInputText [(ngModel)]="pago.total" type="number" /></td>
+                    <td><input pInputText [(ngModel)]="pago.saldo" type="number" /></td>
+                    <td>
+                        <button class="p-button-danger" pButton icon="pi pi-trash" (click)="eliminarFila(i)" label="Eliminar"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td>Total:</td>
+                    <td>{{ total.capital }}</td>
+                    <td>{{ total.interes }}</td>
+                    <td>{{ total.comisiones }}</td>
+                    <td>{{ total.total }}</td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+    <!-- Botón Guardar -->
+    <div class="col-12 text-center">
+        <button (click)="agregarFila()" pButton label="Agregar Fila" icon="pi pi-plus"></button>
+    </div>
+</div>

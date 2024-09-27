@@ -1,0 +1,105 @@
+<div class="grid justify-content-center">
+    <div class="col-12 md:col-5">
+        <div class="card">
+            <h5>Correo electrónico oficial</h5>
+            <div class="text-justify">
+                El Ministerio de Economía y Finanzas Públicas (MEFP) pone a su disposición el correo electrónico
+                oficial:
+                <strong>ordc&#64;economiayfinanzas.gob.bo</strong> para la comunicación y correspondencia entre
+                entidades
+                públicas. Los documentos adjuntos enviados deben incorporar firma digital.
+            </div>
+            <h5>Enviar documentos oficiales con firma digital</h5>
+            <div class="text-justify">
+                Para enviar los documentos al correo electrónico oficial:
+                <ol>
+                    <li>Complete el formulario con los datos solicitados.</li>
+                    <li>Introduzca los 3 caracteres de color negro (captcha).</li>
+                    <li>Seleccione el documento PDF con firma digital que desea enviar.</li>
+                    <li>Haga clic en ENVIAR DOCUMENTO.</li>
+                </ol>
+                En un plazo máximo de 5 minutos, le enviaremos una confirmación de recepción a su correo electrónico.
+                <br><br>
+                <strong>IMPORTANTE:</strong> Este es un medio de comunicación oficial entre entidades públicas. Los
+                documentos deben ser enviados en PDF y tener firma digital. En cumplimiento del artículo 13.- “PUNTOS DE
+                CONTACTO OFICIAL”, parágrafo II
+                del decreto supremo 4218 del 14 de Abril de 2020.
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-7">
+        <div class="card">
+            <h5>Formulario de Registro</h5>
+            <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+
+                <!-- Campo Nombre Completo -->
+                <div class="field form-field">
+                    <input id="nombreCompleto" type="text" pInputText formControlName="nombreCompleto"
+                        placeholder="Nombre Completo" />
+                    <div class="error-message"
+                        *ngIf="registroForm.get('nombreCompleto')?.invalid && registroForm.get('nombreCompleto')?.touched">
+                        <small class="p-error">El nombre es obligatorio.</small>
+                    </div>
+                </div>
+
+                <!-- Campo Correo Electrónico -->
+                <div class="field form-field">
+                    <input id="correoElectronico" type="email" pInputText formControlName="correoElectronico"
+                        placeholder="Correo Electrónico" />
+                    <div class="error-message"
+                        *ngIf="registroForm.get('correoElectronico')?.invalid && registroForm.get('correoElectronico')?.touched">
+                        <small class="p-error">Ingrese un correo válido.</small>
+                    </div>
+                </div>
+
+                <!-- Campo Nombre de la Entidad -->
+                <div class="field form-field">
+                    <input id="nombreEntidad" type="text" pInputText formControlName="nombreEntidad"
+                        placeholder="Nombre de la Entidad" />
+                    <div class="error-message"
+                        *ngIf="registroForm.get('nombreEntidad')?.invalid && registroForm.get('nombreEntidad')?.touched">
+                        <small class="p-error">El nombre de la entidad es obligatorio.</small>
+                    </div>
+                </div>
+
+                <!-- Campo Cite -->
+                <div class="field form-field">
+                    <input id="cite" type="text" pInputText formControlName="cite"
+                        placeholder="Cite" />
+                    <div class="error-message"
+                        *ngIf="registroForm.get('cite')?.invalid && registroForm.get('cite')?.touched">
+                        <small class="p-error">El cite es obligatorio.</small>
+                    </div>
+                </div>
+
+                <!-- Campo Referencia -->
+                <div class="field form-field">
+                    <input id="referencia" type="text" pInputText formControlName="referencia"
+                        placeholder="Referencia" />
+                    <div class="error-message"
+                        *ngIf="registroForm.get('referencia')?.invalid && registroForm.get('referencia')?.touched">
+                        <small class="p-error">La referencia es obligatoria.</small>
+                    </div>
+                </div>
+
+                <!-- subir archivo -->
+                <div class="field form-field">
+                    <p-fileUpload chooseLabel="Seleccionar" chooseIcon="pi pi-upload" accept=".pdf" mode="basic"
+                        (onUpload)="onFileUpload($event)" (onError)="onFileUploadError($event)"
+                        (onSelect)="onFileSelect($event)" />
+                    <div class="error-message"
+                        *ngIf="registroForm.get('documento')?.invalid && registroForm.get('documento')?.touched">
+                        <small class="p-error">Cargue un archivo PDF válido.</small>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="registroForm.invalid"></button>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

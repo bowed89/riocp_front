@@ -1,0 +1,103 @@
+/* Responsividad y estilo para el contenedor del formulario */
+.form-container {
+    width: 85%;
+    /* Ajusta el ancho del formulario */
+    margin: 0 auto;
+    /* Centra horizontalmente */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el título principal en negrita */
+.titulo {
+    margin: 0;
+    /* Quitar el margen por defecto */
+    line-height: 1.2;
+    /* Reducir el espacio entre líneas */
+    font-size: 1.6rem;
+    /* Ajustar tamaño si es necesario */
+}
+
+/* Estilo para las secciones del formulario */
+.section {
+    width: 100%;
+    border: 2px solid #c3c3c3;
+    background-color: #f0f0f0;
+    color: #000;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* Seccion 2.3 */
+/* Estilos para la sección de características de la operación */
+.caracteristicas-operacion {
+    .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+
+        label {
+            flex: 0 0 15%;
+            margin-left: 10px;
+            font-weight: 400;
+        }
+
+        input {
+            flex: 0 0 85%;
+        }
+    }
+}
+
+/* Estilo para cuadro de pagos */
+.cuadro-pagos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Alinea el h6 y el div en el centro verticalmente */
+    margin-top: 2rem;
+
+    h6 {
+        flex: 1;
+        margin: 0;
+    }
+
+    .pago-detalle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        /* Espacio entre label y input */
+        label {
+            flex: 0 0 25%;
+            /* Ajusta el ancho del label */
+            margin: 0;
+        }
+
+        input {
+            flex: 0 0 75%;
+            /* Ajusta el ancho del input */
+        }
+    }
+
+    /* Media queries para pantallas pequeñas */
+    @media (max-width: 768px) {
+
+        /* seccion 2.3 */
+        .caracteristicas-operacion .row {
+            flex-direction: column;
+            /* Poner label e input uno debajo del otro en pantallas pequeñas */
+
+            label,
+            input {
+                flex: 0 0 100%;
+                width: 100%;
+                /* Ambos ocupan el 100% en pantallas pequeñas */
+            }
+        }
+    }
+}

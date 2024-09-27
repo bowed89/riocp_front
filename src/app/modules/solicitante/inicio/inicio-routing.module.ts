@@ -4,7 +4,7 @@ import { InicioSolicitanteComponent } from './components/inicio-solicitante/inic
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'inicio', component: InicioSolicitanteComponent },
+        { path: '', component: InicioSolicitanteComponent },
 
     ])],
     exports: [RouterModule]

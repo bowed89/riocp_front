@@ -1,0 +1,163 @@
+/* Responsividad y estilo para el contenedor del formulario */
+.form-container {
+  width: 85%;
+  /* Ajusta el ancho del formulario */
+  margin: 0 auto;
+  /* Centra horizontalmente */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Estilo para subtítulos más pequeños */
+.subtitulo {
+  margin: 0;
+  font-weight: normal;
+  line-height: 1.2;
+  /* Reducir el espacio entre líneas */
+  font-size: 1.2rem;
+  /* Tamaño más pequeño */
+}
+
+/* Estilo para el título principal en negrita */
+.titulo {
+  margin: 0;
+  /* Quitar el margen por defecto */
+  font-weight: bold;
+  line-height: 1.2;
+  /* Reducir el espacio entre líneas */
+  font-size: 1.6rem;
+  /* Ajustar tamaño si es necesario */
+}
+
+/* Ajuste de la cabecera */
+.text-center {
+  text-align: center;
+}
+
+/* Ajuste para la sección de fecha */
+.fecha-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilo para las secciones del formulario */
+.section {
+  width: 100%;
+  border: 2px solid #c3c3c3;
+  background-color: #f0f0f0;
+  color: #000;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+h5 {
+  background-color: #cfcfcf;
+  padding: 5px;
+}
+
+h6 {
+  background-color: #cfcfcf;
+  padding: 5px;
+}
+
+/* Ajuste responsivo para los inputs de la sección 1 */
+.seccion-uno {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.input-container:first-child {
+  flex: 0 0 30%;
+  /* El primer input ocupa el 30% */
+}
+
+.input-container:last-child {
+  flex: 0 0 70%;
+  /* El segundo input ocupa el 70% */
+}
+
+.input-container input {
+  width: 100%;
+  /* Los inputs ocupan el 100% de sus contenedores */
+}
+
+/* Seccion 2.3 */
+/* Estilos para la sección de características de la operación */
+.caracteristicas-operacion {
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    label {
+      flex: 0 0 40%;
+      margin-left: 10px;
+      font-weight: 500;
+      /* El label ocupa el 50% */
+    }
+
+    input {
+      flex: 0 0 60%;
+      /* El input ocupa el 50% */
+    }
+  }
+}
+
+/* Seccion 2.5 */
+.datos-contacto {
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    label {
+      flex: 0 0 40%;
+      margin-left: 10px;
+      font-weight: 400;
+      /* El label ocupa el 50% */
+    }
+
+    input {
+      flex: 0 0 60%;
+      /* El input ocupa el 50% */
+    }
+  }
+}
+
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+  .seccion-uno {
+    flex-direction: column;
+    /* Los inputs estarán uno debajo del otro en pantallas pequeñas */
+
+  }
+
+  .input-container {
+    width: 100%;
+  }
+
+  /* seccion 2.3 */
+  .caracteristicas-operacion .row {
+    flex-direction: column;
+    /* Poner label e input uno debajo del otro en pantallas pequeñas */
+
+    label,
+    input {
+      flex: 0 0 100%;
+      width: 100%;
+      /* Ambos ocupan el 100% en pantallas pequeñas */
+    }
+  }
+}

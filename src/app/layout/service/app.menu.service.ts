@@ -46,34 +46,37 @@ export class MenuService {
         }
 
         return this.GetMenuByUser(token).pipe(map(({ data }) => {
+
+            console.log("data ===>", data);
+
             const menus: any[] = [];
             let transformedType = '';
 
-            data.forEach(({ tipo, nombre, icono, url }) => {
-                if (tipo !== undefined) {
-                    transformedType = capitalizeFirstLetter(tipo);
-                    let existingLabel = menus.find(group => group.label === transformedType);
+            data.forEach(({ tipo, nombre, icono, url, show_menu }) => {
+                if (show_menu) {
+                    if (tipo !== undefined) {
+                        transformedType = capitalizeFirstLetter(tipo);
+                        let existingLabel = menus.find(group => group.label === transformedType);
 
-                    const item = {
-                        label: nombre,
-                        icon: icono,
-                        routerLink: [url]
-                    };
+                        const item = {
+                            label: nombre,
+                            icon: icono,
+                            routerLink: [url]
+                        };
 
-                    if (existingLabel) {
-                        existingLabel.items.push(item);
+                        if (existingLabel) {
+                            existingLabel.items.push(item);
 
-                    } else {
-                        menus.push({
-                            label: transformedType,
-                            items: [item]
-                        });
+                        } else {
+                            menus.push({
+                                label: transformedType,
+                                items: [item]
+                            });
+                        }
                     }
                 }
-
             });
-
-
+            
             return {
                 label: data[0].rol ? capitalizeFirstLetter(data[0].rol) : 'SIN ROLES',
                 items: menus

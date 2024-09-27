@@ -1,0 +1,121 @@
+<div class="form-container">
+    <div class="grid justify-content-center">
+        <!-- Cabecera -->
+        <div class="col-12">
+            <div class="text-center">
+                <h4 class="subtitulo">Viceministerio del Tesoro y Crédito Público</h4>
+                <h4 class="subtitulo">Dirección General de Administración y Finanzas Territoriales</h4>
+                <h3 class="titulo">SOLICITUD DE REGISTRO DE INICIO DE OPERACIONES</h3>
+                <h3 class="titulo"> DE CRÉDITO PÚBLICO</h3>
+            </div>
+        </div>
+        <!-- Fecha -->
+        <div class="col-12 text-right fecha-container">
+            <label for="fecha">Fecha:</label>
+            <input pInputText type="date" id="fecha" />
+        </div>
+
+        <!-- Sección 1: Entidad Solicitante -->
+        <div class="col-12 section">
+            <h5>SECCIÓN 1: ENTIDAD SOLICITANTE</h5>
+            <div class="seccion-uno">
+                <div class="input-container">
+                    <input pInputText placeholder="Ingrese Código Entidad" />
+                </div>
+                <div class="input-container">
+                    <input pInputText placeholder="Otra información" />
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sección 2: Información General -->
+        <div class="col-12 section">
+            <h5>SECCIÓN 2: INFORMACIÓN GENERAL</h5>
+
+            <!-- 2.1 Identificación de la Operación -->
+            <h6>2.1 IDENTIFICACIÓN DE LA OPERACIÓN DE CRÉDITO PÚBLICO (Marcar con una X)</h6>
+
+            <div class="flex justify-content-center gap-3">
+                <p-checkbox name="groupname" value="val1" label="Crédito Público Interno"></p-checkbox>
+                <p-checkbox name="groupname" value="val2" label="Crédito Público Externo"></p-checkbox>
+            </div>
+
+            <!-- 2.2 Acreedor -->
+            <h6>2.2 ACREEDOR</h6>
+            <input pInputText placeholder="Nombre del Acreedor" class="w-full" />
+
+            <!-- 2.3 Características de la Operación -->
+            <h6>2.3 CARACTERÍSTICAS DE LA OPERACIÓN DE CRÉDITO PÚBLICO</h6>
+            <div class="caracteristicas-operacion">
+                <div class="row">
+                    <label>2.3.1 Monto a ser contratado:</label>
+                    <input pInputText id="prueba1" />
+                </div>
+                <div class="row">
+                    <label>2.3.2 Moneda de Origen:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>2.3.3 Plazo (Expresado en años):</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>2.3.4 Tasa de interés (Anual):</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>2.3.5 Comisiones:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>2.3.6 Periodicidad de Pago:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>2.3.7 Periodo de Gracia (Expresado en años):</label>
+                    <input pInputText id="prueba2" />
+                </div>
+            </div>
+
+            <!-- 2.4 Objeto de la Operación -->
+            <h6>2.4 OBJETO DE LA OPERACIÓN DE CRÉDITO PÚBLICO</h6>
+            <textarea pInputTextarea rows="5" class="w-full"></textarea>
+            <label>
+                (Cuando el financiamiento esté destinado a varios proyectos de inversión, se deberá adjuntar los
+                nombres, montos y aclarar si los recursos cubrirán contrapartes locales)
+            </label>
+
+            <!-- 2.5 Datos de Contacto -->
+            <h6>2.5 DATOS DE CONTACTO DEL RESPONSABLE DE SUBSANAR LAS OBSERVACIONES AL TRÁMITE</h6>
+            <div class="datos-contacto">
+                <div class="row">
+                    <label>1. Nombre Completo:</label>
+                    <input pInputText id="prueba1" />
+                </div>
+                <div class="row">
+                    <label>2. Cargo:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>3. Correo Electrónico:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <div class="row">
+                    <label>4. Número Teléfono/Celular:</label>
+                    <input pInputText id="prueba2" />
+                </div>
+                <p><strong>Nota:</strong> De no tener los datos del contacto y en caso de presentarse observaciones a la
+                    información
+                    presentada por la Entidad, se procederá a la devolución del trámite.</p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Botón Guardar -->
+    <div class="col-12 text-center">
+        <button pButton type="submit" label="Guardar" icon="pi pi-check"></button>
+    </div>
+</div>

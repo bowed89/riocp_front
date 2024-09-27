@@ -1,0 +1,119 @@
+<div class="form-container">
+    <div class="grid justify-content-center">
+        <!-- Cabecera -->
+        <div class="col-12">
+            <div class="text-center">
+                <h3 class="titulo">
+                    CRONOGRAMA DE DESEMBOLSOS PROGRAMADOS Y/O ESTIMADOS
+                </h3>
+            </div>
+        </div>
+    </div>
+    <!-- Tabla -->
+    <div class="col-12 section">
+        <h6>Tabla de Pagos</h6>
+        <p>(Detalles de pagos programados)</p>
+        <!-- Tabla de pagos -->
+        <p-table [value]="pagos" [paginator]="true" [rows]="10" styleClass="table-full">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Objeto de la deuda</th>
+                    <th>Acreedor</th>
+                    <th>Monto Contratado (A)</th>
+                    <th>Monto Desembolsado al <br />31 de diciembre de la gestión anterior (B)</th>
+                    <th>Saldo por Desembolsar (A-B)</th>
+                    <th colspan="2">¿Se desistió el Saldo por Desembolsar?</th>
+                    <th colspan="2">Fechas y Montos</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr>
+                    <th colspan="5"></th>
+                    <th>Sí</th>
+                    <th>No</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-pago let-i="rowIndex">
+                <!-- Fila principal -->
+                <tr>
+                    <td><input pInputText [(ngModel)]="pago.objetoDeuda" /></td>
+                    <td><input pInputText [(ngModel)]="pago.acreedor" /></td>
+                    <td><input pInputText [(ngModel)]="pago.montoContratado" type="number"
+                            (input)="actualizarTotales()" />
+                    </td>
+                    <td><input pInputText [(ngModel)]="pago.montoDesembolsado" type="number"
+                            (input)="actualizarTotales()" /></td>
+                    <td>{{ pago.montoContratado - pago.montoDesembolsado }}</td>
+                    <td>
+                        <input type="checkbox" [(ngModel)]="pago.desistido" />
+                    </td>
+                    <td>
+                        <input type="checkbox" [(ngModel)]="pago.desistido" />
+                    </td>
+                    <!-- Fila para Fecha y Monto -->
+                    <div *ngFor="let desembolso of pago.fechasDesembolsos; let j = index">
+                        <td colspan="7"></td>
+                        <td>
+                            <input pInputText [(ngModel)]="desembolso.fecha" placeholder="Fecha" />
+                        </td>
+                        <td>
+                            <input pInputText [(ngModel)]="desembolso.monto" type="number" (input)="actualizarTotales()"
+                                placeholder="Monto" />
+                        </td>
+                        <td>
+                            <button pButton icon="pi pi-trash" (click)="eliminarFechaMonto(i, j)"
+                                label="Eliminar Fecha y Monto"></button>
+                        </td>
+                    </div>
+
+                    <td>
+                        <button pButton icon="pi pi-trash" (click)="eliminarFila(i)" label="Eliminar"></button>
+                    </td>
+                </tr>
+
+
+                <!-- Fila para el botón de agregar fecha y monto -->
+                <tr>
+                    <td colspan="7"></td>
+                    <td colspan="2">
+                        <button pButton icon="pi pi-plus" (click)="agregarFechaMonto(i)"
+                            label="Agregar Fecha y Monto"></button>
+                    </td>
+                    <td></td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td><strong>Total:</strong></td>
+                    <td></td>
+                    <td><strong>{{ total.montoContratado }}</strong></td>
+                    <td><strong>{{ total.montoDesembolsado }}</strong></td>
+                    <td><strong>{{ total.montoContratado - total.montoDesembolsado }}</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{{ total.totalMontoDesembolsos }}</strong></td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <div class="text-center">
+            <button (click)="agregarFila()" pButton label="Agregar Fila" icon="pi pi-plus"></button>
+        </div>
+
+
+    </div>
+    <!--  -->
+
+
+
+    <!-- Botón Guardar -->
+    <div class="col-12 text-center">
+        <button (click)="agregarFila()" pButton label="Agregar Fila" icon="pi pi-plus"></button>
+    </div>
+</div>

@@ -6,6 +6,7 @@ export interface Menu {
     rol?: string;
     tipo?: string;
     estado: boolean;
+    show_menu: boolean;
     rol_id: number;
     tipo_id: number;
     created_at?: string | null;
