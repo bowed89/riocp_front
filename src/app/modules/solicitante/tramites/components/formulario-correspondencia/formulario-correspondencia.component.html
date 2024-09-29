@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <div class="grid justify-content-center">
     <div class="col-12 md:col-5">
         <div class="card">
@@ -83,19 +85,48 @@
                     </div>
                 </div>
 
+                <!-- radio buttons para firmas -->
+                <div class="card flex justify-content-center gap-4 align-items-center">
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pizza" value="Cheese" [(ngModel)]="ingredient"
+                            [ngModelOptions]="{standalone: true}"
+                            inputId="ingredient1"></p-radioButton>
+                        <label for="ingredient1" class="ml-2">Firma Digital</label>
+                    </div>
+
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pizza" value="Mushroom" [(ngModel)]="ingredient"
+                            [ngModelOptions]="{standalone: true}"
+                            inputId="ingredient2"></p-radioButton>
+                        <label for="ingredient1" class="ml-2">firma Física</label>
+                    </div>
+                </div>
+
+
                 <!-- subir archivo -->
                 <div class="field form-field">
-                    <p-fileUpload chooseLabel="Seleccionar" chooseIcon="pi pi-upload" accept=".pdf" mode="basic"
-                        (onUpload)="onFileUpload($event)" (onError)="onFileUploadError($event)"
-                        (onSelect)="onFileSelect($event)" />
+                    <p-fileUpload
+                        chooseLabel="Archivo PDF"
+                        cancelLabel="Cancelar"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        (onSelect)="onFileSelect($event)"
+                        (onRemove)="onFileRemove()"
+                        [multiple]="false"
+                        accept=".pdf"
+                        [maxFileSize]="10000000">
+                    </p-fileUpload>
                     <div class="error-message"
                         *ngIf="registroForm.get('documento')?.invalid && registroForm.get('documento')?.touched">
                         <small class="p-error">Cargue un archivo PDF válido.</small>
                     </div>
                 </div>
 
+
+
                 <div class="field">
-                    <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="registroForm.invalid"></button>
+                    <button pButton type="submit" label="Guardar Registro" icon="pi pi-check"
+                        [disabled]="registroForm.invalid"></button>
 
                 </div>
 

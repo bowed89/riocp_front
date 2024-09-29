@@ -34,9 +34,6 @@ export class AppTopBarComponent {
 
     ngOnInit() {
         this.getEntidadesByUserRol()
-        this.items = [
-            { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.logout() }
-        ];
     }
 
 
@@ -77,8 +74,16 @@ export class AppTopBarComponent {
                         this.selectedEntidad = this.entidad[0].value;
                     });
                 }
+                
+                this.items = [
+                    { label: `${this.nombreUsuario}`, icon: 'pi pi-users', command: () => this.logout() },
+                    { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.logout() }
+                ];
+
             });
         }
+
+
     }
 
 }

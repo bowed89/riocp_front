@@ -21,6 +21,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { TableModule } from 'primeng/table';
     FileUploadModule,
     InputTextareaModule,
     CheckboxModule,
-    TableModule
+    TableModule,
+    RadioButtonModule
   ]
 })
 export class TramitesModule {

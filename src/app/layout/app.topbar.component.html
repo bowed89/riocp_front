@@ -9,9 +9,8 @@
 
     <div class="p-menubar">
         <p-dropdown [options]="entidad" [(ngModel)]="selectedEntidad"></p-dropdown>
-        <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
-        <input type="text" pInputText [(ngModel)]="nombreUsuario" disabled>
-    </div>
+<!--         <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
+ -->    </div>
 
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">

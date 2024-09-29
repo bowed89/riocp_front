@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TramitesService } from '../../services/tramites.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 
 @Component({
   selector: 'app-formulario-correspondencia',
@@ -11,9 +12,14 @@ export class FormularioCorrespondenciaComponent {
   registroForm!: FormGroup;
   isValidForm: boolean = false; // Flag para la validez del formulario
 
+  uploadedFiles: any[] = [];
+  ingredient: string = '';
+
+
   constructor(
     private fb: FormBuilder,
-    public _tramitesService: TramitesService
+    public _tramitesService: TramitesService,
+    public _messagesService: MessagesService
   ) { }
 
   ngOnInit(): void {
@@ -28,11 +34,10 @@ export class FormularioCorrespondenciaComponent {
 
     // verifica automatico que el formulario se complete y dispara un true cuando se completa
     this.registroForm.valueChanges.subscribe(() => {
-      this._tramitesService.FormRegistroValid = this.registroForm.valid;
-      console.log('flaggg', this._tramitesService.FormRegistroValid);
-
+      this._tramitesService.setFormValid(this.registroForm.valid);
     });
   }
+
 
   onSubmit(): void {
     console.log('submit');
@@ -40,6 +45,7 @@ export class FormularioCorrespondenciaComponent {
 
     if (this.registroForm.valid) {
       console.log('Formulario enviado:', this.registroForm.value);
+      this._messagesService.MessageSuccess('Tramite Registrado', 'Se registro su trámite correctamente.');
     } else {
       this.registroForm.markAllAsTouched();
     }
@@ -64,7 +70,9 @@ export class FormularioCorrespondenciaComponent {
     console.log('Archivo subido:', event.files);
   }
 
-  onFileUploadError(event: any) {
-    console.error('Error al subir el archivo:', event);
+  onFileRemove() {
+    console.log("El archivo ha sido cancelado.");
+    // Aquí puedes agregar más lógica si es necesario.
+    // Por ejemplo, restablecer el estado del formulario o limpiar campos.
   }
 }
