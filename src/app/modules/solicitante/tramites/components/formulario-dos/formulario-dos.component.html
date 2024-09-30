@@ -1,68 +1,78 @@
 <div class="form-container">
-    <div class="grid justify-content-center">
+    <form [formGroup]="deudaForm" (ngSubmit)="onSubmit()">
+        <div class="grid justify-content-center">
+            <div class="col-12 section">
+                <h5>INFORMACIÓN DE DEUDA</h5>
+                <div class="informacion">
+                    <div class="row">
+                        <!-- Pregunta 1 -->
+                        <label>1 ¿La entidad tiene deudas con saldos por desembolsar al 31 de diciembre de la gestión
+                            anterior?
+                            <br /><br />
+                            SI: Adjuntar el Formulario 4 Cronograma de Desembolsos <br />
+                            NO: La entidad no debe presentar ningún documento
+                        </label>
+                        <div class="flex justify-content-center gap-4">
+                            <p-radioButton name="pregunta1" [value]="true" (onClick)="eventRadioBtn('pregunta1')"
+                                formControlName="pregunta1" label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta1" [value]="false" (onClick)="eventRadioBtn('pregunta1')"
+                                formControlName="pregunta1" label="NO"></p-radioButton>
+                        </div>
+                    </div>
 
-        <!-- Sección 2: Información General -->
-        <div class="col-12 section">
-            <h5> INFORMACIÓN DE DEUDA</h5>
+                    <!-- Pregunta 2 -->
+                    <div class="row">
+                        <label>2 ¿Se realizaron modificaciones a las condiciones financieras de deudas contratadas?
+                            <br /><br />
+                            SI: Adjuntar el Formulario 3 Cronograma de Servicio de Deuda <br />
+                            NO: La entidad no debe presentar ningún documento
+                        </label>
+                        <div class="flex justify-content-center gap-4">
+                            <p-radioButton name="pregunta2" [value]="true" (onClick)="eventRadioBtn('pregunta2')"
+                                formControlName="pregunta2" label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta2" [value]="false" (onClick)="eventRadioBtn('pregunta2')"
+                                formControlName="pregunta2" label="NO"></p-radioButton>
+                        </div>
+                    </div>
 
-            <div class="informacion">
-                <div class="row">
-                    <!-- Pregunta 1 -->
-                    <label>1 ¿La entidad tiene deudas con saldos por desembolsar al 31 de diciembre de la gestión anterior?
-                        <br /><br />
-                        SI: Adjuntar el Formulario 4 Cronograma de Desembolsos <br />
-                        NO: La entidad no debe presentar ningún documento
-                    </label>
-                    <div class="flex justify-content-center gap-4">
-                        <p-radioButton name="pregunta1" value="SI" [(ngModel)]="pregunta1" label="SI"></p-radioButton>
-                        <p-radioButton name="pregunta1" value="NO" [(ngModel)]="pregunta1" label="NO"></p-radioButton>
+                    <!-- Pregunta 3 -->
+                    <div class="row">
+                        <label>3 ¿Se realizaron modificaciones al monto de deudas contratadas o certificados de RIOCP
+                            vigentes?
+                            <br /><br />
+                            SI: Adjuntar el Formulario 3 Cronograma de Servicio de Deuda <br />
+                            NO: La entidad no debe presentar ningún documento
+                        </label>
+                        <div class="flex justify-content-center gap-4">
+                            <p-radioButton name="pregunta3" [value]="true" (onClick)="eventRadioBtn('pregunta3')"
+                                formControlName="pregunta3" label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta3" [value]="false" (onClick)="eventRadioBtn('pregunta3')"
+                                formControlName="pregunta3" label="NO"></p-radioButton>
+                        </div>
                     </div>
-                </div>
-                <!-- Pregunta 2 -->
-                <div class="row">
-                    <label>2 ¿Se realizaron modificaciones a las condiciones financieras de deudas contratadas?
-                        <br /><br />
-                        SI: Adjuntar el Formulario 3 Cronograma de Servicio de Deuda <br />
-                        NO: La entidad no debe presentar ningún documento
-                    </label>
-                    <div class="flex justify-content-center gap-4">
-                        <p-radioButton name="pregunta2" value="SI" [(ngModel)]="pregunta2" label="SI"></p-radioButton>
-                        <p-radioButton name="pregunta2" value="NO" [(ngModel)]="pregunta2" label="NO"></p-radioButton>
-                    </div>
-                </div>
-                <!-- Pregunta 3 -->
-                <div class="row">
-                    <label>3 ¿Se realizaron modificaciones al monto de deudas contratadas o certificados de RIOCP vigentes?
-                        <br /><br />
-                        SI: Adjuntar el Formulario 3 Cronograma de Servicio de Deuda <br />
-                        NO: La entidad no debe presentar ningún documento
-                    </label>
-                    <div class="flex justify-content-center gap-4">
-                        <p-radioButton name="pregunta3" value="SI" [(ngModel)]="pregunta3" label="SI"></p-radioButton>
-                        <p-radioButton name="pregunta3" value="NO" [(ngModel)]="pregunta3" label="NO"></p-radioButton>
-                    </div>
-                </div>
-                <!-- Pregunta 4 -->
-                <div class="row">
-                    <label>4 ¿Tiene algún Certificado de Registro de Inicio de Operaciones de Crédito Público cuya contratación no se concretará?
-                        <br /><br />
-                        SI: Adjuntar el Certificado de Registro de Inicio de Operaciones de Crédito Público ORIGINAL <br />
-                        NO: La entidad no debe presentar ningún documento
-                    </label>
-                    <div class="flex justify-content-center gap-4">
-                        <p-radioButton name="pregunta4" value="SI" [(ngModel)]="pregunta4" label="SI"></p-radioButton>
-                        <p-radioButton name="pregunta4" value="NO" [(ngModel)]="pregunta4" label="NO"></p-radioButton>
-                    </div>
-                </div>
 
+                    <!-- Pregunta 4 -->
+                    <div class="row">
+                        <label>4 ¿Tiene algún Certificado de Registro de Inicio de Operaciones de Crédito Público cuya
+                            contratación no se concretará?
+                            <br /><br />
+                            SI: Adjuntar el Certificado de Registro de Inicio de Operaciones de Crédito Público ORIGINAL
+                            <br />
+                            NO: La entidad no debe presentar ningún documento
+                        </label>
+                        <div class="flex justify-content-center gap-4">
+                            <p-radioButton name="pregunta4" [value]="true" (onClick)="eventRadioBtn('pregunta4')"
+                                formControlName="pregunta4" label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta4" [value]="false" (onClick)="eventRadioBtn('pregunta4')"
+                                formControlName="pregunta4" label="NO"></p-radioButton>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
 
-    </div>
-
-    <!-- Botón Guardar -->
-    <div class="col-12 text-center">
-        <button pButton type="submit" label="Guardar" icon="pi pi-check"></button>
-    </div>
+        <div class="col-12 text-center">
+            <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="!deudaForm.valid"></button>
+        </div>
+    </form>
 </div>

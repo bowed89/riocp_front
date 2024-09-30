@@ -1,4 +1,4 @@
-<div class="grid">
+<!-- <div class="grid">
     <div class="card">
         <div class="col-12 md:col-8">
             <h5>NUEVO TRÁMITE</h5>
@@ -9,15 +9,19 @@
             <router-outlet></router-outlet>
         </div>
 
-        <!-- Botones de Navegación -->
-   <!--      <div class="col-12 md:col-12 mt-5">
-            <div class="p-button-group">
-                <button pButton label="Atrás" icon="pi pi-arrow-left" class="p-button-success" (click)="goBack()"
-                    [disabled]="!canGoBack()"></button>
-                <button pButton label="Siguiente" class="p-button-warning" icon="pi pi-arrow-right" iconPos="right"
-                    (click)="goNext()" [disabled]="canGoNext()"></button>
-            </div>
-        </div> -->
+    </div>
+</div> -->
+
+<div class="grid">
+    <div class="card">
+        <div class="col-12 md:col-8">
+            <h5>NUEVO TRÁMITE</h5>
+            <p-tabMenu [model]="values" [(activeItem)]="activeItem" />
+        </div>
+
+        <div class="col-12 md:col-12 mt-5">
+            <router-outlet></router-outlet>
+        </div>
 
     </div>
 </div>

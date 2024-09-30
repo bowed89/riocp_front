@@ -34,8 +34,12 @@ export class FormularioCorrespondenciaComponent {
 
     // verifica automatico que el formulario se complete y dispara un true cuando se completa
     this.registroForm.valueChanges.subscribe(() => {
-      this._tramitesService.setFormValid(this.registroForm.valid);
+
+      console.log('this.registroForm.valid', this.registroForm.valid);
+      
+      this._tramitesService.SetFormValid(this.registroForm.valid, 'formulario-1');
     });
+
   }
 
 

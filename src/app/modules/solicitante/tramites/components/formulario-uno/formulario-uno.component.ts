@@ -21,7 +21,6 @@ export class FormularioUnoComponent {
       acreedor: ['', Validators.required],
       caracteristica1: ['', Validators.required],
       caracteristica2: ['', Validators.required],
-      // Añadir más características si es necesario
       objeto: ['', Validators.required],
       nombreCompleto: ['', Validators.required],
       cargo: ['', Validators.required]
