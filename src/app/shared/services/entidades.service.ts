@@ -34,4 +34,5 @@ export class EntidadeService {
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 
+  
 }

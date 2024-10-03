@@ -7,31 +7,39 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./formulario-uno.component.scss']
 })
 export class FormularioUnoComponent {
-  registroForm!: FormGroup;
+  solicitudForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.registroForm = this.fb.group({
+  constructor(private fb: FormBuilder) {
+    // Inicializa el FormGroup con validadores
+    this.solicitudForm = this.fb.group({
       fecha: ['', Validators.required],
-      entidadSolicitante: ['', Validators.required],
-      otraInfo: ['', Validators.required],
-      creditoInterno: [false],
-      creditoExterno: [false],
+      codigoEntidad: ['', Validators.required],
+      otraInformacion: [''],
       acreedor: ['', Validators.required],
-      caracteristica1: ['', Validators.required],
-      caracteristica2: ['', Validators.required],
-      objeto: ['', Validators.required],
+      monto: ['', [Validators.required, Validators.min(1)]],
+      monedaOrigen: ['', Validators.required],
+      plazo: ['', [Validators.required, Validators.min(1)]],
+      tasaInteres: ['', [Validators.required, Validators.min(0)]],
+      comisiones: ['', [Validators.required, Validators.min(0)]],
+      periodicidadPago: ['', Validators.required],
+      periodoGracia: ['', [Validators.required, Validators.min(0)]],
+      objetoOperacion: ['', Validators.required],
       nombreCompleto: ['', Validators.required],
-      cargo: ['', Validators.required]
+      cargo: ['', Validators.required],
+      correoElectronico: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]*$')]] // solo números
     });
   }
 
+  ngOnInit(): void {
+
+  }
+
   onSubmit(): void {
-    if (this.registroForm.valid) {
-      console.log('Formulario enviado:', this.registroForm.value);
+    if (this.solicitudForm.valid) {
+      console.log('Formulario enviado:', this.solicitudForm.value);
     } else {
-      this.registroForm.markAllAsTouched();
+      this.solicitudForm.markAllAsTouched();
     }
   }
 }

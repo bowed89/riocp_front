@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container" [formGroup]="solicitudForm">
     <div class="grid justify-content-center">
         <!-- Cabecera -->
         <div class="col-12">
@@ -12,7 +12,13 @@
         <!-- Fecha -->
         <div class="col-12 text-right fecha-container">
             <label for="fecha">Fecha:</label>
-            <input pInputText type="date" id="fecha" />
+            <div style="flex-direction: column; display: flex; align-items: flex-end;">
+                <input pInputText type="date" id="fecha" formControlName="fecha" />
+                <div
+                    *ngIf="solicitudForm.get('fecha')?.invalid && (solicitudForm.get('fecha')?.touched || solicitudForm.get('fecha')?.dirty)">
+                    <small class="error">La fecha es obligatoria.</small>
+                </div>
+            </div>
         </div>
 
         <!-- Sección 1: Entidad Solicitante -->
@@ -20,10 +26,10 @@
             <h5>SECCIÓN 1: ENTIDAD SOLICITANTE</h5>
             <div class="seccion-uno">
                 <div class="input-container">
-                    <input pInputText placeholder="Ingrese Código Entidad" />
+                    <input pInputText placeholder="Ingrese Código Entidad" formControlName="codigoEntidad" />
                 </div>
                 <div class="input-container">
-                    <input pInputText placeholder="Otra información" />
+                    <input pInputText placeholder="Otra información"   />
                 </div>
             </div>
         </div>
