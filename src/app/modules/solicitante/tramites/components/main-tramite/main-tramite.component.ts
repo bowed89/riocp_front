@@ -21,11 +21,7 @@ export class MainTramiteComponent {
   ) {
     this.values =
       [
-        {
-          label: 'REGISTRO',
-          routerLink: 'correspondencia',
-          disabled: false,
-        },
+     
         {
           label: 'Formulario 1',
           routerLink: 'formulario-uno',
@@ -45,7 +41,12 @@ export class MainTramiteComponent {
           label: 'Formulario 4',
           routerLink: 'formulario-cuatro',
           disabled: true
-        }
+        },
+        {
+          label: 'REGISTRO',
+          routerLink: 'correspondencia',
+          disabled: false,
+        },
       ]
 
     this.activeItem = this.routeItems[0];
