@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
+import { EntidadeService } from 'src/app/shared/services/entidades.service';
+import { MonedasService } from 'src/app/shared/services/monedas.service';
+import { PeriodoService } from 'src/app/shared/services/periodos.service';
+import { generatePDF } from 'src/app/shared/utils/generatePdf';
+import { FirmaDigitalService } from 'src/app/shared/services/firma-digital.service';
+import { SolicitudService } from '../../services/solicitud.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 
 @Component({
   selector: 'app-formulario-uno',
@@ -8,38 +16,250 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class FormularioUnoComponent {
   solicitudForm!: FormGroup;
+  token = localStorage.getItem('token');
+  fechaActual: string = '';
+  // Datoe Entidad
+  nombreEntidad: string = '';
+  usuarioEntidad: string = '';
+  idEntidad: number = 0;
+  numEntidad: number = 0;
 
-  constructor(private fb: FormBuilder) {
-    // Inicializa el FormGroup con validadores
+  acreedores: any[] = [{ name: '', code: '' }];
+  monedas: any[] = [];
+  periodos: any[] = [];
+  // Comisiones
+  comisionConcepto: string = '';
+  comisionTasa: string = '';
+
+  formularioLlenada: boolean = false;
+  spinnerFirma: boolean = false;
+  firmaValido: boolean = false;
+  firmaNoValido: boolean = false;
+  firmaNombre = '';
+  firmaInicioValidez = '';
+  firmaFinValidez = '';
+  firmaMensajeError = '';
+
+
+  constructor(
+    private fb: FormBuilder,
+    public _entidadeService: EntidadeService,
+    public _acreedoresService: AcreedoresService,
+    public _monedasService: MonedasService,
+    public _periodoService: PeriodoService,
+    public _firmaDigitalService: FirmaDigitalService,
+    public _solicitudService: SolicitudService,
+    public _messagesService: MessagesService,
+
+  ) {
     this.solicitudForm = this.fb.group({
-      fecha: ['', Validators.required],
-      codigoEntidad: ['', Validators.required],
-      otraInformacion: [''],
-      acreedor: ['', Validators.required],
-      monto: ['', [Validators.required, Validators.min(1)]],
-      monedaOrigen: ['', Validators.required],
-      plazo: ['', [Validators.required, Validators.min(1)]],
-      tasaInteres: ['', [Validators.required, Validators.min(0)]],
-      comisiones: ['', [Validators.required, Validators.min(0)]],
-      periodicidadPago: ['', Validators.required],
-      periodoGracia: ['', [Validators.required, Validators.min(0)]],
-      objetoOperacion: ['', Validators.required],
-      nombreCompleto: ['', Validators.required],
+      entidad_id: ['', Validators.required],
+      identificador_id: ['', Validators.required],
+      acreedor_id: ['', Validators.required],
+      monto_total: [null, Validators.required],
+      moneda_id: ['', Validators.required],
+      plazo: [null, Validators.required],
+      interes_anual: [null, Validators.required],
+      comisiones: [''],
+      periodo_id: ['', Validators.required],
+      periodo_gracia: [null, Validators.required],
+      objeto_operacion_credito: ['', Validators.required],
+      nombre_completo: ['', Validators.required],
       cargo: ['', Validators.required],
-      correoElectronico: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required, Validators.pattern('^[0-9]*$')]] // solo números
+      correo_electronico: ['', [Validators.required, Validators.email]],
+      telefono: ['', Validators.required],
+      firma_digital: [0],
+      documento: [null, Validators.required],
+    });
+
+    this.solicitudForm.valueChanges.subscribe((changes) => {
+      //this.solicitudForm.patchValue({ firma_digital: false });
+      // Verificar si el formulario es válido
+      if (this.solicitudForm.valid) {
+        console.log('El formulario es válido');
+        this.formularioLlenada = true;
+      } else {
+        console.log('El formulario no es válido');
+        this.formularioLlenada = false;
+      }
     });
   }
 
   ngOnInit(): void {
-
+    this.fechaActual = this.obtenerFechaActual();
+    this.getEntidadesByUserRol();
+    this.obtenerAcreedores();
+    this.obtenerMonedas();
+    this.obtenerPeriodos();
   }
 
-  onSubmit(): void {
+  /* onSubmit(): void {
+    if (this.comisionConcepto.length > 0 || this.comisionTasa.length > 0) {
+      this.solicitudForm.patchValue({ comisiones: `CONCEPTO: ${this.comisionConcepto} | TASA INTERES: ${this.comisionTasa}` });
+    } else {
+      this.solicitudForm.patchValue({ comisiones: '' });
+    }
+
     if (this.solicitudForm.valid) {
-      console.log('Formulario enviado:', this.solicitudForm.value);
+
+
+      this._solicitudService.PostSolicitudRiocp(this.solicitudForm.value, this.token!).subscribe(({ message }) => {
+        this._messagesService.MessageSuccess('Formulario Agregado', message!);
+
+      }, (error) => {
+        this._messagesService.MessageError('Error al Agregar', error.error.message);
+
+      });
+
     } else {
       this.solicitudForm.markAllAsTouched();
     }
+  } */
+
+  onSubmit() {
+    if (this.comisionConcepto.length > 0 || this.comisionTasa.length > 0) {
+      this.solicitudForm.patchValue({ comisiones: `CONCEPTO: ${this.comisionConcepto} | TASA INTERES: ${this.comisionTasa}` });
+    } else {
+      this.solicitudForm.patchValue({ comisiones: '' });
+    }
+
+    if (this.solicitudForm.valid) {
+      const formData = new FormData();
+
+      Object.keys(this.solicitudForm.controls).forEach(key => {
+        if (key === 'documento') {
+          const file = this.solicitudForm.get(key)?.value;
+          if (file instanceof File) {
+            formData.append(key, file, file.name);  // Adjuntar el archivo
+          } else {
+            console.error('No se seleccionó un archivo.');
+          }
+        } else {
+          formData.append(key, this.solicitudForm.get(key)?.value);  // Agregar los demás campos
+        }
+      });
+
+      // Luego envía formData al servicio
+      this._solicitudService.PostSolicitudRiocp(formData, this.token!).subscribe(({ message }) => {
+        this._messagesService.MessageSuccess('Formulario Agregado', message!);
+      }, error => {
+        this._messagesService.MessageError('Error al Agregar', error.error.message);
+      });
+    }
   }
+
+
+  getEntidadesByUserRol() {
+    this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
+
+      console.log('sdsdsdssdsdsdsdsd', data);
+
+
+      this.nombreEntidad = (data[0].denominacion).toUpperCase();
+      this.usuarioEntidad = (`${data[0].nombre} ${data[0].apellido}`).toUpperCase();
+      this.idEntidad = data[0].entidad_id;
+      this.numEntidad = data[0].num_entidad;
+
+    });
+  }
+
+  obtenerAcreedores() {
+    this._acreedoresService.GetAllAcreedores(this.token!).subscribe(({ data }) => {
+      this.acreedores = data.map((acreedor: any) => ({
+        nombre: acreedor.nombre,
+        id: acreedor.id
+      }));
+    });
+  }
+
+  obtenerMonedas() {
+    this._monedasService.GetAllMonedas(this.token!).subscribe(({ data }) => {
+      this.monedas = data.map((moneda: any) => ({
+        nombre: `${moneda.tipo} (${moneda.sigla})`,
+        id: moneda.id
+      }));
+    });
+  }
+
+  obtenerPeriodos() {
+    this._periodoService.GetAllPeriodos(this.token!).subscribe(({ data }) => {
+      this.periodos = data.map((periodo: any) => ({
+        nombre: periodo.tipo,
+        id: periodo.id
+      }));
+    });
+  }
+
+  obtenerFechaActual(): string {
+    const hoy = new Date();
+    const dia = ('0' + hoy.getDate()).slice(-2);
+    const mes = ('0' + (hoy.getMonth() + 1)).slice(-2);
+    const anio = hoy.getFullYear();
+    return `${dia}/${mes}/${anio}`;
+  }
+
+  toPdf() {
+    generatePDF();
+  }
+
+  onFileSelect(event: any) {
+    const file = event.files[0];
+    if (file) {
+      const maxSize = 11000000; // 11MB max
+      if (file.type !== 'application/pdf') {
+        this.solicitudForm.get('documento')?.setErrors({ invalidFileType: true });
+      } else if (file.size > maxSize) {
+        this.solicitudForm.get('documento')?.setErrors({ maxSizeExceeded: true });
+      } else {
+        // Convertir pdf a base64 y validar firma digital
+        this.spinnerFirma = true;
+
+        this._firmaDigitalService.ValidateDigitalSign(file, this.token!).subscribe(data => {
+          console.log("firma digital ===>", data);
+          this.spinnerFirma = true;
+          this.onFileRemove();
+
+          if (data.length > 0) {
+            // valido cadenaConfianza,noModificado,firmadoAntesRevocacion,firmadoDuranteVigencia sean true
+            if (data[0].cadenaConfianza &&
+              data[0].noModificado &&
+              data[0].firmadoAntesRevocacion &&
+              data[0].firmadoDuranteVigencia) {
+
+              this.firmaValido = true;
+              this.firmaNombre = data[0].certificado.nombreSignatario;
+              this.firmaInicioValidez = data[0].certificado.inicioValidez;
+              this.firmaFinValidez = data[0].certificado.finValidez;
+
+              this.solicitudForm.patchValue({ firma_digital: 1, entidad_id: this.idEntidad });
+              this.solicitudForm.get('documento')?.setErrors(null); // Resetea errores si es válido
+              this.solicitudForm.get('documento')?.setValue(file); // Guardar el archivo en el control
+
+            } else {
+              this.firmaMensajeError = 'LA VALIDEZ DE LA FIRMA DIGITAL VENCIO O TIENE PROBLEMAS';
+              this.solicitudForm.patchValue({ firma_digital: 0 });
+            }
+
+          } else {
+            this.firmaNoValido = true;
+            this.firmaMensajeError = 'EL DOCUMENTO NO CUENTA CON FIRMA DIGITAL';
+            this.solicitudForm.patchValue({ firma_digital: 0 });
+
+          }
+          this.spinnerFirma = false;
+        });
+
+      }
+    }
+  }
+
+  onFileRemove() {
+    this.solicitudForm.get('documento')?.setValue('');
+    this.firmaValido = false;
+    this.firmaNoValido = false;
+    this.firmaNombre = ''
+    this.firmaInicioValidez = ''
+    this.firmaFinValidez = ''
+  }
+
 }

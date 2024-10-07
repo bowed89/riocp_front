@@ -15,13 +15,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
 import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button'; 
-import { ToastModule } from 'primeng/toast'; 
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TableModule } from 'primeng/table';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -40,14 +44,18 @@ import { RadioButtonModule } from 'primeng/radiobutton';
     TramitesRoutingModule,
     StepsModule,
     TabMenuModule,
-    InputTextModule, 
-    ButtonModule,   
+    InputTextModule,
+    ButtonModule,
     ToastModule,
     FileUploadModule,
     InputTextareaModule,
     CheckboxModule,
     TableModule,
-    RadioButtonModule
+    RadioButtonModule,
+    DropdownModule,
+    InputMaskModule,
+    InputNumberModule,
+    ProgressSpinnerModule
   ]
 })
 export class TramitesModule {

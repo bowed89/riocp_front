@@ -13,12 +13,12 @@ import { FormularioCuatroComponent } from './components/formulario-cuatro/formul
             path: 'nuevo-tramite',
             component: MainTramiteComponent,
             children: [
-                { path: '', redirectTo: 'correspondencia', pathMatch: 'full' },
-                { path: 'correspondencia', component: FormularioCorrespondenciaComponent },
+                { path: '', redirectTo: 'formulario-uno', pathMatch: 'full' },
                 { path: 'formulario-uno', component: FormularioUnoComponent },
                 { path: 'formulario-dos', component: FormularioDosComponent },
                 { path: 'formulario-tres', component: FormularioTresComponent },
                 { path: 'formulario-cuatro', component: FormularioCuatroComponent },
+                { path: 'correspondencia', component: FormularioCorrespondenciaComponent },
             ]   
         },
     ])], 

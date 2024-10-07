@@ -25,7 +25,7 @@ export class MainTramiteComponent {
         {
           label: 'Formulario 1',
           routerLink: 'formulario-uno',
-          disabled: true
+          disabled: false
         },
         {
           label: 'Formulario 2',
@@ -45,7 +45,7 @@ export class MainTramiteComponent {
         {
           label: 'REGISTRO',
           routerLink: 'correspondencia',
-          disabled: false,
+          disabled: true,
         },
       ]
 

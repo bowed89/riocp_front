@@ -120,8 +120,6 @@ export class FormularioCorrespondenciaComponent {
 
   onFileRemove() {
     this.registroForm.get('documento')?.setValue('');
-    // Aquí puedes agregar más lógica si es necesario.
-    // Por ejemplo, restablecer el estado del formulario o limpiar campos.
   }
 
   generateNroRegistro(): Promise<string | undefined> {
