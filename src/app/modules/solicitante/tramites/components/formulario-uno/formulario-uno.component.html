@@ -52,13 +52,8 @@
             <!-- 2.2 Acreedor -->
             <h6>2.2 ACREEDOR</h6>
             <div class="dropdown-container">
-                <p-dropdown
-                    formControlName="acreedor_id"
-                    [options]="acreedores"
-                    optionLabel="nombre"
-                    optionValue="id"
-                    placeholder="Seleccione un Acreedor"
-                    styleClass="w-full">
+                <p-dropdown formControlName="acreedor_id" [options]="acreedores" optionLabel="nombre" optionValue="id"
+                    placeholder="Seleccione un Acreedor" styleClass="w-full">
                 </p-dropdown>
                 <div class="error-message"
                     *ngIf="solicitudForm.get('acreedor_id')?.invalid && solicitudForm.get('acreedor_id')?.touched">
@@ -71,16 +66,8 @@
             <div class="caracteristicas-operacion">
                 <div class="row">
                     <label>2.3.1 Monto a ser contratado:</label>
-
-                    <p-inputNumber
-                        class="p-fluid"
-                        formControlName="monto_total"
-                        mode="decimal"
-                        [minFractionDigits]="2"
-                        [maxFractionDigits]="2"
-                        [useGrouping]="true"
-                        [locale]="'de-DE'"
-                        placeholder="0.000,00">
+                    <p-inputNumber class="p-fluid" formControlName="monto_total" mode="decimal" [minFractionDigits]="2"
+                        [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
                     </p-inputNumber>
                 </div>
                 <!-- Mensaje de error  -->
@@ -92,13 +79,8 @@
                 <div class="row">
                     <label>2.3.2 Moneda de Origen:</label>
                     <div class="dropdown-container">
-                        <p-dropdown
-                            formControlName="moneda_id"
-                            [options]="monedas"
-                            optionLabel="nombre"
-                            optionValue="id"
-                            placeholder="Seleccione una Moneda"
-                            styleClass="w-full">
+                        <p-dropdown formControlName="moneda_id" [options]="monedas" optionLabel="nombre"
+                            optionValue="id" placeholder="Seleccione una Moneda" styleClass="w-full">
                         </p-dropdown>
                     </div>
                 </div>
@@ -109,11 +91,7 @@
                 </div>
                 <div class="row">
                     <label>2.3.3 Plazo (Expresado en años):</label>
-                    <p-inputNumber
-                        class="p-fluid"
-                        placeholder="Ingrese el Plazo"
-                        formControlName="plazo"
-                        [min]="0"
+                    <p-inputNumber class="p-fluid" placeholder="Ingrese el Plazo" formControlName="plazo" [min]="0"
                         [max]="100" />
 
                 </div>
@@ -125,12 +103,8 @@
 
                 <div class="row">
                     <label>2.3.4 Tasa de interés (Anual):</label>
-                    <p-inputNumber
-                        class="p-fluid"
-                        placeholder="Ingrese la tasa de interés"
-                        formControlName="interes_anual"
-                        [min]="0"
-                        [max]="100" />
+                    <p-inputNumber class="p-fluid" placeholder="Ingrese la tasa de interés"
+                        formControlName="interes_anual" [min]="0" [max]="100" />
                 </div>
 
                 <!-- Mensaje de error  -->
@@ -142,14 +116,9 @@
                 <div class="row">
                     <label>2.3.5 Comisiones:</label>
                     <div class="input-container">
-                        <input placeholder="Concepto"
-                            [(ngModel)]="comisionConcepto"
-                            [ngModelOptions]="{standalone: true}"
-                            pInputText class="input-flex" />
-                        <p-inputNumber
-                            class="p-fluid"
-                            placeholder="Tasa"
-                            [(ngModel)]="comisionTasa"
+                        <input placeholder="Concepto" [(ngModel)]="comisionConcepto"
+                            [ngModelOptions]="{standalone: true}" pInputText class="input-flex" />
+                        <p-inputNumber class="p-fluid" placeholder="Tasa" [(ngModel)]="comisionTasa"
                             [ngModelOptions]="{standalone: true}" />
                     </div>
                 </div>
@@ -158,13 +127,8 @@
                 <div class="row">
                     <label>2.3.6 Periodicidad de Pago:</label>
                     <div class="dropdown-container">
-                        <p-dropdown
-                            formControlName="periodo_id"
-                            [options]="periodos"
-                            optionLabel="nombre"
-                            optionValue="id"
-                            placeholder="Seleccione un Periodo"
-                            styleClass="w-full">
+                        <p-dropdown formControlName="periodo_id" [options]="periodos" optionLabel="nombre"
+                            optionValue="id" placeholder="Seleccione un Periodo" styleClass="w-full">
                         </p-dropdown>
                     </div>
                 </div>
@@ -177,9 +141,7 @@
 
                 <div class="row">
                     <label>2.3.7 Periodo de Gracia (Expresado en años):</label>
-                    <p-inputNumber
-                        class="p-fluid"
-                        placeholder="Periodo de Gracia (Expresado en años)"
+                    <p-inputNumber class="p-fluid" placeholder="Periodo de Gracia (Expresado en años)"
                         formControlName="periodo_gracia" />
                 </div>
 
@@ -276,12 +238,7 @@
             </p>
             <div class="text-center">
                 <!-- Botón PDF -->
-                <button
-                    pButton
-                    type="button"
-                    label="Exportar a PDF"
-                    icon="pi pi-file-pdf"
-                    (click)="toPdf()"></button>
+                <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf" (click)="toPdf()"></button>
             </div>
         </div>
 
@@ -297,10 +254,7 @@
             </div>
         </div>
         <div class="error-message" *ngIf="spinnerFirma">
-            <p-progressSpinner
-                styleClass="w-4rem h-4rem"
-                strokeWidth="8"
-                fill="var(--surface-ground)"
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
                 animationDuration=".5s" />
         </div>
 

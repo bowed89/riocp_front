@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API } from 'src/app/shared/api/api';
-import { Solicitud } from '../interfaces/solicitud.interface';
+import { Correspondencia } from '../interfaces/correspondencia.interface';
 import { Response } from 'src/app/shared/interfaces/response.interface';
 
 export interface FormState {
@@ -13,8 +13,9 @@ export interface FormState {
 @Injectable({
   providedIn: 'root'
 })
-
-export class SolicitudService {
+export class TipoDocumentoService {
+  private formValidSource = new BehaviorSubject<FormState>({ isValid: false, message: '' });
+  formValid$ = this.formValidSource.asObservable();
 
   constructor(
     private http: HttpClient
@@ -28,10 +29,13 @@ export class SolicitudService {
     };
   }
 
-  PostSolicitudRiocp(solicitud: any, token: string): Observable<Response<any>> {
-    const url = `${API.local}/solicitud-riocp/formulario`;
-    return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
-  };
+
+
+  GetAllTipoDocumentos(token: string): Observable<Response<any>> {
+    const url = `${API.local}/tipos-documento`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+
+  }
 
 
 }

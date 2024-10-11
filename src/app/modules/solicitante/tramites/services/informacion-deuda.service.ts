@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { API } from 'src/app/shared/api/api';
-import { Solicitud } from '../interfaces/solicitud.interface';
 import { Response } from 'src/app/shared/interfaces/response.interface';
 
 export interface FormState {
@@ -14,7 +13,7 @@ export interface FormState {
   providedIn: 'root'
 })
 
-export class SolicitudService {
+export class InformacionDeudaService {
 
   constructor(
     private http: HttpClient
@@ -28,8 +27,8 @@ export class SolicitudService {
     };
   }
 
-  PostSolicitudRiocp(solicitud: any, token: string): Observable<Response<any>> {
-    const url = `${API.local}/solicitud-riocp/formulario`;
+  PostInformacionDeuda(solicitud: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/informacion-deuda/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
   };
 

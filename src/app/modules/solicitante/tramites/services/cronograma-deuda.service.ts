@@ -14,7 +14,7 @@ export interface FormState {
   providedIn: 'root'
 })
 
-export class SolicitudService {
+export class CronogramaDeudaService {
 
   constructor(
     private http: HttpClient
@@ -28,8 +28,8 @@ export class SolicitudService {
     };
   }
 
-  PostSolicitudRiocp(solicitud: any, token: string): Observable<Response<any>> {
-    const url = `${API.local}/solicitud-riocp/formulario`;
+  PostCronogramaDeuda(solicitud: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/cronograma-deuda/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
   };
 

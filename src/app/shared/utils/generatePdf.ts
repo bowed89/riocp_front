@@ -6,7 +6,7 @@ export const generatePDF = () => {
 
     if (data) {
         html2canvas(data, { scale: 1.5 }).then(canvas => { // Cambiar escala a 1.5
-            const imgWidth = 180;
+            const imgWidth = 160;
             const pageHeight = 295;
             const pageWidth = 210;
             const margin = 10;

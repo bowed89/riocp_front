@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { TramitesService } from '../../services/tramites.service';
+import { InformacionDeudaService } from '../../services/informacion-deuda.service';
+
 
 @Component({
   selector: 'app-formulario-dos',
@@ -10,54 +12,53 @@ import { TramitesService } from '../../services/tramites.service';
 })
 export class FormularioDosComponent {
   deudaForm!: FormGroup;
+  token = localStorage.getItem('token');
+  preguntas = {
+    pregunta_1: false,
+    pregunta_2: false,
+    pregunta_3: false,
+  }
 
-  pregunta1: any;
-  pregunta2: any;
-  pregunta3: any;
-  pregunta4: any;
 
   constructor(
     private fb: FormBuilder,
     public _messagesService: MessagesService,
-    public _tramitesService: TramitesService
+    public _tramitesService: TramitesService,
+    public _informacionDeudaService: InformacionDeudaService,
 
   ) { }
 
   ngOnInit(): void {
     this.deudaForm = this.fb.group({
-      pregunta1: [null, Validators.required],
-      pregunta2: [null, Validators.required],
-      pregunta3: [null, Validators.required],
-      pregunta4: [null, Validators.required],
-    });
-
-    this.deudaForm.valueChanges.subscribe(() => {
-      // this._tramitesService.setFormValid(this.deudaForm.valid);
-
+      pregunta_1: [null, Validators.required],
+      pregunta_2: [null, Validators.required],
+      pregunta_3: [null, Validators.required],
+      pregunta_4: [null, Validators.required],
+      solicitud_id: [0],
     });
   }
 
   onSubmit() {
     if (this.deudaForm.valid) {
-      const formData = this.deudaForm.value;
-      console.log('Formulario válido, datos:', formData);
+      this._informacionDeudaService.PostInformacionDeuda(this.deudaForm.value, this.token!)
+        .subscribe({
+          next: ({ message }) => {
+            this._messagesService.MessageSuccess('Formulario Agregado', message!);
+          },
 
-    } else {
-      console.log('Formulario no válido');
+          error: (error) => {
+            console.log("error", error);
+
+            this._messagesService.MessageError('Error al Agregar', error.error.message);
+          },
+          complete: () => {
+            setTimeout(() => {
+              this._tramitesService.SetFormValid(true, 'formulario-3', this.deudaForm.value);
+              console.log('El proceso ha finalizado completamente.');
+            }, 2000); // 1 segundo de retraso
+          }
+        });
     }
   }
-
-  eventRadioBtn(pregunta: string) {
-    if (pregunta === 'pregunta1') {
-      this._tramitesService.SetFormValid(this.deudaForm.value.pregunta1, 'formulario-2-pregunta-1');
-    } 
-    else if (pregunta === 'pregunta2') {
-      this._tramitesService.SetFormValid(this.deudaForm.value.pregunta2, 'formulario-2-pregunta-2');
-    }
-    else if (pregunta === 'pregunta3') {
-      this._tramitesService.SetFormValid(this.deudaForm.value.pregunta3, 'formulario-2-pregunta-3');
-    }
-  }
-
-
+  
 }

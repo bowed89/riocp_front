@@ -8,6 +8,7 @@ import { generatePDF } from 'src/app/shared/utils/generatePdf';
 import { FirmaDigitalService } from 'src/app/shared/services/firma-digital.service';
 import { SolicitudService } from '../../services/solicitud.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { TramitesService } from '../../services/tramites.service';
 
 @Component({
   selector: 'app-formulario-uno',
@@ -50,6 +51,7 @@ export class FormularioUnoComponent {
     public _firmaDigitalService: FirmaDigitalService,
     public _solicitudService: SolicitudService,
     public _messagesService: MessagesService,
+    public _tramitesService: TramitesService,
 
   ) {
     this.solicitudForm = this.fb.group({
@@ -93,31 +95,8 @@ export class FormularioUnoComponent {
     this.obtenerPeriodos();
   }
 
-  /* onSubmit(): void {
-    if (this.comisionConcepto.length > 0 || this.comisionTasa.length > 0) {
-      this.solicitudForm.patchValue({ comisiones: `CONCEPTO: ${this.comisionConcepto} | TASA INTERES: ${this.comisionTasa}` });
-    } else {
-      this.solicitudForm.patchValue({ comisiones: '' });
-    }
-
-    if (this.solicitudForm.valid) {
-
-
-      this._solicitudService.PostSolicitudRiocp(this.solicitudForm.value, this.token!).subscribe(({ message }) => {
-        this._messagesService.MessageSuccess('Formulario Agregado', message!);
-
-      }, (error) => {
-        this._messagesService.MessageError('Error al Agregar', error.error.message);
-
-      });
-
-    } else {
-      this.solicitudForm.markAllAsTouched();
-    }
-  } */
-
   onSubmit() {
-    if (this.comisionConcepto.length > 0 || this.comisionTasa.length > 0) {
+    if (this.comisionConcepto !== '' || this.comisionTasa !== '') {
       this.solicitudForm.patchValue({ comisiones: `CONCEPTO: ${this.comisionConcepto} | TASA INTERES: ${this.comisionTasa}` });
     } else {
       this.solicitudForm.patchValue({ comisiones: '' });
@@ -130,31 +109,31 @@ export class FormularioUnoComponent {
         if (key === 'documento') {
           const file = this.solicitudForm.get(key)?.value;
           if (file instanceof File) {
-            formData.append(key, file, file.name);  // Adjuntar el archivo
+            formData.append(key, file, file.name);
           } else {
             console.error('No se seleccionó un archivo.');
           }
         } else {
-          formData.append(key, this.solicitudForm.get(key)?.value);  // Agregar los demás campos
+          formData.append(key, this.solicitudForm.get(key)?.value);
         }
       });
 
-      // Luego envía formData al servicio
-      this._solicitudService.PostSolicitudRiocp(formData, this.token!).subscribe(({ message }) => {
-        this._messagesService.MessageSuccess('Formulario Agregado', message!);
-      }, error => {
-        this._messagesService.MessageError('Error al Agregar', error.error.message);
-      });
+      this._solicitudService.PostSolicitudRiocp(formData, this.token!)
+        .subscribe({
+          next: ({ status, message }) => {
+            this._messagesService.MessageSuccess('Formulario Agregado', message!);
+            //status && this._tramitesService.SetFormValid(true, 'formulario-2');
+
+          }, error: (error) => {
+            this._messagesService.MessageError('Error al Agregar', error.error.message);
+          }
+        });
     }
   }
 
 
   getEntidadesByUserRol() {
     this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
-
-      console.log('sdsdsdssdsdsdsdsd', data);
-
-
       this.nombreEntidad = (data[0].denominacion).toUpperCase();
       this.usuarioEntidad = (`${data[0].nombre} ${data[0].apellido}`).toUpperCase();
       this.idEntidad = data[0].entidad_id;

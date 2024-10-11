@@ -47,11 +47,33 @@
             font-weight: 400;
         }
 
-        input {
+        input,
+        p-dropdown {
             flex: 0 0 85%;
         }
     }
 }
+
+/* Msg de errores */
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.8em;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+
+.error-message-moneda {
+    color: red;
+    font-weight: bold;
+    text-align: end;
+    font-size: 0.8em;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
 
 /* Estilo para cuadro de pagos */
 .cuadro-pagos {
@@ -71,16 +93,16 @@
         justify-content: space-between;
         align-items: center;
         gap: 10px;
+
         /* Espacio entre label y input */
         label {
             flex: 0 0 25%;
-            /* Ajusta el ancho del label */
             margin: 0;
         }
 
-        input {
+        input,
+        p-dropdown {
             flex: 0 0 75%;
-            /* Ajusta el ancho del input */
         }
     }
 

@@ -8,6 +8,8 @@ import { FormularioUnoComponent } from './components/formulario-uno/formulario-u
 import { FormularioDosComponent } from './components/formulario-dos/formulario-dos.component';
 import { FormularioTresComponent } from './components/formulario-tres/formulario-tres.component';
 import { FormularioCuatroComponent } from './components/formulario-cuatro/formulario-cuatro.component';
+import { AnexosComponent } from './components/anexos/anexos.component';
+
 
 import { TabMenuModule } from 'primeng/tabmenu';
 //Importa el módulo InputText de PrimeNG
@@ -26,6 +28,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     FormularioDosComponent,
     FormularioTresComponent,
     FormularioCuatroComponent,
-
+    AnexosComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +58,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     DropdownModule,
     InputMaskModule,
     InputNumberModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CalendarModule
   ]
 })
 export class TramitesModule {

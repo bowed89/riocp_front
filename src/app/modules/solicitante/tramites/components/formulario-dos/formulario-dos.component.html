@@ -1,3 +1,5 @@
+<p-toast></p-toast>
+
 <div class="form-container">
     <form [formGroup]="deudaForm" (ngSubmit)="onSubmit()">
         <div class="grid justify-content-center">
@@ -13,10 +15,10 @@
                             NO: La entidad no debe presentar ningún documento
                         </label>
                         <div class="flex justify-content-center gap-4">
-                            <p-radioButton name="pregunta1" [value]="true" (onClick)="eventRadioBtn('pregunta1')"
-                                formControlName="pregunta1" label="SI"></p-radioButton>
-                            <p-radioButton name="pregunta1" [value]="false" (onClick)="eventRadioBtn('pregunta1')"
-                                formControlName="pregunta1" label="NO"></p-radioButton>
+                            <p-radioButton name="pregunta_1" [value]="1" formControlName="pregunta_1"
+                                label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta_1" [value]="0" formControlName="pregunta_1"
+                                label="NO"></p-radioButton>
                         </div>
                     </div>
 
@@ -28,10 +30,10 @@
                             NO: La entidad no debe presentar ningún documento
                         </label>
                         <div class="flex justify-content-center gap-4">
-                            <p-radioButton name="pregunta2" [value]="true" (onClick)="eventRadioBtn('pregunta2')"
-                                formControlName="pregunta2" label="SI"></p-radioButton>
-                            <p-radioButton name="pregunta2" [value]="false" (onClick)="eventRadioBtn('pregunta2')"
-                                formControlName="pregunta2" label="NO"></p-radioButton>
+                            <p-radioButton name="pregunta_2" [value]="1" formControlName="pregunta_2"
+                                label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta_2" [value]="0" formControlName="pregunta_2"
+                                label="NO"></p-radioButton>
                         </div>
                     </div>
 
@@ -44,10 +46,10 @@
                             NO: La entidad no debe presentar ningún documento
                         </label>
                         <div class="flex justify-content-center gap-4">
-                            <p-radioButton name="pregunta3" [value]="true" (onClick)="eventRadioBtn('pregunta3')"
-                                formControlName="pregunta3" label="SI"></p-radioButton>
-                            <p-radioButton name="pregunta3" [value]="false" (onClick)="eventRadioBtn('pregunta3')"
-                                formControlName="pregunta3" label="NO"></p-radioButton>
+                            <p-radioButton name="pregunta_3" [value]="1" formControlName="pregunta_3"
+                                label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta_3" [value]="0" formControlName="pregunta_3"
+                                label="NO"></p-radioButton>
                         </div>
                     </div>
 
@@ -61,10 +63,10 @@
                             NO: La entidad no debe presentar ningún documento
                         </label>
                         <div class="flex justify-content-center gap-4">
-                            <p-radioButton name="pregunta4" [value]="true" (onClick)="eventRadioBtn('pregunta4')"
-                                formControlName="pregunta4" label="SI"></p-radioButton>
-                            <p-radioButton name="pregunta4" [value]="false" (onClick)="eventRadioBtn('pregunta4')"
-                                formControlName="pregunta4" label="NO"></p-radioButton>
+                            <p-radioButton name="pregunta_4" [value]="1" formControlName="pregunta_4"
+                                label="SI"></p-radioButton>
+                            <p-radioButton name="pregunta_4" [value]="0" formControlName="pregunta_4"
+                                label="NO"></p-radioButton>
                         </div>
                     </div>
                 </div>

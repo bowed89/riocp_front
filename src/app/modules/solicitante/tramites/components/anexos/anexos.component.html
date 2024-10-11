@@ -1,0 +1,40 @@
+<p-toast></p-toast>
+
+<div class="p-m-4">
+    <h1>Anexos</h1>
+    <h3>Por favor seleccione los documentos en formato PDF, XLSX, XLS</h3>
+
+    <form [formGroup]="documentosForm" (ngSubmit)="onSubmit()">
+        <div formArrayName="documentos">
+            <div *ngFor="let documento of documentos.controls; let i = index" [formGroupName]="i" class="p-field">
+                <label for="tipo_documento_id">Tipo de Documento:</label>
+       <!--          <p-dropdown [options]="tipoDocumentos" formControlName="tipo_documento_id"
+                    placeholder="Seleccione un tipo de documento" class="p-inputtext p-component">
+                </p-dropdown> -->
+                <p-dropdown formControlName="tipo_documento_id" [options]="tipos" optionLabel="nombre" optionValue="id"
+                    placeholder="Seleccione un Tipo de Documento" styleClass="w-full">
+                </p-dropdown>
+
+
+                <div *ngIf="documento.get('tipo_documento_id')?.invalid && documento.get('tipo_documento_id')?.touched">
+                    <small class="p-error">El tipo de documento es requerido.</small>
+                </div>
+                <br>
+                <label for="documento">Seleccionar Documento:</label>
+                <p-fileUpload chooseLabel="Archivo PDF" name="documento" accept=".pdf,.xlsx,.xls"
+                    (onSelect)="onFileSelect($event, i)" [maxFileSize]="10240 * 1024" [showUploadButton]="false"
+                    [showCancelButton]="false">
+                </p-fileUpload>
+
+                <div *ngIf="documento.get('documento')?.invalid && documento.get('documento')?.touched">
+                    <small class="p-error">El campo es requerido y solo acepta archivos válidos.</small>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" pButton label="Agregar Documento" (click)="addDocument()"
+            class="p-button-success"></button>
+        <button type="submit" pButton label="Guardar" [disabled]="documentosForm.invalid"
+            class="p-button-primary"></button>
+    </form>
+</div>

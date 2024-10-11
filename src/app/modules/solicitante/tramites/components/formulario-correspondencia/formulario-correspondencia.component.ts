@@ -114,6 +114,7 @@ export class FormularioCorrespondenciaComponent {
       }
     }
   }
+  
   onFileUpload(event: any) {
     console.log('Archivo subido:', event.files);
   }
