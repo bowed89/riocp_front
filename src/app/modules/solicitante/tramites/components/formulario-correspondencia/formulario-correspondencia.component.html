@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div class="grid justify-content-center">
+<div class="grid justify-content-center" *ngIf="!this._tramitesService.disabledCorrespondencia">
     <div class="col-12 md:col-5">
         <div class="card">
             <h5>Correo electrónico oficial</h5>
@@ -87,20 +87,21 @@
                 <!-- radio buttons para firmas -->
                 <div class="card flex justify-content-center gap-4 align-items-center">
                     <div class="flex align-items-center">
-                        <p-radioButton value=1 formControlName="firma_digital"></p-radioButton>
-                        <label class="ml-2">Firma Digital</label>
-                    </div>
-
-                    <div class="flex align-items-center">
-                        <p-radioButton value=0 formControlName="firma_digital"></p-radioButton>
+                        <p-radioButton value=0 formControlName="firma_digital"
+                            (onClick)="esFirmaDigital($event)"></p-radioButton>
                         <label class="ml-2">firma Física</label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton value=1 formControlName="firma_digital"
+                            (onClick)="esFirmaDigital($event)"></p-radioButton>
+                        <label class="ml-2">Firma Digital</label>
                     </div>
                 </div>
 
-
-                <!-- subir archivo -->
-                <div class="field form-field">
-                    <p-fileUpload chooseLabel="Archivo PDF" cancelLabel="Cancelar" [showUploadButton]="false"
+                <!-- subir archivo firma normal-->
+                <div class="field form-field" *ngIf="!firmaDigital">
+                    <p-fileUpload chooseLabel="ARCHIVO SIN FIRMA DIGITAL" cancelLabel="Cancelar"
+                        [showUploadButton]="false"
                         [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()"
                         [multiple]="false" accept=".pdf" [maxFileSize]="10000000">
                     </p-fileUpload>
@@ -110,12 +111,48 @@
                     </div>
                 </div>
 
+                <!-- subir archivo firma digital-->
+                <div class="field form-field" *ngIf="firmaDigital">
+                    <p-fileUpload chooseLabel="ARCHIVO CON FIRMA DIGITAL" cancelLabel="Cancelar"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false" (onSelect)="onFileSelectDigital($event)" (onRemove)="onFileRemove()"
+                        [multiple]="false" accept=".pdf" [maxFileSize]="10000000">
+                    </p-fileUpload>
+                    <div class="error-message"
+                        *ngIf="registroForm.get('documento')?.invalid && registroForm.get('documento')?.touched">
+                        <small class="p-error">Cargue un archivo PDF válido.</small>
+                    </div>
+
+                </div>
+
+                <div *ngIf="firmaDigital" style="margin-bottom: 15px;">
+                    <div class="error-message" style="text-align: center;" *ngIf="spinnerFirma">
+                        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+                            animationDuration=".5s" />
+                    </div>
+                    <div *ngIf="firmaValido" class="firma-valida">
+                        <h4 style="color: green;">FIRMA DIGITAL VÁLIDA</h4>
+                        <p>NOMBRE: {{firmaNombre}}</p>
+                        <p>INICIO DE VALIDEZ: {{firmaInicioValidez}}</p>
+                        <p>FIN DE VALIDEZ: {{firmaFinValidez}}</p>
+                    </div>
+
+                    <div *ngIf="firmaNoValido" class="firma-no-valida">
+                        <p style="color: red;">{{firmaMensajeError}}</p>
+                    </div>
+                </div>
+
+
                 <div class="field">
+                    <p-confirmDialog
+                        [style]="{width: '40vw'}"
+                        [acceptLabel]="'Sí'"
+                        [rejectLabel]="'No'">
+                    </p-confirmDialog>
                     <button pButton type="submit" label="Guardar Registro" icon="pi pi-check"
                         [disabled]="registroForm.invalid"></button>
 
                 </div>
-
             </form>
         </div>
     </div>

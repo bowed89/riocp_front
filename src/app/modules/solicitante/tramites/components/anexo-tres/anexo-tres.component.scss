@@ -1,0 +1,30 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho */
+    padding: 0 15%; /* Agrega un margen interno para centrar el contenido */
+}
+
+.text-center {
+    text-align: center;
+}
+
+.p-mb-4 {
+    margin-bottom: 1rem;
+    width: 100%; /* Hace que los elementos de formulario ocupen el ancho completo del contenedor */
+}
+
+.fileupload {
+    text-align: center;
+}
+
+.subtitulo {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.input-text {
+    width: 100%;
+}
+

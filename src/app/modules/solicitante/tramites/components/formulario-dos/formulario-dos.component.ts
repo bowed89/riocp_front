@@ -23,8 +23,9 @@ export class FormularioDosComponent {
   constructor(
     private fb: FormBuilder,
     public _messagesService: MessagesService,
-    public _tramitesService: TramitesService,
     public _informacionDeudaService: InformacionDeudaService,
+    public _tramitesService: TramitesService,
+
 
   ) { }
 
@@ -53,7 +54,6 @@ export class FormularioDosComponent {
           },
           complete: () => {
             setTimeout(() => {
-              this._tramitesService.SetFormValid(true, 'formulario-3', this.deudaForm.value);
               console.log('El proceso ha finalizado completamente.');
             }, 2000); // 1 segundo de retraso
           }

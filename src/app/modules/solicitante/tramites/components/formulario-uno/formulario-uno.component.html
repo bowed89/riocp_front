@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 
-<form class="form-container" [formGroup]="solicitudForm" (ngSubmit)="onSubmit()">
+<form class="form-container" [formGroup]="solicitudForm" (ngSubmit)="onSubmit()"
+    *ngIf="!this._tramitesService.disabledFormulario1">
 
     <div class="grid justify-content-center" id="pdfContent">
         <p style="text-align: center; font-size: 1.5rem;">FORMULARIO 1</p>

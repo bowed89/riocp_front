@@ -1,4 +1,4 @@
-<p-dialog header="Agregar Usuario" [(visible)]="visible" [modal]="true" [style]="{ width: '600px' }">
+<p-dialog header="Agregar Usuario" [(visible)]="visible" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeModal()">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="p-fluid grid">
             <div class="col-12">

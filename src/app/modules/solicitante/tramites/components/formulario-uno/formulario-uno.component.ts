@@ -41,7 +41,6 @@ export class FormularioUnoComponent {
   firmaFinValidez = '';
   firmaMensajeError = '';
 
-
   constructor(
     private fb: FormBuilder,
     public _entidadeService: EntidadeService,
@@ -120,9 +119,8 @@ export class FormularioUnoComponent {
 
       this._solicitudService.PostSolicitudRiocp(formData, this.token!)
         .subscribe({
-          next: ({ status, message }) => {
+          next: ({ message }) => {
             this._messagesService.MessageSuccess('Formulario Agregado', message!);
-            //status && this._tramitesService.SetFormValid(true, 'formulario-2');
 
           }, error: (error) => {
             this._messagesService.MessageError('Error al Agregar', error.error.message);

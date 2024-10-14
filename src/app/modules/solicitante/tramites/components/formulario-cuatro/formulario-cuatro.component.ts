@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
 import { CronogramaDesembolsoService } from '../../services/cronograma-desembolso.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { TramitesService } from '../../services/tramites.service';
 
 interface Desembolso {
   fecha: string;
@@ -40,6 +41,7 @@ export class FormularioCuatroComponent {
     public _acreedoresService: AcreedoresService,
     public _cronogramaDesembolsoService: CronogramaDesembolsoService,
     public _messagesService: MessagesService,
+    public _tramitesService: TramitesService,
 
 
   ) {
@@ -78,12 +80,6 @@ export class FormularioCuatroComponent {
           this._messagesService.MessageError('Error al Agregar', error.error.message);
         },
 
-        /*      complete: () => {
-                   setTimeout(() => {
-                     this._tramitesService.SetFormValid(true, 'formulario-4', this.deudaForm.value);
-                     console.log('El proceso ha finalizado completamente.');
-                   }, 2000);
-             } */
       });
 
   }

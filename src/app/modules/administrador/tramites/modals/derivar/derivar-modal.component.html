@@ -1,0 +1,44 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeModal()">
+    <div class="form-container">
+        <h4 style="text-align: center;">Derivar Solicitud</h4>
+        <div>
+            <div class="form-group">
+                <label for="tecnico">Derivar Técnico:</label>
+                <p-dropdown
+                    [(ngModel)]="selectedTecnico"
+                    [options]="tecnicos"
+                    optionLabel="nombre"
+                    optionValue="id"
+                    placeholder="Seleccionar Técnico"></p-dropdown>
+            </div>
+
+            <div class="form-group">
+                <label for="nroHojaRuta">Nro de Hoja de Ruta:</label>
+                <input
+                    id="nroHojaRuta"
+                    type="text"
+                    pInputText
+                    [(ngModel)]="nroHojaRuta"
+                    name="nroHojaRuta"
+                    placeholder="Ingrese Nro de Hoja de Ruta"
+                    required />
+            </div>
+
+            <div>
+                <label for="observaciones">Observaciones:</label>
+                <textarea
+                    rows="5"
+                    cols="30"
+                    pInputTextarea
+                    [(ngModel)]="observaciones" style="width: 100%; margin-bottom: 30px;">
+            </textarea>
+            </div>
+
+            <div class="p-dialog-footer">
+                <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
+                    class="p-button-text"></button>
+                <button pButton label="Guardar" class="p-button-success" (click)=" onSubmit()"></button>
+            </div>
+        </div>
+    </div>
+</p-dialog>

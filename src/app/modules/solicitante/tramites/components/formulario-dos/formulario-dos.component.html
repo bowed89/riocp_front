@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div class="form-container">
+<div class="form-container" *ngIf="!this._tramitesService.disabledFormulario2">
     <form [formGroup]="deudaForm" (ngSubmit)="onSubmit()">
         <div class="grid justify-content-center">
             <div class="col-12 section">

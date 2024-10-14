@@ -24,6 +24,7 @@ interface Pago {
   styleUrls: ['./formulario-tres.component.scss']
 })
 export class FormularioTresComponent {
+  saldoTotal: any;
   deudaForm!: FormGroup;
   acreedores: any[] = [{ name: '', code: '' }];
   monedas: any[] = [];
@@ -45,9 +46,10 @@ export class FormularioTresComponent {
     public _acreedoresService: AcreedoresService,
     public _monedasService: MonedasService,
     public _messagesService: MessagesService,
-    public _tramitesService: TramitesService,
     public _cronogramaDeudaService: CronogramaDeudaService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    public _tramitesService: TramitesService,
+
 
   ) {
     this.agregarFila();
@@ -67,8 +69,15 @@ export class FormularioTresComponent {
       total_interes: [0, Validators.required],
       total_comisiones: [0, Validators.required],
       total_sum: [0, Validators.required],
-      cuadro_pagos: this.fb.array([])
+      cuadro_pagos: this.fb.array([]),
+      saldoTotal: [0, Validators.required], // Agregado
+
     });
+    // Suscribirse a los cambios de `saldoTotal`
+    this.deudaForm.get('saldoTotal')?.valueChanges.subscribe((nuevoSaldoTotal) => {
+      this.actualizarSaldoInicial(nuevoSaldoTotal);
+    });
+
     // Inicio con una fila de pagos
     this.agregarFila();
 
@@ -111,9 +120,8 @@ export class FormularioTresComponent {
           },
           complete: () => {
             setTimeout(() => {
-              this._tramitesService.SetFormValid(true, 'formulario-4', this.deudaForm.value);
               console.log('El proceso ha finalizado completamente.');
-            }, 2000); 
+            }, 2000);
           }
         });
     }
@@ -183,6 +191,7 @@ export class FormularioTresComponent {
   agregarFila() {
     const index = this.cuadroPagos.length; //  indice de la nueva fila
     // Obtengo el saldo de la fila anterior o 0 si es la primera fila
+    // const saldoAnterior = index > 0 ? this.cuadroPagos.at(index - 1).get('saldo')?.value : 0;
     const saldoAnterior = index > 0 ? this.cuadroPagos.at(index - 1).get('saldo')?.value : 0;
 
     let cuadro = this.fb.group({
@@ -190,8 +199,8 @@ export class FormularioTresComponent {
       capital: [0, Validators.required],
       interes: [0, Validators.required],
       comisiones: [0, Validators.required],
-      total: [{ value: null, disabled: true }, Validators.required],
-      saldo: [{ value: saldoAnterior - (index > 0 ? this.cuadroPagos.at(index - 1).get('capital')?.value || 0 : 0), disabled: index > 0 }, Validators.required] // se calculad el saldo basado en la fila anterior
+      total: [{ value: 0, disabled: true }, Validators.required],
+      saldo: [{ value: saldoAnterior - (index > 0 ? this.cuadroPagos.at(index - 1).get('capital')?.value || 0 : 0), disabled: true }, Validators.required]
     });
 
     // sumo capital + interes + comisiones  y lo muestro en el campo total
@@ -224,6 +233,12 @@ export class FormularioTresComponent {
   eliminarFila(index: number) {
     this.cuadroPagos.removeAt(index);
     this.actualizarTotales();
+  }
+
+  actualizarSaldoInicial(nuevoSaldoTotal: number) {
+    if (this.cuadroPagos.length > 0) {
+      this.cuadroPagos.at(0).patchValue({ saldo: nuevoSaldoTotal });
+    }
   }
 
 }

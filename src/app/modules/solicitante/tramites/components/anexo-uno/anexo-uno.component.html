@@ -1,0 +1,40 @@
+<p-toast></p-toast>
+
+<div class="p-m-4" *ngIf="!this._tramitesService.disabledAnexo1">
+    <h3 class="text-center">Formulario 1 (Anexo)</h3>
+    <p class="text-center" style="font-weight: bold;">*Por favor seleccione un documento en formato PDF, XLSX, XLS</p>
+
+    <form [formGroup]="documentosForm" (ngSubmit)="onSubmit()" class="form-container">
+        <div class="p-field p-mb-4">
+            <p class="subtitulo" for="tipo_documento_id">Tipo de Documento:</p>
+            <!--  <p-dropdown formControlName="tipo_documento_id" [options]="tipos" optionLabel="nombre" [disabled]="true"
+                placeholder="Seleccione un Tipo de Documento" styleClass="w-full">
+            </p-dropdown> -->
+            <input id="disabled-input" type="text" pInputText
+                [disabled]="true" placeholder="Cronograma de Pagos" class="input-text" />
+
+            <div
+                *ngIf="documentosForm.get('tipo_documento_id')?.invalid && documentosForm.get('tipo_documento_id')?.touched">
+                <small class="p-error">El tipo de documento es requerido.</small>
+            </div>
+        </div>
+
+        <div class="p-field p-mb-4">
+            <p class="subtitulo" for="documento">Seleccionar Documento:</p>
+            <p-fileUpload chooseLabel="Subir Archivo" cancelLabel="Cancelar" [showUploadButton]="false"
+                [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()"
+                [multiple]="false" accept=".pdf,.xlsx,.xls" [maxFileSize]="10000000"
+                class="fileupload">
+            </p-fileUpload>
+
+            <div *ngIf="documentosForm.get('documento')?.invalid && documentosForm.get('documento')?.touched">
+                <small class="p-error">El campo es requerido y solo acepta archivos válidos.</small>
+            </div>
+        </div>
+
+        <div class="p-mt-4">
+            <button type="submit" pButton label="Guardar" class="p-button-success"
+                [disabled]="documentosForm.invalid"></button>
+        </div>
+    </form>
+</div>

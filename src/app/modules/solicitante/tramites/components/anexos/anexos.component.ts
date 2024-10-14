@@ -90,7 +90,7 @@ export class AnexosComponent implements OnInit {
         formData.append(`documentos[${index}][tipo_documento_id]`, doc.tipo_documento_id);
       });
 
-      this._anexosService.PostAnexos(formData, this.token!).subscribe({
+      this._anexosService.PostAnexos1(formData, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Formulario Agregado', message!);
         },

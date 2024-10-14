@@ -27,10 +27,21 @@ export class AnexosService {
     };
   }
 
-  PostAnexos(solicitud: any, token: string): Observable<Response<any>> {
-    const url = `${API.local}/documento-adjunto/formulario`;
+  PostAnexos1(solicitud: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/documento-adjunto-1/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
   };
+  PostAnexos2(solicitud: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/documento-adjunto-2/formulario`;
+    return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
+  };
+
+  PostAnexos3(solicitud: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/documento-adjunto-3/formulario`;
+    return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
+  };
+
+
 
 
 }

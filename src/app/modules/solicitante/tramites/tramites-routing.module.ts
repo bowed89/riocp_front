@@ -6,7 +6,9 @@ import { FormularioUnoComponent } from './components/formulario-uno/formulario-u
 import { FormularioDosComponent } from './components/formulario-dos/formulario-dos.component';
 import { FormularioTresComponent } from './components/formulario-tres/formulario-tres.component';
 import { FormularioCuatroComponent } from './components/formulario-cuatro/formulario-cuatro.component';
-import { AnexosComponent } from './components/anexos/anexos.component';
+import { AnexoUnoComponent } from './components/anexo-uno/anexo-uno.component';
+import { AnexoDosComponent } from './components/anexo-dos/anexo-dos.component';
+import { AnexoTresComponent } from './components/anexo-tres/anexo-tres.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -19,7 +21,9 @@ import { AnexosComponent } from './components/anexos/anexos.component';
                 { path: 'formulario-dos', component: FormularioDosComponent },
                 { path: 'formulario-tres', component: FormularioTresComponent },
                 { path: 'formulario-cuatro', component: FormularioCuatroComponent },
-                { path: 'formulario-anexos', component: AnexosComponent },
+                { path: 'anexo-uno', component: AnexoUnoComponent },
+                { path: 'anexo-dos', component: AnexoDosComponent },
+                { path: 'anexo-sigep', component: AnexoTresComponent },
                 { path: 'correspondencia', component: FormularioCorrespondenciaComponent },
             ]
         },

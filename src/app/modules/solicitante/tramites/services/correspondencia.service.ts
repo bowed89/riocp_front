@@ -41,7 +41,7 @@ export class CorrespondenciaService {
   }
 
   PostSolicitudCorrespondencia(formData: FormData, token: string): Observable<Response<any>> {
-    const url = `${API.local}/formulario-correspondencia/formulario-solicitud`;
+    const url = `${API.local}/formulario-correspondencia/formulario`;
     return this.http.post<Response<any>>(url, formData, this.getHttpOptions(token));
 
   }
