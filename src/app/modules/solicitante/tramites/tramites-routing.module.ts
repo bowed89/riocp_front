@@ -9,9 +9,11 @@ import { FormularioCuatroComponent } from './components/formulario-cuatro/formul
 import { AnexoUnoComponent } from './components/anexo-uno/anexo-uno.component';
 import { AnexoDosComponent } from './components/anexo-dos/anexo-dos.component';
 import { AnexoTresComponent } from './components/anexo-tres/anexo-tres.component';
+import { MisTramitesSolicitanteComponent } from './components/mis-tramites/mis-tramites.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
+        { path: 'ver-tramite', component: MisTramitesSolicitanteComponent },
         {
             path: 'nuevo-tramite',
             component: MainTramiteComponent,
@@ -25,7 +27,8 @@ import { AnexoTresComponent } from './components/anexo-tres/anexo-tres.component
                 { path: 'anexo-dos', component: AnexoDosComponent },
                 { path: 'anexo-sigep', component: AnexoTresComponent },
                 { path: 'correspondencia', component: FormularioCorrespondenciaComponent },
-            ]
+            ],
+
         },
     ])],
     exports: [RouterModule]

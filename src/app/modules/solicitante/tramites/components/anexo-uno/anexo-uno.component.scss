@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho */
-    padding: 0 15%; /* Agrega un margen interno para centrar el contenido */
+    width: 100%;
+    padding: 0 15%;
 }
 
 .text-center {
@@ -12,7 +12,7 @@
 
 .p-mb-4 {
     margin-bottom: 1rem;
-    width: 100%; /* Hace que los elementos de formulario ocupen el ancho completo del contenedor */
+    width: 100%;
 }
 
 .fileupload {
@@ -28,3 +28,34 @@
     width: 100%;
 }
 
+.cronograma-container {
+    border: 1px solid #ccc;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.subtitulo-container {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Responsividad para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .cronograma-container {
+        width: 100%;
+        /* Ancho completo para pantallas pequeñas */
+        padding: 15px;
+        /* Ajusta el padding para pantallas pequeñas */
+    }
+
+    .form-container {
+        padding: 0 5%;
+        /* Reduce el padding lateral en pantallas pequeñas */
+    }
+}

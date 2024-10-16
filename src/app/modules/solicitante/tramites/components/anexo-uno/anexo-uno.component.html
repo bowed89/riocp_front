@@ -5,30 +5,47 @@
     <p class="text-center" style="font-weight: bold;">*Por favor seleccione un documento en formato PDF, XLSX, XLS</p>
 
     <form [formGroup]="documentosForm" (ngSubmit)="onSubmit()" class="form-container">
-        <div class="p-field p-mb-4">
-            <p class="subtitulo" for="tipo_documento_id">Tipo de Documento:</p>
-            <!--  <p-dropdown formControlName="tipo_documento_id" [options]="tipos" optionLabel="nombre" [disabled]="true"
-                placeholder="Seleccione un Tipo de Documento" styleClass="w-full">
-            </p-dropdown> -->
-            <input id="disabled-input" type="text" pInputText
-                [disabled]="true" placeholder="Cronograma de Pagos" class="input-text" />
+        <!-- Container para Cronograma de Pago -->
+        <div class="container cronograma-container">
+            <h4 class="text-center subtitulo-container">Cronograma de Pago</h4>
+            <div class="p-field p-mb-4">
+                <p class="subtitulo" for="tipo_documento_id">Tipo de Documento:</p>
+                <input id="disabled-input" type="text" pInputText [disabled]="true" placeholder="Cronograma de Pagos"
+                    class="input-text" />
+            </div>
 
-            <div
-                *ngIf="documentosForm.get('tipo_documento_id')?.invalid && documentosForm.get('tipo_documento_id')?.touched">
-                <small class="p-error">El tipo de documento es requerido.</small>
+            <div class="p-field p-mb-4">
+                <p class="subtitulo" for="documento">Seleccionar Documento:</p>
+                <p-fileUpload chooseLabel="Subir Archivo" cancelLabel="Cancelar" [showUploadButton]="false"
+                    [showCancelButton]="false" (onSelect)="onFileSelectCronograma($event)" (onRemove)="onFileRemove('cronograma')"
+                    [multiple]="false" accept=".pdf,.xlsx,.xls" [maxFileSize]="10000000" class="fileupload">
+                </p-fileUpload>
+
+                <div *ngIf="documentosForm.get('documento_cronograma')?.invalid && documentosForm.get('documento_cronograma')?.touched">
+                    <small class="p-error">El campo es requerido y solo acepta archivos válidos.</small>
+                </div>
             </div>
         </div>
 
-        <div class="p-field p-mb-4">
-            <p class="subtitulo" for="documento">Seleccionar Documento:</p>
-            <p-fileUpload chooseLabel="Subir Archivo" cancelLabel="Cancelar" [showUploadButton]="false"
-                [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()"
-                [multiple]="false" accept=".pdf,.xlsx,.xls" [maxFileSize]="10000000"
-                class="fileupload">
-            </p-fileUpload>
+        <!-- Container para Cronograma de Desembolso -->
+        <div class="container cronograma-container">
+            <h4 class="text-center subtitulo-container">Cronograma de Desembolso</h4>
+            <div class="p-field p-mb-4">
+                <p class="subtitulo" for="tipo_documento_id_cronograma">Tipo de Documento:</p>
+                <input id="disabled-input" type="text" pInputText [disabled]="true"
+                    placeholder="Cronograma de Desembolsos" class="input-text" />
+            </div>
 
-            <div *ngIf="documentosForm.get('documento')?.invalid && documentosForm.get('documento')?.touched">
-                <small class="p-error">El campo es requerido y solo acepta archivos válidos.</small>
+            <div class="p-field p-mb-4">
+                <p class="subtitulo" for="documento">Seleccionar Documento:</p>
+                <p-fileUpload chooseLabel="Subir Archivo" cancelLabel="Cancelar" [showUploadButton]="false"
+                    [showCancelButton]="false" (onSelect)="onFileSelectDesembolso($event)" (onRemove)="onFileRemove('desembolso')"
+                    [multiple]="false" accept=".pdf,.xlsx,.xls" [maxFileSize]="10000000" class="fileupload">
+                </p-fileUpload>
+
+                <div *ngIf="documentosForm.get('documento_desembolso')?.invalid && documentosForm.get('documento_desembolso')?.touched">
+                    <small class="p-error">El campo es requerido y solo acepta archivos válidos.</small>
+                </div>
             </div>
         </div>
 

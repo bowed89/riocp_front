@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectorRef } from '@angular/core';
 import { TecnicoService } from '../../services/tecnico.service';
+import { MessagesService } from 'src/app/shared/services/messages.service';
 
 @Component({
   selector: 'app-derivar-modal',
@@ -9,10 +10,11 @@ import { TecnicoService } from '../../services/tecnico.service';
 export class DerivarModalComponent {
 
   @Input() visible: boolean = false;
+  @Input() selectedSolicitud: any;
   @Input() selectedSeguimiento: any;
 
   @Output() visibleChange = new EventEmitter<boolean>();
-  @Output() userAdded = new EventEmitter<void>();
+  @Output() seguimientoChanged = new EventEmitter<void>();
 
   nroHojaRuta: string = '';
   selectedTecnico: any;
@@ -22,21 +24,21 @@ export class DerivarModalComponent {
   token = localStorage.getItem('token');
 
   constructor(
-    public _tecnicoService: TecnicoService
-
+    public _tecnicoService: TecnicoService,
+    public _messagesService: MessagesService,
+    private cdr: ChangeDetectorRef
   ) {
 
   }
 
   ngOnChanges(): void {
-    console.log('getId ===>' + this.selectedSeguimiento);
+    console.log('getId ===>' + this.selectedSolicitud);
+    console.log('getId2 ===>' + this.selectedSeguimiento);
+
 
   }
 
   ngOnInit(): void {
-
-
-
     this._tecnicoService.GetTecnicos(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -57,22 +59,27 @@ export class DerivarModalComponent {
 
 
   onSubmit() {
-
-    // Lógica para manejar el envío del formulario
-
     let body = {
       observacion: this.observaciones,
-      solicitud_id: this.selectedSeguimiento,
+      solicitud_id: this.selectedSolicitud,
       usuario_destino_id: this.selectedTecnico,
-      nro_hoja_ruta: this.nroHojaRuta
+      nro_hoja_ruta: this.nroHojaRuta,
+      id_seguimiento: this.selectedSeguimiento
     }
 
     console.log('Técnico body:', body);
 
     this._tecnicoService.PostSeguimientoAdmin(body, this.token!).subscribe({
-      next: (value) => {
-        console.log(value);
-        
+      next: ({ message }) => {
+        this._messagesService.MessageSuccess('Formulario Agregado', message!);
+        this.seguimientoChanged.emit();
+        this.closeModal();
+      },
+      error: (error) => {
+        console.log(error.error.errors);
+        this._messagesService.MessageError('Error al Agregar', error.error.message);
+        this.closeModal();
+
       },
     })
 

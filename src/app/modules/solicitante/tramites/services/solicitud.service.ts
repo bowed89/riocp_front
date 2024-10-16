@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API } from 'src/app/shared/api/api';
-import { Solicitud } from '../interfaces/solicitud.interface';
 import { Response } from 'src/app/shared/interfaces/response.interface';
 
 export interface FormState {

@@ -16,6 +16,8 @@ import { TramitesService } from '../../services/tramites.service';
   styleUrls: ['./formulario-uno.component.scss']
 })
 export class FormularioUnoComponent {
+  inputWidth = 100; // Ancho inicial del input en píxeles
+
   solicitudForm!: FormGroup;
   token = localStorage.getItem('token');
   fechaActual: string = '';
@@ -30,7 +32,7 @@ export class FormularioUnoComponent {
   periodos: any[] = [];
   // Comisiones
   comisionConcepto: string = '';
-  comisionTasa: string = '';
+  comisionTasa: any;
 
   formularioLlenada: boolean = false;
   spinnerFirma: boolean = false;
@@ -71,11 +73,10 @@ export class FormularioUnoComponent {
       telefono: ['', Validators.required],
       firma_digital: [0],
       documento: [null, Validators.required],
+      declaracion_jurada: ['', Validators.required]
     });
 
     this.solicitudForm.valueChanges.subscribe((changes) => {
-      //this.solicitudForm.patchValue({ firma_digital: false });
-      // Verificar si el formulario es válido
       if (this.solicitudForm.valid) {
         console.log('El formulario es válido');
         this.formularioLlenada = true;
@@ -92,6 +93,28 @@ export class FormularioUnoComponent {
     this.obtenerAcreedores();
     this.obtenerMonedas();
     this.obtenerPeriodos();
+  }
+
+  adjustWidth(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const tempSpan = document.createElement('span');
+    tempSpan.style.visibility = 'hidden';
+    tempSpan.style.position = 'absolute';
+    tempSpan.style.whiteSpace = 'pre';
+    tempSpan.textContent = inputElement.value || inputElement.placeholder;
+
+    // Aplicar los mismos estilos de fuente para calcular el ancho correcto
+    const inputStyle = window.getComputedStyle(inputElement);
+    tempSpan.style.font = inputStyle.font;
+    tempSpan.style.padding = inputStyle.padding;
+
+    document.body.appendChild(tempSpan);
+
+    // Ajustar el ancho del input al ancho del span temporal
+    this.inputWidth = tempSpan.offsetWidth + 20; // +20 para margen adicional
+
+    // Eliminar el span temporal
+    document.body.removeChild(tempSpan);
   }
 
   onSubmit() {
@@ -116,7 +139,7 @@ export class FormularioUnoComponent {
           formData.append(key, this.solicitudForm.get(key)?.value);
         }
       });
-
+      
       this._solicitudService.PostSolicitudRiocp(formData, this.token!)
         .subscribe({
           next: ({ message }) => {

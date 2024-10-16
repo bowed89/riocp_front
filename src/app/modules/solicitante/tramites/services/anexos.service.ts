@@ -28,9 +28,10 @@ export class AnexosService {
   }
 
   PostAnexos1(solicitud: any, token: string): Observable<Response<any>> {
-    const url = `${API.local}/documento-adjunto-1/formulario`;
+    const url = `${API.local}/documento-adjunto-1-2/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
   };
+
   PostAnexos2(solicitud: any, token: string): Observable<Response<any>> {
     const url = `${API.local}/documento-adjunto-2/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));

@@ -105,7 +105,8 @@
                 <div class="row">
                     <label>2.3.4 Tasa de interés (Anual):</label>
                     <p-inputNumber class="p-fluid" placeholder="Ingrese la tasa de interés"
-                        formControlName="interes_anual" [min]="0" [max]="100" />
+                        formControlName="interes_anual" mode="decimal" [minFractionDigits]="2"
+                        [maxFractionDigits]="5" />
                 </div>
 
                 <!-- Mensaje de error  -->
@@ -119,8 +120,10 @@
                     <div class="input-container">
                         <input placeholder="Concepto" [(ngModel)]="comisionConcepto"
                             [ngModelOptions]="{standalone: true}" pInputText class="input-flex" />
-                        <p-inputNumber class="p-fluid" placeholder="Tasa" [(ngModel)]="comisionTasa"
-                            [ngModelOptions]="{standalone: true}" />
+                        <!-- <p-inputNumber class="p-fluid" placeholder="Tasa" [(ngModel)]="comisionTasa"
+                            [ngModelOptions]="{standalone: true}" /> -->
+                        <p-inputNumber class="p-fluid" placeholder="Tasa" [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="comisionTasa" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" />
                     </div>
                 </div>
 
@@ -217,7 +220,16 @@
             <!-- 2.4 Objeto de la Operación -->
             <h6>SECCIÓN 3 DECLARACIÓN JURADA Y COMPROMISO DE USO DE RECURSOS</h6>
             <h4 class="declaracion-jurada">
-                YO {{ usuarioEntidad}} EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
+                <!--     YO {{ usuarioEntidad}} EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
+                DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
+                CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
+                A UTILIZAR LOS RECURSOS PROVENIENTES DE LA OPERACIÓN DE CRÉDITO PÚBLICO SOLICITADA PARA
+                LOS FINES DECLARADOS EN EL PRESENTE FORMULARIO(RUBRO 2.4 OBJETO DE LA OPERACIÓN DE
+                CRÉDITO PÚBLICO). -->
+                YO <input formControlName="declaracion_jurada" pInputText
+                    placeholder="Nombre para la declaración jurada" [style.width.px]="inputWidth"
+                    (input)="adjustWidth($event)" />
+                EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
                 DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
                 CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
                 A UTILIZAR LOS RECURSOS PROVENIENTES DE LA OPERACIÓN DE CRÉDITO PÚBLICO SOLICITADA PARA
@@ -229,9 +241,8 @@
 
     <div>
         <h6 class="titulo-validacion">
-            PARA COMPLETAR EL PROCESO DE LLENADO DEBE REALIZAR LA FIRMA DIGITAL
-            DEL FORMULARIO SOLICITUD DE REGISTRO DE INICIO DE OPERACIONES DE
-            CRÉDITO PÚBLICO. A CONTINUACIÓN DEBE REALIZAR LOS SIGUIENTES PASOS:
+            PARA COMPLETAR EL PROCESO DE LLENADO LA MAXIMA AUTORIDAD EJECUTIVA 
+            DEBE FIRMAR DIGITALMENTE EL PRESENTE FORMULARIO Y REALIZAR LOS SIGUIENTES PASOS:
         </h6>
         <div class="row">
             <p class="subtitulo-validacion">

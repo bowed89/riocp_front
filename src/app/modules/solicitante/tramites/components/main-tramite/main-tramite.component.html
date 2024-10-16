@@ -1,5 +1,5 @@
 <div class="grid">
-    <div class="card">
+    <div class="card" *ngIf="showContainer">
         <div class="col-12 md:col-8">
             <h5>NUEVO TRÁMITE</h5>
             <p-tabMenu [model]="values"  />
@@ -9,5 +9,8 @@
             <router-outlet></router-outlet>
         </div>
 
+    </div>
+    <div *ngIf="!showContainer" class="in-progress">
+        <p>TIENE UN TRAMITE EN PROCESO</p>
     </div>
 </div>

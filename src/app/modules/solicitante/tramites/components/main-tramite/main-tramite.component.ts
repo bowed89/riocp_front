@@ -21,6 +21,7 @@ export interface Preguntas {
 export class MainTramiteComponent {
   token = localStorage.getItem('token');
   routeItems: MenuItem[] = [];
+  showContainer = true;
   //activeItem: MenuItem;
 
   values: MenuItem[] = [];
@@ -35,17 +36,24 @@ export class MainTramiteComponent {
   ngOnInit() {
     this.getMenu();
     this.webSocketService.listenToMenuUpdates((data) => {
-      console.log('Menú actualizado:', data.data);
+      console.log('Menú webSocketService ===>', data.data);
 
       this._tramitesService.disabledFormulario1 = data.data[0].disabled;
       this._tramitesService.disabledFormulario2 = data.data[1].disabled;
       this._tramitesService.disabledFormulario3 = data.data[2].disabled;
       this._tramitesService.disabledFormulario4 = data.data[3].disabled;
-    
+
       this._tramitesService.disabledAnexo1 = data.data[4].disabled;
-      this._tramitesService.disabledAnexo2 = data.data[5].disabled;
-      this._tramitesService.disabledAnexo3 = data.data[6].disabled;
-      this._tramitesService.disabledCorrespondencia = data.data[7].disabled;
+      this._tramitesService.disabledAnexo3 = data.data[5].disabled;
+      this._tramitesService.disabledCorrespondencia = data.data[6].disabled;
+
+      if (data.data[0].disabled && data.data[1].disabled &&
+        data.data[2].disabled && data.data[3].disabled &&
+        data.data[4].disabled && data.data[5].disabled &&
+        data.data[6].disabled
+      ) {
+        this.showContainer = false;
+      }
 
       this.values = data.data;
 

@@ -64,11 +64,21 @@
                         </label>
                         <div class="flex justify-content-center gap-4">
                             <p-radioButton name="pregunta_4" [value]="1" formControlName="pregunta_4"
-                                label="SI"></p-radioButton>
+                                (onClick)="changePregunta4()" label="SI"></p-radioButton>
                             <p-radioButton name="pregunta_4" [value]="0" formControlName="pregunta_4"
-                                label="NO"></p-radioButton>
+                                (onClick)="changePregunta4()" label="NO"></p-radioButton>
                         </div>
                     </div>
+                </div>
+                <!-- Documento Adjunto -->
+                <div class="container cronograma-container" *ngIf="deudaForm.get('pregunta_4')?.value">
+                    <br>
+                    <p class="subtitulo" for="documento">Seleccione un certificado no vigente en .pdf:</p>
+                    <p-fileUpload chooseLabel="Subir Archivo" cancelLabel="Cancelar" [showUploadButton]="false"
+                        (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()"
+                        [showCancelButton]="false" [multiple]="false" accept=".pdf,.xlsx,.xls" [maxFileSize]="10000000"
+                        class="fileupload">
+                    </p-fileUpload>
                 </div>
             </div>
         </div>

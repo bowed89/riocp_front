@@ -282,3 +282,19 @@ h6 {
   border-radius: 5px; /* Bordes redondeados (opcional) */
   text-align: center; /* Centra el texto */
 }
+
+input {
+  text-transform: uppercase;
+}
+
+input[formControlName="correo_electronico"] {
+  text-transform: none;
+}
+
+input::placeholder {
+  text-transform: none; /* Mantiene el estilo original del placeholder */
+}
+textarea[formControlName="objeto_operacion_credito"] {
+  text-transform: uppercase;
+}
+

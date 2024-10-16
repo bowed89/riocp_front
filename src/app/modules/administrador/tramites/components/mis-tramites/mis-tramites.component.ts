@@ -15,6 +15,7 @@ export class MisTramitesComponent {
   selectedRol: string | null = null;
   searchText: string = '';
 
+  selectedSolicitud: any
   selectedSeguimiento: any
 
   constructor(
@@ -26,7 +27,8 @@ export class MisTramitesComponent {
   }
 
   addDerivar(seguimiento: any) {
-    this.selectedSeguimiento = seguimiento.solicitud_id; 
+    this.selectedSolicitud = seguimiento.solicitud_id; 
+    this.selectedSeguimiento = seguimiento.id_seguimiento;
     this.newVisible = true;
   }
 
@@ -40,6 +42,11 @@ export class MisTramitesComponent {
       }
     });
   }
+
+  seguimientoChanged(){
+    this. getSeguimientos();
+  }
+
   derivar(seguimiento: any) {
     console.log('Derivando seguimiento:', seguimiento);
   }

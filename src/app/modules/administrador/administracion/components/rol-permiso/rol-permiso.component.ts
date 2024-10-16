@@ -18,7 +18,6 @@ export class RolPermisoComponent {
   selectedRol: string | null = null;
   searchText: string = '';
 
-
   constructor(
     public _usuariosService: UsuariosService,
     public _roleService: RoleService

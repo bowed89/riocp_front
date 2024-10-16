@@ -23,20 +23,27 @@ export class AnexoUnoComponent implements OnInit {
 
   ) {
     this.documentosForm = this.fb.group({
-      tipo_documento_id: [1, Validators.required],
-      documento: [null, Validators.required] // Campo para el archivo
+      tipo_documento_id_cronograma: [1, Validators.required],
+      documento_cronograma: [null, Validators.required],
+      tipo_documento_id_desembolso: [2, Validators.required],
+      documento_desembolso: [null, Validators.required]
     });
   }
 
   ngOnInit(): void {
-
-    // this.obtenerTipoDocumentos();
   }
 
-  onFileSelect(event: any) {
+  onFileSelectCronograma(event: any) {
     const file = event.files[0]; // Obtiene el primer archivo seleccionado
     if (file) {
-      this.documentosForm.patchValue({ documento: file }); // Actualiza el campo del documento
+      this.documentosForm.patchValue({ documento_cronograma: file }); // Actualiza el campo del documento
+    }
+  }
+
+  onFileSelectDesembolso(event: any) {
+    const file = event.files[0]; // Obtiene el primer archivo seleccionado
+    if (file) {
+      this.documentosForm.patchValue({ documento_desembolso: file }); // Actualiza el campo del documento
     }
   }
 
@@ -45,14 +52,18 @@ export class AnexoUnoComponent implements OnInit {
       const formData = new FormData();
       const documento = this.documentosForm.value;
 
-      this.documentosForm.patchValue({ tipo_documento_id: 1 }); // id 1 de pagos
-
-      if (documento.documento instanceof File) {
-        formData.append('documento', documento.documento);
-        formData.append('tipo_documento_id', documento.tipo_documento_id);
+      // Añadir archivos al FormData
+      if (documento.documento_cronograma) {
+        formData.append('documento_cronograma', documento.documento_cronograma);
       }
 
-      // Imprimir el contenido del FormData
+      if (documento.documento_desembolso) {
+        formData.append('documento_desembolso', documento.documento_desembolso);
+      }
+
+      formData.append('tipo_documento_id_cronograma', documento.tipo_documento_id_cronograma.toString());
+      formData.append('tipo_documento_id_desembolso', documento.tipo_documento_id_desembolso.toString());
+
       formData.forEach((value, key) => {
         console.log(`${key}:`, value);
       });
@@ -65,25 +76,20 @@ export class AnexoUnoComponent implements OnInit {
           this._messagesService.MessageError('Error al Agregar', error.error.message);
         }
       });
-      
+
     } else {
       console.error('El formulario no es válido');
     }
   }
 
+  onFileRemove(msg: string) {
+    if (msg === 'cronograma') {
+      this.documentosForm.get('documento_cronograma')?.setValue(null);
+    }
 
-  /*   obtenerTipoDocumentos() {
-      this._tipoDocumentoService.GetAllTipoDocumentos(this.token!).subscribe(({ data }) => {
-        this.tipos = data.map((tipo: any) => ({
-          nombre: tipo.tipo,
-          id: tipo.id
-        }));
-      });
-    } */
+    if (msg === 'desembolso') {
+      this.documentosForm.get('documento_desembolso')?.setValue(null);
+    }
 
-  onFileRemove() {
-    console.log('remove');
-
-    this.documentosForm.get('documento')?.setValue(null);
   }
 }

@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
 
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
@@ -35,7 +36,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     CheckboxModule,
     FormsModule,
     DialogModule,
-    InputTextareaModule
+    InputTextareaModule,
+    ToastModule
   ]
 })
 export class TramitesModule { }

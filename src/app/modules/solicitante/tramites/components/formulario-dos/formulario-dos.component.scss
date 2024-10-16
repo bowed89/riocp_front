@@ -44,9 +44,23 @@ h5 {
       font-weight: 100;
       /* El label ocupa el 50% */
     }
-
-
   }
+}
+
+.cronograma-container {
+  text-align: center;
+  display: contents;
+  border: 1px solid #ccc;
+  width: 50%;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.subtitulo {
+  font-size: medium;
 }
 
 

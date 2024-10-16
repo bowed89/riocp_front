@@ -24,7 +24,6 @@ interface Pago {
   styleUrls: ['./formulario-tres.component.scss']
 })
 export class FormularioTresComponent {
-  saldoTotal: any;
   deudaForm!: FormGroup;
   acreedores: any[] = [{ name: '', code: '' }];
   monedas: any[] = [];
@@ -75,6 +74,8 @@ export class FormularioTresComponent {
     });
     // Suscribirse a los cambios de `saldoTotal`
     this.deudaForm.get('saldoTotal')?.valueChanges.subscribe((nuevoSaldoTotal) => {
+      console.log("nuevoSaldoTotal", nuevoSaldoTotal);
+
       this.actualizarSaldoInicial(nuevoSaldoTotal);
     });
 
@@ -158,6 +159,22 @@ export class FormularioTresComponent {
 
   }
 
+  restarCapitalSaldoPrimeraFila(i: number) {
+    if (i === 0) {
+
+      
+      const SaldoFirstRow = this.deudaForm.get('saldoTotal')?.value;
+      const CapitalFirstRow = this.cuadroPagos.at(0).get('capital')?.value;
+      //const SaldoFirstRow = this.cuadroPagos.at(0).get('saldo')?.value;
+
+      console.log("SaldoFirstRow==>", SaldoFirstRow);
+      console.log("CapitalFirstRow==>", CapitalFirstRow);
+
+      this.cuadroPagos.at(0).patchValue({ saldo: SaldoFirstRow - CapitalFirstRow });
+    }
+
+  }
+
   actualizarTotales() {
     this.total.capital = 0;
     this.total.interes = 0;
@@ -191,8 +208,9 @@ export class FormularioTresComponent {
   agregarFila() {
     const index = this.cuadroPagos.length; //  indice de la nueva fila
     // Obtengo el saldo de la fila anterior o 0 si es la primera fila
-    // const saldoAnterior = index > 0 ? this.cuadroPagos.at(index - 1).get('saldo')?.value : 0;
     const saldoAnterior = index > 0 ? this.cuadroPagos.at(index - 1).get('saldo')?.value : 0;
+
+    console.log("saldoAnterior ===>", saldoAnterior);
 
     let cuadro = this.fb.group({
       fecha_vencimiento: ['', Validators.required],
@@ -235,6 +253,14 @@ export class FormularioTresComponent {
     this.actualizarTotales();
   }
 
+  /* actualizarSaldoInicial(nuevoSaldoTotal: number) {
+    if (this.cuadroPagos.length > 0) {
+      const saldo = 2;
+      this.cuadroPagos.at(0).patchValue({ saldo: nuevoSaldoTotal - saldo });
+    }
+  }
+   */
+
   actualizarSaldoInicial(nuevoSaldoTotal: number) {
     if (this.cuadroPagos.length > 0) {
       this.cuadroPagos.at(0).patchValue({ saldo: nuevoSaldoTotal });
@@ -242,3 +268,4 @@ export class FormularioTresComponent {
   }
 
 }
+

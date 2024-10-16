@@ -116,19 +116,16 @@ export class EntidadModalComponent {
 
       // Activo validación para entidad_id
       this.userForm.get('entidad_id')?.setValidators([Validators.required]);
-      this.userForm.get('entidad_id')?.updateValueAndValidity(); // Actualizar validadores
+      this.userForm.get('entidad_id')?.updateValueAndValidity(); 
 
     } else {
       this.flagEntidad = false;
-      this.userForm.get('entidad_id')?.clearValidators(); // Deshabilitar validación
-      this.userForm.get('entidad_id')?.updateValueAndValidity(); // Actualizar validadores
+      this.userForm.get('entidad_id')?.clearValidators(); 
+      this.userForm.get('entidad_id')?.updateValueAndValidity(); 
       this.userForm.patchValue({ entidad_id: null });
     }
 
     this.cdr.detectChanges(); // Forzar detección de cambios
-
-
-
 
 
   }

@@ -12,6 +12,7 @@ import { AnexosComponent } from './components/anexos/anexos.component';
 import { AnexoUnoComponent } from './components/anexo-uno/anexo-uno.component';
 import { AnexoDosComponent } from './components/anexo-dos/anexo-dos.component';
 import { AnexoTresComponent } from './components/anexo-tres/anexo-tres.component';
+import { MisTramitesSolicitanteComponent } from './components/mis-tramites/mis-tramites.component';
 
 
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -35,6 +36,7 @@ import { CalendarModule } from 'primeng/calendar';
 
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api'; // Importa el servicio
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import { ConfirmationService } from 'primeng/api'; // Importa el servicio
     AnexosComponent,
     AnexoUnoComponent,
     AnexoDosComponent,
-    AnexoTresComponent
+    AnexoTresComponent,
+    MisTramitesSolicitanteComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +74,7 @@ import { ConfirmationService } from 'primeng/api'; // Importa el servicio
     ProgressSpinnerModule,
     CalendarModule,
     ConfirmDialogModule,
-
+    SplitButtonModule
   ],
   providers: [
     ConfirmationService // Agrega el servicio aquí
