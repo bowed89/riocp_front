@@ -13,13 +13,10 @@ import { EntidadeService } from '../shared/services/entidades.service';
 export class AppTopBarComponent {
     selectedEntidad: any;
     nombreUsuario: any;
+    rolUsuario: any;
+
     items: MenuItem[] = [];
     entidad: any[] = [];
-    solicitudes = [
-        { label: 'Solicitud 1', value: 1 },
-        { label: 'Solicitud 2', value: 2 },
-        { label: 'Solicitud 3', value: 3 }
-    ];
 
     @ViewChild('menubutton') menuButton!: ElementRef;
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
@@ -57,9 +54,11 @@ export class AppTopBarComponent {
 
                 this.selectedEntidad = this.entidad[0].value;
                 this.nombreUsuario = `${data[0].nombre} ${data[0].apellido}`
+                this.rolUsuario = `${data[0].rol}`
 
             } else if (data.length > 0) {
                 this.nombreUsuario = `${data[0].nombre} ${data[0].apellido}`
+                this.rolUsuario = `${data[0].rol}`
                 this._entidadeService.GetEntidades(token!).subscribe(({ data }) => {
                     data.map((value) => {
                         this.entidad.push({
@@ -73,6 +72,7 @@ export class AppTopBarComponent {
 
             this.items = [
                 { label: `${this.nombreUsuario}`, icon: 'pi pi-users', command: () => this.logout() },
+                { label: `${this.rolUsuario}`, icon: 'pi pi-wrench', command: () => this.logout() },
                 { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.logout() }
             ];
 

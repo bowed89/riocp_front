@@ -68,6 +68,7 @@ export class FormularioDosComponent {
         // si es true pregunta_4 entonces llamo a servicio de documento_adjunto_2
         const formData = new FormData();
         const documento = this.deudaForm.value;
+        
         if (documento.documento) {
           formData.append('documento', documento.documento);
           formData.append('tipo_documento_id', (4).toString());

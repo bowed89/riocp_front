@@ -9,7 +9,7 @@
     </div>
 
     <!-- Tabla de seguimientos -->
-    <h2>Trámites Jefe de Unidad</h2><br>
+    <h2>Trámites Técnico</h2><br>
     <p-table [value]="seguimientos" [rows]="10" [paginator]="true">
         <ng-template pTemplate="header">
             <tr>
@@ -49,6 +49,8 @@
                         class="p-button-info"></button>
                 </td> <!-- Botón para derivar -->
                 <td *ngIf="seguimiento.estado === 'DERIVADO'"></td>
+
+
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

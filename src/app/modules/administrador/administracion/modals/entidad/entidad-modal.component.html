@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 
-<p-dialog header="Agregar Usuario" [(visible)]="visible" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeModal()">
+<p-dialog header="Agregar Usuario" [(visible)]="visible" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" (onHide)="closeModal()">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="p-fluid grid">
             <div class="col-12">
@@ -33,7 +34,7 @@
                     Apellido es requerido.
                 </div>
             </div>
-            
+
             <div class="col-6">
                 <label for="nombre_usuario">Nombre de Usuario</label>
                 <input id="nombre_usuario" type="text" pInputText formControlName="nombre_usuario" />

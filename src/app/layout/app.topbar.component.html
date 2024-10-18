@@ -9,8 +9,9 @@
 
     <div class="p-menubar">
         <p-dropdown [options]="entidad" [(ngModel)]="selectedEntidad"></p-dropdown>
-<!--         <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
- -->    </div>
+        <!--         <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
+ -->
+    </div>
 
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
@@ -19,7 +20,8 @@
             <span>Profile</span>
         </button>
         <!-- Submenu  -->
-        <p-menu #menu [model]="items" [popup]="true" appendTo="body"></p-menu>
+        <p-menu #menu [model]="items" [popup]="true" appendTo="body"
+        [style]="{ width: '250px', fontSize: '20px' }"></p-menu>
     </div>
 
 </div>

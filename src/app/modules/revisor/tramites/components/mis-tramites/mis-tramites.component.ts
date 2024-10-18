@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { SeguimientosService } from 'src/app/shared/services/seguimientos.service';
-import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
+import { SeguimientoAdminService } from 'src/app/modules/administrador/tramites/services/seguimiento-admin.service';
+import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
 
 @Component({
   selector: 'mis-tramites-component',
@@ -20,7 +20,7 @@ export class MisTramitesComponent {
   selectedSeguimiento: any
 
   constructor(
-    public _seguimientoAdminService: SeguimientoAdminService
+    public _seguimientoRevisorService: SeguimientoRevisorService
   ) { }
 
   ngOnInit() {
@@ -28,17 +28,17 @@ export class MisTramitesComponent {
   }
 
   addDerivar(seguimiento: any) {
-    console.log("seguimiento ===>", seguimiento);
-    
-    this.selectedSolicitud = seguimiento.solicitud_id;
+    this.selectedSolicitud = seguimiento.solicitud_id; 
     this.selectedSeguimiento = seguimiento.id_seguimiento;
     this.newVisible = true;
   }
 
   getSeguimientos() {
-    this._seguimientoAdminService.GetSeguimientosAdministrador(this.token!).subscribe({
+    this._seguimientoRevisorService.GetSeguimientoRevisor(this.token!).subscribe({
       next: ({ data }) => {
-        this.seguimientos = data;
+        console.log(data);
+        
+       this.seguimientos = data;
       },
       error: (err) => {
         console.error(err);
@@ -46,8 +46,8 @@ export class MisTramitesComponent {
     });
   }
 
-  seguimientoChanged() {
-    this.getSeguimientos();
+  seguimientoChanged(){
+    this. getSeguimientos();
   }
 
   derivar(seguimiento: any) {

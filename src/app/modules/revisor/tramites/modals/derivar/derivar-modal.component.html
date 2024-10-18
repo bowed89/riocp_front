@@ -1,0 +1,39 @@
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '50vw' }" (onHide)="closeModal()">
+    <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
+        <div class="form-container">
+            <h4 style="text-align: center;">Derivar Solicitud</h4>
+            <div>
+                <div class="form-group">
+                    <label for="tecnico">Jefe Unidad:</label>
+                    <p-dropdown formControlName="usuario_destino_id" [options]="tecnicos" optionLabel="nombre"
+                        optionValue="id" placeholder="Seleccionar"></p-dropdown>
+                    <div *ngIf="seguimientoForm.get('usuario_destino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
+                        class="error">
+                        Seleccione un técnico.
+                    </div>
+                </div>
+
+                <div>
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
+                        style="width: 100%; margin-bottom: 30px;">
+                    </textarea>
+                    <div *ngIf="seguimientoForm.get('observacion')?.touched && seguimientoForm.get('observacion')?.invalid"
+                        class="error">
+                        Las observaciones son requeridas.
+                    </div>
+                </div>
+
+                <div class="p-dialog-footer">
+                    <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
+                        class="p-button-text"></button>
+                    <button pButton type="submit" label="Guardar" class="p-button-success"
+                        [disabled]="seguimientoForm.invalid"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-dialog>

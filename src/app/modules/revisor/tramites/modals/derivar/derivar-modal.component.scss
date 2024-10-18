@@ -1,0 +1,47 @@
+.form-container {
+    max-width: 100%; 
+    padding: 10px; 
+}
+
+
+
+.form-group {
+    margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+label {
+    display: block; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+}
+
+input {
+    width: 100%;
+    padding: 10px; 
+}
+.error {
+    text-align: start;
+    margin-top: 0.5rem;
+    color: red;
+
+}
+
+.p-button {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    font-weight: bold; /* Negrita en el texto del botón */
+    transition: background-color 0.3s; /* Transición suave para el botón */
+}
+
+.p-button-success {
+    background-color: #28a745; /* Color verde para el botón */
+    color: white; /* Color de texto blanco */
+}
+
+.p-button-success:hover {
+    background-color: #218838; /* Color más oscuro al pasar el mouse */
+}
+
+.p-button-success:focus {
+    outline: none; /* Sin borde adicional en foco */
+}

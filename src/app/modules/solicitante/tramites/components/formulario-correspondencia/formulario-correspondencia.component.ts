@@ -52,18 +52,20 @@ export class FormularioCorrespondenciaComponent {
       firma_digital: [0, Validators.required],
     });
 
-    this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
-      this.registroForm.patchValue({
-        nombre_completo: `${data[0].nombre} ${data[0].apellido}`,
-        correo_electronico: data[0].correo,
-        nombre_entidad: data[0].denominacion
-      });
-      // dshabilitar inputs llenados
-      this.registroForm.get('nombre_completo')?.disable();
-      this.registroForm.get('correo_electronico')?.disable();
-      this.registroForm.get('nombre_entidad')?.disable();
-
-    });
+    /* 
+        this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
+          this.registroForm.patchValue({
+            nombre_completo: `${data[0].nombre} ${data[0].apellido}`,
+            correo_electronico: data[0].correo,
+            nombre_entidad: data[0].denominacion
+          });
+          // dshabilitar inputs llenados
+          this.registroForm.get('nombre_completo')?.disable();
+          this.registroForm.get('correo_electronico')?.disable();
+          this.registroForm.get('nombre_entidad')?.disable();
+    
+        });
+     */
 
   }
 
@@ -189,7 +191,7 @@ export class FormularioCorrespondenciaComponent {
   Registrar(formData: any, token: any) {
 
     console.log('sakasakskasaskk');
-    
+
     this.confirmationService.confirm({
       message: '¿Esta seguro de registrar su nota de correspondencia? No podrá registrar ningún otro formulario ni anexar archivos.',
       header: 'Confirmación',

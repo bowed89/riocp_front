@@ -24,11 +24,7 @@ export class SeguimientosService {
     };
   }
 
-  GetSeguimientos(token: string): Observable<Response<Acreedores>> {
-    const url = `${API.local}/seguimiento`;
-    return this.http.get<Response<Acreedores>>(url, this.getHttpOptions(token));
-  }
-
+  
 
 
   

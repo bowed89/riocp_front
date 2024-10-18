@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-
 import { TramitesRoutingModule } from './tramites-routing.module';
 import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.component';
 import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
@@ -16,7 +15,6 @@ import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 
-import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 
 import { InputTextareaModule } from 'primeng/inputtextarea';

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SeguimientoRoutingModule } from './seguimiento-routing.module';
-
-
+import { Revisor1RoutingModule } from './revisor-routing.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +8,7 @@ import { SeguimientoRoutingModule } from './seguimiento-routing.module';
   ],
   imports: [
     CommonModule,
-    SeguimientoRoutingModule
+    Revisor1RoutingModule
   ]
 })
-export class SeguimientoModule { }
+export class RevisorModule { }

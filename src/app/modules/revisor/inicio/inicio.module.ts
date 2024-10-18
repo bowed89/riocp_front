@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InicioSeguimientoComponent } from './components/inicio-seguimiento/inicio-seguimiento.component';
 import { InicioRoutingModule } from './inicio-routing.module';
+import { InicioRevisorComponent } from './components/inicio-revisor/inicio-revisor.component';
+
+
 // Dashboard
 import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
@@ -10,10 +12,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { TableModule } from 'primeng/table';
 
 
-
 @NgModule({
   declarations: [
-    InicioSeguimientoComponent,
+    InicioRevisorComponent,
 
   ],
   imports: [

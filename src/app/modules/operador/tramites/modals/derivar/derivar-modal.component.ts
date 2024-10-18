@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
+import { SeguimientoOperadorService } from '../../services/seguimiento-operador.service';
 
 @Component({
   selector: 'app-derivar-modal',
   templateUrl: './derivar-modal.component.html',
   styleUrls: ['./derivar-modal.component.scss']
 })
+
 export class DerivarModalComponent implements OnInit {
 
   @Input() visible: boolean = false;
@@ -17,29 +18,26 @@ export class DerivarModalComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() seguimientoChanged = new EventEmitter<void>();
 
-  activeTab: string = 'tab1'; // Para manejar la pestaña activa
   tecnicos: any[] = [];
-  revisores: any[] = [];
   token = localStorage.getItem('token');
 
   seguimientoForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public _seguimientoAdminService: SeguimientoAdminService,
+    public _seguimientoOperadorService: SeguimientoOperadorService,
     public _messagesService: MessagesService,
+    private cdr: ChangeDetectorRef
   ) {
-    // Inicializar el FormGroup
+    // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
-      id_seguimiento: [this.selectedSeguimiento],
+      usuario_destino_id: [null, Validators.required],
       observacion: ['', Validators.required],
-      nro_hoja_ruta: ['', Validators.required],
-      solicitud_id: [this.selectedSolicitud],
-      usuario_destino_id: ['', Validators.required],
-      observacion_revisor: ['', Validators.required],
-      usuario_destino_id_revisor: ['', Validators.required]
+      solicitud_id: [null],
+      id_seguimiento: [null]
     });
   }
+
   ngOnChanges(): void {
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
@@ -50,30 +48,23 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllTecnicos();
-    this.getAllRevisores();
-  }
-
-  getAllTecnicos() {
-    this._seguimientoAdminService.GetTecnicos(this.token!).subscribe({
+    this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
+        console.log(data);
         this.tecnicos = data.map((tecnico: any) => ({
           nombre: `${tecnico.nombre} ${tecnico.apellido}`,
           id: tecnico.id
         }));
-      },
+      }
     });
-  }
 
-  getAllRevisores() {
-    this._seguimientoAdminService.GetRevisores(this.token!).subscribe({
-      next: ({ data }) => {
-        this.revisores = data.map((tecnico: any) => ({
-          nombre: `${tecnico.nombre} ${tecnico.apellido}`,
-          id: tecnico.id
-        }));
-      },
-    });
+    // Asignar valores iniciales a los controles
+    if (this.selectedSolicitud) {
+      this.seguimientoForm.patchValue({ solicitud_id: this.selectedSolicitud });
+    }
+    if (this.selectedSeguimiento) {
+      this.seguimientoForm.patchValue({ id_seguimiento: this.selectedSeguimiento });
+    }
   }
 
   closeModal() {
@@ -84,8 +75,8 @@ export class DerivarModalComponent implements OnInit {
   onSubmit() {
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
-      
-      this._seguimientoAdminService.PostSeguimientoAdmin(this.seguimientoForm.value, this.token!).subscribe({
+
+      this._seguimientoOperadorService.PostAsignarRevisorAJefeUnidad(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Formulario Agregado', message!);
           this.seguimientoChanged.emit();
@@ -101,3 +92,4 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 }
+

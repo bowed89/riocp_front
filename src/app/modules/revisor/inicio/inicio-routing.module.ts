@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { InicioSeguimientoComponent } from './components/inicio-seguimiento/inicio-seguimiento.component';
+import { InicioRevisorComponent } from './components/inicio-revisor/inicio-revisor.component';
 
+InicioRevisorComponent
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'inicio', component: InicioSeguimientoComponent },
+        { path: 'inicio', component: InicioRevisorComponent },
 
     ])],
     exports: [RouterModule]
