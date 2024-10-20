@@ -2,46 +2,106 @@
 
 <p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
     [style]="{ width: '50vw' }" (onHide)="closeModal()">
+    <!-- Contenedor de Pestañas -->
+    <div class="tab-header">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
+            Revisar Requisitos
+        </button>
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
+            Derivar
+        </button>
+    </div>
     <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
-        <div class="form-container">
-            <h4 style="text-align: center;">Derivar Solicitud</h4>
-            <div>
-                <div class="form-group">
-                    <label for="tecnico">Revisor:</label>
-                    <p-dropdown formControlName="usuario_destino_id" [options]="tecnicos" optionLabel="nombre"
-                        optionValue="id" placeholder="Seleccionar"></p-dropdown>
-                    <div *ngIf="seguimientoForm.get('usuario_de stino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
-                        class="error">
-                        Seleccione un Revisor.
+
+        <div class="tab-content">
+            <!-- Contenido de la Pestaña 1 -->
+            <div *ngIf="activeTab === 'tab1'" class="form-container">
+                <div class="container">
+                    <!-- Encabezado -->
+                    <div class="header">
+                        <h2>MINISTERIO DE ECONOMÍA Y FINANZAS PÚBLICAS</h2>
+                        <h3>VICEMINISTERIO DEL TESORO Y CRÉDITO PÚBLICO</h3>
+                        <h4>DIRECCIÓN GENERAL DE ADMINISTRACIÓN Y FINANZAS TERRITORIALES</h4>
+                        <h5>UNIDAD DE SEGUIMIENTO Y CONTROL A LAS FINANZAS TERRITORIALES</h5>
+                        <h2>REGISTRO DE INICIO DE OPERACIONES DE CRÉDITO PÚBLICO (RIOCP)</h2>
+                        <p>(Detalle de Observaciones)</p>
                     </div>
-                </div>
 
-                <p>
-                    Hola quiero que me ayudes a crear un formulario
-                    dentro de mi modal, este formulario debe tener 4
-                    columnas(requisitos, cumple, observaciones, boton),
-                    cada columna debe tener 4 filas ya cargadas.
-
-                </p>
-
-                <div>
-                    <label for="observaciones">Observaciones:</label>
-                    <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
-                        style="width: 100%; margin-bottom: 30px;">
-                    </textarea>
-                    <div *ngIf="seguimientoForm.get('observacion')?.touched && seguimientoForm.get('observacion')?.invalid"
-                        class="error">
-                        Las observaciones son requeridas.
+                    <!-- Subtítulo -->
+                    <div class="subtitle">
+                        <p><strong>ENTIDAD TERRITORIAL AUTÓNOMA:</strong> Gobierno Autónomo Municipal de Colquechaca
+                            (GAM CCQ)</p>
                     </div>
+
+                    <!-- Tabla -->
+                    <p-table [value]="observations" responsiveLayout="scroll">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>REQUISITOS</th>
+                                <th>CUMPLE</th>
+                                <th>OBSERVACIÓN</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-observation>
+                            <tr>
+                                <td>{{ observation.requisito }}</td>
+                                <td>
+                                    <div class="flex justify-content-center gap-3">
+                                        <p-radioButton name="cumple" value="1" [(ngModel)]="observation.cumple" [ngModelOptions]="{standalone: true}" label="Sí"></p-radioButton>
+                                        <p-radioButton name="cumple" value="0" [(ngModel)]="observation.cumple" [ngModelOptions]="{standalone: true}" label="No"></p-radioButton>
+                                    </div>
+
+                                </td>
+                                <td>{{ observation.observacion }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
 
-                <div class="p-dialog-footer">
-                    <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
-                        class="p-button-text"></button>
-                    <button pButton type="submit" label="Guardar" class="p-button-success"
-                        [disabled]="seguimientoForm.invalid"></button>
-                </div>
+
             </div>
+
+            <!-- Contenido de la Pestaña 2 -->
+            <div *ngIf="activeTab === 'tab2'" class="form-container">
+                <div class="form-container">
+                    <h4 style="text-align: center;">Derivar Solicitud</h4>
+                    <div>
+                        <div class="form-group">
+                            <label for="tecnico">Revisor:</label>
+                            <p-dropdown formControlName="usuario_destino_id" [options]="tecnicos" optionLabel="nombre"
+                                optionValue="id" placeholder="Seleccionar"></p-dropdown>
+                            <div *ngIf="seguimientoForm.get('usuario_de stino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
+                                class="error">
+                                Seleccione un Revisor.
+                            </div>
+                        </div>
+                        <div>
+                            <label for="observaciones">Observaciones:</label>
+                            <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
+                                style="width: 100%; margin-bottom: 30px;">
+                            </textarea>
+                            <div *ngIf="seguimientoForm.get('observacion')?.touched && seguimientoForm.get('observacion')?.invalid"
+                                class="error">
+                                Las observaciones son requeridas.
+                            </div>
+                        </div>
+
+                        <div class="p-dialog-footer">
+                            <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
+                                class="p-button-text"></button>
+                            <button pButton type="submit" label="Guardar" class="p-button-success"
+                                [disabled]="seguimientoForm.invalid"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+
+
     </form>
+
+
+
 </p-dialog>

@@ -14,6 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { DialogModule } from 'primeng/dialog';
 
@@ -38,7 +39,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     FormsModule,
     DialogModule,
     InputTextareaModule,
-    ToastModule
+    ToastModule,
+    RadioButtonModule
   ]
 })
 export class TramitesModule { }

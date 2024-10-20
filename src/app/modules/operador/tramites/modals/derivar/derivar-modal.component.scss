@@ -1,42 +1,166 @@
 .form-container {
-    max-width: 100%; 
-    padding: 10px; 
+    width: 100%;
+    padding: 10px;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+
 }
 
 
 
 .form-group {
-    margin-bottom: 15px; /* Espaciado entre campos */
+    margin-bottom: 15px;
+    /* Espaciado entre campos */
 }
 
 label {
-    display: block; 
-    margin-bottom: 15px; 
-    font-weight: bold; 
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 input {
     width: 100%;
-    padding: 10px; 
+    padding: 10px;
 }
 
 
 .p-button {
-    width: 100%; /* Ancho completo */
-    padding: 10px; /* Espaciado interno */
-    font-weight: bold; /* Negrita en el texto del botón */
-    transition: background-color 0.3s; /* Transición suave para el botón */
+    width: 100%;
+    /* Ancho completo */
+    padding: 10px;
+    /* Espaciado interno */
+    font-weight: bold;
+    /* Negrita en el texto del botón */
+    transition: background-color 0.3s;
+    /* Transición suave para el botón */
 }
 
 .p-button-success {
-    background-color: #28a745; /* Color verde para el botón */
-    color: white; /* Color de texto blanco */
+    background-color: #28a745;
+    /* Color verde para el botón */
+    color: white;
+    /* Color de texto blanco */
 }
 
 .p-button-success:hover {
-    background-color: #218838; /* Color más oscuro al pasar el mouse */
+    background-color: #218838;
+    /* Color más oscuro al pasar el mouse */
 }
 
 .p-button-success:focus {
-    outline: none; /* Sin borde adicional en foco */
+    outline: none;
+    /* Sin borde adicional en foco */
+}
+
+
+.error {
+    text-align: start;
+    margin-top: 0.5rem;
+    color: red;
+
+}
+
+.tab-header {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1em;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+    color: #666;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    border-bottom: 2px solid #007bff;
+    /* Color para la pestaña activa */
+    font-weight: bold;
+    color: #007bff;
+}
+
+.tab-content {
+    padding: 10px;
+}
+
+
+/* pestaña 1 requisitos */
+
+.container {
+    padding: 20px;
+}
+
+.header,
+.subtitle {
+    text-align: center;
+}
+
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+}
+
+p {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+p-table {
+    margin-top: 20px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 10px;
+}
+
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+
+/* RADIO BUTTON CONVERTIDO CON X */
+
+:host ::ng-deep .p-radiobutton {
+    margin-top: 10px;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight,
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight:hover {
+    background-color: transparent;
+    border-color: black;
+    box-shadow: none;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+    border-color: black;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-icon {
+    display: none;
+}
+
+:host ::ng-deep .p-radiobutton.p-radiobutton-checked .p-radiobutton-box:after {
+    content: '✖';
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    /* Hacer la 'X' más gruesa si es necesario */
 }

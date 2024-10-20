@@ -10,6 +10,7 @@ import { SeguimientoOperadorService } from '../../services/seguimiento-operador.
 })
 
 export class DerivarModalComponent implements OnInit {
+  activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
   @Input() visible: boolean = false;
   @Input() selectedSolicitud: any;
@@ -17,6 +18,11 @@ export class DerivarModalComponent implements OnInit {
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() seguimientoChanged = new EventEmitter<void>();
+
+  observations = [
+    { requisito: 'Carta de solicitud dirigida...', cumple: 1, observacion: 'El GAM CCQ deberá remitir...' },
+    { requisito: 'Formulario 1...', cumple: 0, observacion: 'Faltan datos importantes...' }
+  ];
 
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
