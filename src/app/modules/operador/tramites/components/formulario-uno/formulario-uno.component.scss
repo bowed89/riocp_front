@@ -1,0 +1,300 @@
+/* Responsividad y estilo para el contenedor del formulario */
+.form-container {
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.dropdown-container {
+  width: 100%;
+
+  /* Estilo del mensaje de error */
+  .error-message {
+    text-align: center;
+    /* Centrar el mensaje de error */
+    margin-top: 0.5rem;
+
+    small {
+      color: red;
+    }
+  }
+}
+
+/* valida bordes rojos cuando es invalido */
+input.ng-invalid.ng-touched {
+  border: red 1px solid;
+}
+
+.declaracion-jurada {
+  margin-left: 20px;
+  margin-right: 20px;
+  font-weight: normal;
+  line-height: 1.5;
+  font-size: 1.1em;
+  text-align: justify;
+
+}
+
+
+/* Estilo para subtítulos más pequeños */
+.subtitulo {
+  margin: 0;
+  font-weight: normal;
+  line-height: 1.2;
+  font-size: 1.4rem;
+}
+
+
+/* Estilo para el título principal en negrita */
+.titulo {
+  margin: 0;
+  font-weight: bold;
+  line-height: 1.2;
+  font-size: 1.7rem;
+}
+
+/* Ajuste de la cabecera */
+.text-center {
+  text-align: center;
+}
+
+/* Ajuste para la sección de fecha */
+.fecha-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilo para las secciones del formulario */
+.section {
+  width: 100%;
+  border: 2px solid #c3c3c3;
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+h5 {
+  background-color: #cfcfcf;
+  padding: 5px;
+}
+
+h6 {
+  background-color: #cfcfcf;
+  padding: 5px;
+}
+
+/* Ajuste responsivo para los inputs de la sección 1 */
+.seccion-uno {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.input-container:first-child {
+  flex: 0 0 30%;
+}
+
+.input-container:last-child {
+  flex: 0 0 70%;
+}
+
+.input-container input {
+  width: 100%;
+}
+
+/* Seccion 2.3 */
+/* Estilos para la sección de características de la operación */
+.caracteristicas-operacion {
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+
+    label {
+      flex: 0 0 40%;
+      margin-left: 10px;
+      font-weight: 500;
+      /* El label ocupa el 50% */
+    }
+
+
+    .input-container {
+      display: flex;
+      flex: 0 0 60%;
+      gap: 10px;
+
+      .input-flex {
+        flex: 1;
+        width: 100%;
+      }
+    }
+
+    input,
+    p-inputNumber {
+      flex: 0 0 60%;
+      width: 100%;
+    }
+
+
+
+  }
+}
+
+.error-message {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+
+.p-error {
+  color: red;
+  font-size: 12px;
+}
+
+/* Seccion 2.5 */
+.datos-contacto {
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    label {
+      flex: 0 0 40%;
+      margin-left: 10px;
+      font-weight: 400;
+      /* El label ocupa el 50% */
+    }
+
+    input {
+      flex: 0 0 60%;
+      /* El input ocupa el 50% */
+    }
+  }
+}
+
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+  .seccion-uno {
+    flex-direction: column;
+
+  }
+
+  .input-container {
+    width: 100%;
+  }
+
+  /* seccion 2.3 */
+  .caracteristicas-operacion .row {
+    flex-direction: column;
+
+    label,
+    input {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+  }
+}
+
+
+/* INSTRUCCION FOOTER */
+.subtitulo-validacion {
+  font-size: 18px;
+  /* Ajusta el tamaño de los subtítulos */
+  font-weight: semi-bold;
+  margin: 10px 0;
+  /* Espacio alrededor de los subtítulos */
+  text-align: center;
+  /* Centra los subtítulos */
+}
+
+
+/* RADIO BUTTON CONVERTIDO CON X */
+
+:host ::ng-deep .p-radiobutton {
+  margin-top: 10px;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight,
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight:hover {
+  background-color: transparent;
+  border-color: black;
+  box-shadow: none;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+  border-color: black;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-icon {
+  display: none;
+}
+
+:host ::ng-deep .p-radiobutton.p-radiobutton-checked .p-radiobutton-box:after {
+  content: '✖';
+  color: black;
+  font-size: 16px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  /* Hacer la 'X' más gruesa si es necesario */
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box {
+  border: 2px solid black;
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.firma-valida {
+  border: 2px solid green; /* Borde verde */
+  background-color: #e0ffe0; /* Color de fondo verde claro (opcional) */
+  padding: 10px;
+  border-radius: 5px; /* Bordes redondeados (opcional) */
+  text-align: center; /* Centra el texto */
+}
+
+.firma-no-valida {
+  border: 2px solid red; /* Borde rojo */
+  background-color: #ffe0e0; /* Color de fondo rojo claro (opcional) */
+  padding: 10px;
+  border-radius: 5px; /* Bordes redondeados (opcional) */
+  text-align: center; /* Centra el texto */
+}
+
+input {
+  text-transform: uppercase;
+}
+
+input[formControlName="correo_electronico"] {
+  text-transform: none;
+}
+
+input::placeholder {
+  text-transform: none; /* Mantiene el estilo original del placeholder */
+}
+textarea[formControlName="objeto_operacion_credito"] {
+  text-transform: uppercase;
+}
+

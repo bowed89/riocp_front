@@ -37,8 +37,9 @@ export class MisTramitesComponent {
     this._seguimientoOperadorService.GetSeguimientoOperador(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
-        
-       this.seguimientos = data;
+
+        this.seguimientos = data;
+
       },
       error: (err) => {
         console.error(err);

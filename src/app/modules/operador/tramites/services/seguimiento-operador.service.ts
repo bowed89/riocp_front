@@ -5,6 +5,11 @@ import { API } from 'src/app/shared/api/api';
 import { Response } from 'src/app/shared/interfaces/response.interface';
 
 
+export interface TipoObservacion {
+  observacion: string,
+  estado: boolean
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +38,10 @@ export class SeguimientoOperadorService {
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 
+  GetTipoObservacion(token: string): Observable<Response<TipoObservacion>> {
+    const url = `${API.local}/operador/tipo-observacion`;
+    return this.http.get<Response<TipoObservacion>>(url, this.getHttpOptions(token));
+  }
 
   PostAsignarRevisorAJefeUnidad(body: any, token: string): Observable<Response<any>> {
     const url = `${API.local}/seguimiento/operador/store`;

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectorRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SeguimientoOperadorService } from '../../services/seguimiento-operador.service';
 
@@ -10,6 +10,12 @@ import { SeguimientoOperadorService } from '../../services/seguimiento-operador.
 })
 
 export class DerivarModalComponent implements OnInit {
+
+  // submodales
+  form1ModalVisible: boolean = false; // Para el modal de documentos
+  selectedSolicitudForm: any
+
+
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
   @Input() visible: boolean = false;
@@ -19,14 +25,8 @@ export class DerivarModalComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() seguimientoChanged = new EventEmitter<void>();
 
-  observations = [
-    { requisito: 'Carta de solicitud dirigida...', cumple: 1, observacion: 'El GAM CCQ deberá remitir...' },
-    { requisito: 'Formulario 1...', cumple: 0, observacion: 'Faltan datos importantes...' }
-  ];
-
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
-
   seguimientoForm: FormGroup;
 
   constructor(
@@ -40,7 +40,8 @@ export class DerivarModalComponent implements OnInit {
       usuario_destino_id: [null, Validators.required],
       observacion: ['', Validators.required],
       solicitud_id: [null],
-      id_seguimiento: [null]
+      id_seguimiento: [null],
+      observaciones: this.fb.array([])
     });
   }
 
@@ -54,6 +55,8 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTipoObservacion();
+
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -78,11 +81,45 @@ export class DerivarModalComponent implements OnInit {
     this.visibleChange.emit(this.visible);
   }
 
+
+
+  abrirModales(i: any) {
+    console.log(i);
+    // abrir modal form1
+    if (i === 0) {
+      this.form1ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+
+  }
+
+  getTipoObservacion() {
+    this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
+      next: ({ data }: any) => {
+        data.forEach((res: any) => {
+          this.observationsFormArray.push(this.fb.group({
+            cumple: [0, Validators.required],
+            descripcion: [res.observacion, Validators.required],
+            observacion: ['', Validators.required]
+          }));
+        });
+      },
+      error(err) {
+        console.error(err);
+      },
+    });
+  }
+
+  get observationsFormArray(): FormArray {
+    return this.seguimientoForm.get('observaciones') as FormArray;
+  }
+
+
   onSubmit() {
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
 
-      this._seguimientoOperadorService.PostAsignarRevisorAJefeUnidad(this.seguimientoForm.value, this.token!).subscribe({
+      /* this._seguimientoOperadorService.PostAsignarRevisorAJefeUnidad(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Formulario Agregado', message!);
           this.seguimientoChanged.emit();
@@ -92,7 +129,8 @@ export class DerivarModalComponent implements OnInit {
           this._messagesService.MessageError('Error al Agregar', error.error.message);
           this.closeModal();
         },
-      });
+      }); */
+
     } else {
       this._messagesService.MessageError('Formulario inválido', 'Por favor complete todos los campos requeridos.');
     }

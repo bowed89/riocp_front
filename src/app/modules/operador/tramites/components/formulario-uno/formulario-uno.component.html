@@ -1,0 +1,303 @@
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="visibleForm1" [modal]="true" (onHide)="closeModal()"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+
+    <form class="form-container" [formGroup]="solicitudForm" (ngSubmit)="onSubmit()">
+
+        <div class="grid justify-content-center" id="pdfContent">
+            <p style="text-align: center; font-size: 1.5rem;">FORMULARIO 1</p>
+            <!-- Cabecera -->
+            <div class="col-12 section">
+                <div class="text-center ">
+                    <p class="subtitulo">Viceministerio del Tesoro y Crédito Público</p>
+                    <p class="subtitulo">Dirección General de Administración y Finanzas Territoriales</p><br>
+                    <p class="titulo">SOLICITUD DE REGISTRO DE INICIO DE OPERACIONES</p>
+                    <p class="titulo"> DE CRÉDITO PÚBLICO</p>
+                </div>
+            </div>
+            <!-- Fecha -->
+            <div class="col-12 text-right fecha-container section">
+                <label for="fecha">Fecha:</label>
+                <div style="flex-direction: column; display: flex; align-items: flex-end;">
+                    <input pInputText type="text" [value]="fechaActual" disabled />
+                </div>
+            </div>
+
+            <!-- Sección 1: Entidad Solicitante -->
+            <div class="col-12 section">
+                <h5>SECCIÓN 1: ENTIDAD SOLICITANTE</h5>
+                <div class="seccion-uno">
+                    <div class="input-container">
+                        <input pInputText [value]="numEntidad" disabled />
+                    </div>
+                    <div class="input-container">
+                        <input pInputText [value]="nombreEntidad" disabled />
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Sección 2: Información General -->
+            <div class="col-12 section">
+                <h5>SECCIÓN 2: INFORMACIÓN GENERAL</h5>
+
+                <!-- 2.1 Identificación de la Operación -->
+                <h6>2.1 IDENTIFICACIÓN DE LA OPERACIÓN DE CRÉDITO PÚBLICO (Marcar con una X)</h6>
+
+                <div class="flex justify-content-center gap-3">
+                    <p-radioButton value="1" label="Crédito Público Interno"
+                        formControlName="identificador_id"></p-radioButton>
+                    <p-radioButton value="2" label="Crédito Público Externo"
+                        formControlName="identificador_id"></p-radioButton>
+                </div>
+
+                <!-- 2.2 Acreedor -->
+                <h6>2.2 ACREEDOR</h6>
+                <div class="dropdown-container">
+                    <p-dropdown formControlName="acreedor_id" [options]="acreedores" optionLabel="nombre"
+                        optionValue="id" placeholder="Seleccione un Acreedor" styleClass="w-full">
+                    </p-dropdown>
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('acreedor_id')?.invalid && solicitudForm.get('acreedor_id')?.touched">
+                        <p class="p-error">Seleccione un acreedor.</p>
+                    </div>
+                </div>
+
+                <!-- 2.3 Características de la Operación -->
+                <h6>2.3 CARACTERÍSTICAS DE LA OPERACIÓN DE CRÉDITO PÚBLICO</h6>
+                <div class="caracteristicas-operacion">
+                    <div class="row">
+                        <label>2.3.1 Monto a ser contratado:</label>
+                        <p-inputNumber class="p-fluid" formControlName="monto_total" mode="decimal"
+                            [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                            placeholder="0.000,00">
+                        </p-inputNumber>
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('monto_total')?.invalid && solicitudForm.get('monto_total')?.touched">
+                        <p class="p-error">El monto es obligatorio y debe ser válido.</p>
+                    </div>
+
+                    <div class="row">
+                        <label>2.3.2 Moneda de Origen:</label>
+                        <div class="dropdown-container">
+                            <p-dropdown formControlName="moneda_id" [options]="monedas" optionLabel="nombre"
+                                optionValue="id" placeholder="Seleccione una Moneda" styleClass="w-full">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('moneda_id')?.invalid && solicitudForm.get('moneda_id')?.touched">
+                        <p class="p-error">Seleccione una Moneda.</p>
+                    </div>
+                    <div class="row">
+                        <label>2.3.3 Plazo (Expresado en años):</label>
+                        <p-inputNumber class="p-fluid" placeholder="Ingrese el Plazo" formControlName="plazo" [min]="0"
+                            [max]="100" />
+
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('plazo')?.invalid && solicitudForm.get('plazo')?.touched">
+                        <p class="p-error">El plazo es obligatorio y debe ser válido.</p>
+                    </div>
+
+                    <div class="row">
+                        <label>2.3.4 Tasa de interés (Anual):</label>
+                        <p-inputNumber class="p-fluid" placeholder="Ingrese la tasa de interés"
+                            formControlName="interes_anual" mode="decimal" [minFractionDigits]="2"
+                            [maxFractionDigits]="5" />
+                    </div>
+
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('interes_anual')?.invalid && solicitudForm.get('interes_anual')?.touched">
+                        <p class="p-error">La taza de interés es obligatorio y debe ser válido.</p>
+                    </div>
+
+                    <div class="row">
+                        <label>2.3.5 Comisiones:</label>
+                        <div class="input-container">
+                            <input placeholder="Concepto" [(ngModel)]="comisionConcepto"
+                                [ngModelOptions]="{standalone: true}" pInputText class="input-flex" />
+                            <!-- <p-inputNumber class="p-fluid" placeholder="Tasa" [(ngModel)]="comisionTasa"
+                            [ngModelOptions]="{standalone: true}" /> -->
+                            <p-inputNumber class="p-fluid" placeholder="Tasa" [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="comisionTasa" mode="decimal" [minFractionDigits]="2"
+                                [maxFractionDigits]="5" />
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <label>2.3.6 Periodicidad de Pago:</label>
+                        <div class="dropdown-container">
+                            <p-dropdown formControlName="periodo_id" [options]="periodos" optionLabel="nombre"
+                                optionValue="id" placeholder="Seleccione un Periodo" styleClass="w-full">
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('periodo_id')?.invalid && solicitudForm.get('periodo_id')?.touched">
+                        <p class="p-error">Seleccione un periodo.</p>
+                    </div>
+
+                    <div class="row">
+                        <label>2.3.7 Periodo de Gracia (Expresado en años):</label>
+                        <p-inputNumber class="p-fluid" placeholder="Periodo de Gracia (Expresado en años)"
+                            formControlName="periodo_gracia" />
+                    </div>
+
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('periodo_gracia')?.invalid && solicitudForm.get('periodo_gracia')?.touched">
+                        <p class="p-error">El periodo de gracia es obligatorio y debe ser válido.</p>
+                    </div>
+                </div>
+
+                <!-- 2.4 Objeto de la Operación -->
+                <h6>2.4 OBJETO DE LA OPERACIÓN DE CRÉDITO PÚBLICO</h6>
+                <textarea pInputTextarea rows="5" formControlName="objeto_operacion_credito" class="w-full"></textarea>
+                <label>
+                    (Cuando el financiamiento esté destinado a varios proyectos de inversión, se deberá adjuntar los
+                    nombres, montos y aclarar si los recursos cubrirán contrapartes locales)
+                </label>
+
+                <!-- Mensaje de error  -->
+                <div class="error-message"
+                    *ngIf="solicitudForm.get('objeto_operacion_credito')?.invalid && solicitudForm.get('objeto_operacion_credito')?.touched">
+                    <p class="p-error">El objeto de operación es obligatorio y debe ser válido.</p>
+                </div>
+
+                <!-- 2.5 Datos de Contacto -->
+                <h6>2.5 DATOS DE CONTACTO DEL RESPONSABLE DE SUBSANAR LAS OBSERVACIONES AL TRÁMITE</h6>
+                <div class="datos-contacto">
+                    <div class="row">
+                        <label>1. Nombre Completo:</label>
+                        <input pInputText formControlName="nombre_completo" placeholder="Ingrese el nombre completo" />
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('nombre_completo')?.invalid && solicitudForm.get('nombre_completo')?.touched">
+                        <p class="p-error">El nombre completo es obligatorio y debe ser válido.</p>
+                    </div>
+                    <div class="row">
+                        <label>2. Cargo:</label>
+                        <input pInputText formControlName="cargo" placeholder="Ingrese el cargo" />
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('cargo')?.invalid && solicitudForm.get('cargo')?.touched">
+                        <p class="p-error">El cargo es obligatorio y debe ser válido.</p>
+                    </div>
+                    <div class="row">
+                        <label>3. Correo Electrónico:</label>
+                        <input pInputText formControlName="correo_electronico"
+                            placeholder="Ingrese su correo electrónico" />
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('correo_electronico')?.invalid && solicitudForm.get('correo_electronico')?.touched">
+                        <p class="p-error">El correo electrónico es obligatorio y debe ser válido.</p>
+                    </div>
+                    <div class="row">
+                        <label>4. Número Teléfono/Celular:</label>
+                        <input pInputText formControlName="telefono" placeholder="Ingrese el número teléfono/celular" />
+                    </div>
+                    <!-- Mensaje de error  -->
+                    <div class="error-message"
+                        *ngIf="solicitudForm.get('telefono')?.invalid && solicitudForm.get('telefono')?.touched">
+                        <p class="p-error">El teléfono es obligatorio y debe ser válido.</p>
+                    </div>
+                    <p><strong>Nota:</strong> De no tener los datos del contacto y en caso de presentarse
+                        observaciones
+                        a la
+                        información
+                        presentada por la Entidad, se procederá a la devolución del trámite.</p>
+                </div>
+
+                <!-- 2.4 Objeto de la Operación -->
+                <h6>SECCIÓN 3 DECLARACIÓN JURADA Y COMPROMISO DE USO DE RECURSOS</h6>
+                <h4 class="declaracion-jurada">
+                    <!--     YO {{ usuarioEntidad}} EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
+                DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
+                CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
+                A UTILIZAR LOS RECURSOS PROVENIENTES DE LA OPERACIÓN DE CRÉDITO PÚBLICO SOLICITADA PARA
+                LOS FINES DECLARADOS EN EL PRESENTE FORMULARIO(RUBRO 2.4 OBJETO DE LA OPERACIÓN DE
+                CRÉDITO PÚBLICO). -->
+                    YO <input formControlName="declaracion_jurada" pInputText
+                        placeholder="Nombre para la declaración jurada" [style.width.px]="inputWidth"
+                        (input)="adjustWidth($event)" />
+                    EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
+                    DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
+                    CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
+                    A UTILIZAR LOS RECURSOS PROVENIENTES DE LA OPERACIÓN DE CRÉDITO PÚBLICO SOLICITADA PARA
+                    LOS FINES DECLARADOS EN EL PRESENTE FORMULARIO(RUBRO 2.4 OBJETO DE LA OPERACIÓN DE
+                    CRÉDITO PÚBLICO).
+                </h4>
+            </div>
+        </div>
+
+        <div>
+            <h6 class="titulo-validacion">
+                PARA COMPLETAR EL PROCESO DE LLENADO LA MAXIMA AUTORIDAD EJECUTIVA
+                DEBE FIRMAR DIGITALMENTE EL PRESENTE FORMULARIO Y REALIZAR LOS SIGUIENTES PASOS:
+            </h6>
+            <div class="row">
+                <p class="subtitulo-validacion">
+                    1.- EXPORTE SU FORMULARIO A ARCHIVO PDF.
+                </p>
+                <div class="text-center">
+                    <!-- Botón PDF -->
+                    <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf"
+                        (click)="toPdf()"></button>
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="subtitulo-validacion">
+                    2.- SUBA SU FORMULARIO PDF CON SU FIRMA DIGITAL.
+                </p>
+                <div class="text-center">
+                    <p-fileUpload chooseLabel="Subir Archivo PDF" cancelLabel="Cancelar" [showUploadButton]="false"
+                        [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()"
+                        [multiple]="false" accept=".pdf" [maxFileSize]="10000000">
+                    </p-fileUpload>
+                </div>
+            </div>
+            <!--      <div class="error-message" *ngIf="spinnerFirma">
+            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+                animationDuration=".5s" />
+        </div> -->
+
+            <div *ngIf="firmaValido" class="firma-valida">
+                <h4 style="color: green;">FIRMA DIGITAL VÁLIDA</h4>
+                <p>NOMBRE: {{firmaNombre}}</p>
+                <p>INICIO DE VALIDEZ: {{firmaInicioValidez}}</p>
+                <p>FIN DE VALIDEZ: {{firmaFinValidez}}</p>
+            </div>
+
+            <div *ngIf="firmaNoValido" class="firma-no-valida">
+                <p style="color: red;">{{firmaMensajeError}}</p>
+            </div>
+
+            <div class="row">
+                <p class="subtitulo-validacion">
+                    3.- GUARDE SU FORMULARIO.
+                </p>
+                <div class="text-center">
+                    <button pButton type="submit" class="p-button-success" label="Guardar Formulario" icon="pi pi-check"
+                        [disabled]="solicitudForm.invalid"></button>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+</p-dialog>
