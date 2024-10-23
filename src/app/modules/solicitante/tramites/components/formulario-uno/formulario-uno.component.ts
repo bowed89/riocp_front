@@ -23,17 +23,12 @@ export class FormularioUnoComponent {
   fechaActual: string = '';
   // Datoe Entidad
   nombreEntidad: string = '';
-  usuarioEntidad: string = '';
   idEntidad: number = 0;
   numEntidad: number = 0;
 
   acreedores: any[] = [{ name: '', code: '' }];
   monedas: any[] = [];
   periodos: any[] = [];
-  // Comisiones
-  comisionConcepto: string = '';
-  comisionTasa: any;
-
   formularioLlenada: boolean = false;
   spinnerFirma: boolean = false;
   firmaValido: boolean = false;
@@ -63,7 +58,8 @@ export class FormularioUnoComponent {
       moneda_id: ['', Validators.required],
       plazo: [null, Validators.required],
       interes_anual: [null, Validators.required],
-      comisiones: [''],
+      comision_concepto: [''],
+      comision_tasa: [''],
       periodo_id: ['', Validators.required],
       periodo_gracia: [null, Validators.required],
       objeto_operacion_credito: ['', Validators.required],
@@ -118,12 +114,6 @@ export class FormularioUnoComponent {
   }
 
   onSubmit() {
-    if (this.comisionConcepto !== '' || this.comisionTasa !== '') {
-      this.solicitudForm.patchValue({ comisiones: `CONCEPTO: ${this.comisionConcepto} | TASA INTERES: ${this.comisionTasa}` });
-    } else {
-      this.solicitudForm.patchValue({ comisiones: '' });
-    }
-
     if (this.solicitudForm.valid) {
       const formData = new FormData();
 
@@ -139,7 +129,7 @@ export class FormularioUnoComponent {
           formData.append(key, this.solicitudForm.get(key)?.value);
         }
       });
-      
+
       this._solicitudService.PostSolicitudRiocp(formData, this.token!)
         .subscribe({
           next: ({ message }) => {
@@ -156,7 +146,6 @@ export class FormularioUnoComponent {
   getEntidadesByUserRol() {
     this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
       this.nombreEntidad = (data[0].denominacion).toUpperCase();
-      this.usuarioEntidad = (`${data[0].nombre} ${data[0].apellido}`).toUpperCase();
       this.idEntidad = data[0].entidad_id;
       this.numEntidad = data[0].num_entidad;
 

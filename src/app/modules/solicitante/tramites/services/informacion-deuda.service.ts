@@ -27,6 +27,11 @@ export class InformacionDeudaService {
     };
   }
 
+    GetInformacionById(token: string, id: number): Observable<Response<any>> {
+    const url = `${API.local}/informacion-deuda/id/${id}`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  }
+
   PostInformacionDeuda(solicitud: any, token: string): Observable<Response<any>> {
     const url = `${API.local}/informacion-deuda/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));

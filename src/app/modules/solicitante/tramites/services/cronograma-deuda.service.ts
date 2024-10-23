@@ -18,6 +18,7 @@ export class CronogramaDeudaService {
 
   constructor(
     private http: HttpClient
+
   ) { }
 
   private getHttpOptions(token: string): { headers: HttpHeaders } {
@@ -32,6 +33,12 @@ export class CronogramaDeudaService {
     const url = `${API.local}/cronograma-deuda/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
   };
+
+  GetCronogramaById(id: number, token: string): Observable<Response<any>> {
+    const url = `${API.local}/cronograma-deuda/formulario/${id}`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  };
+
 
 
 }

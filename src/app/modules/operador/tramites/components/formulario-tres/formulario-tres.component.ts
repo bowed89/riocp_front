@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
 import { MonedasService } from 'src/app/shared/services/monedas.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { CalendarioEs } from 'src/app/shared/utils/calendario-es';
-import { CronogramaDeudaService } from '../../services/cronograma-deuda.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
-import { TramitesService } from '../../services/tramites.service';
+import { CronogramaDeudaService } from 'src/app/modules/solicitante/tramites/services/cronograma-deuda.service';
+import { TramitesService } from 'src/app/modules/solicitante/tramites/services/tramites.service';
 
 
 interface Pago {
@@ -19,11 +19,18 @@ interface Pago {
 }
 
 @Component({
-  selector: 'app-formulario-tres',
+  selector: 'app-formulario-tres-view',
   templateUrl: './formulario-tres.component.html',
   styleUrls: ['./formulario-tres.component.scss']
 })
 export class FormularioTresComponent {
+  // MODAL
+  @Input() visibleForm3: boolean = false;
+  @Input() selectedSolicitudForm: any;
+
+  @Output() visibleForm3Change: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+
   deudaForm!: FormGroup;
   acreedores: any[] = [{ name: '', code: '' }];
   monedas: any[] = [];
@@ -48,14 +55,18 @@ export class FormularioTresComponent {
     public _cronogramaDeudaService: CronogramaDeudaService,
     private primengConfig: PrimeNGConfig,
     public _tramitesService: TramitesService,
-
-
   ) {
+  }
+
+  ngOnChanges(): void {
+    this.limpiarFormulario();
+
+    if (this.selectedSolicitudForm !== undefined)
+      this.obtenerCronogramaPorId();
   }
 
   ngOnInit(): void {
     this.primengConfig.setTranslation(CalendarioEs);
-
     this.obtenerAcreedores();
     this.obtenerMonedas();
 
@@ -69,59 +80,29 @@ export class FormularioTresComponent {
       total_sum: [0, Validators.required],
       cuadro_pagos: this.fb.array([]),
       total_saldo: [0, Validators.required], // Agregado
-
     });
+
     // Suscribirse a los cambios de `total_saldo`
     this.deudaForm.get('total_saldo')?.valueChanges.subscribe((nuevoSaldoTotal) => {
       console.log("nuevoSaldoTotal", nuevoSaldoTotal);
       this.actualizarSaldoInicial(nuevoSaldoTotal);
     });
 
-    // Inicio con una fila de pagos
-    this.agregarFila();
+    this.deudaForm.disable();
+
   }
 
-  onSubmit() {
-    // Agrego saldo y total manualmente  porque estan deshabilitados sus campos y no agregan automatico.
-    // tambioen agrego las sumas totales
-    const cuadroPagos = this.cuadroPagos.controls.map(control => {
-      return {
-        ...control.value,
-        saldo: control.get('saldo')?.value,
-        total: control.get('total')?.value,
-        fecha_vencimiento: this.changeFormatDate(control.get('fecha_vencimiento')?.value),
-      };
-    });
-
-    const deudaFormValue = {
-      ...this.deudaForm.value,
-      cuadro_pagos: cuadroPagos,
-      total_capital: this.total.capital,
-      total_comisiones: this.total.comisiones,
-      total_interes: this.total.interes,
-      total_sum: this.total.total
-    };
-
-    if (this.deudaForm.valid) {
-      this._cronogramaDeudaService.PostCronogramaDeuda(deudaFormValue, this.token!)
-        .subscribe({
-          next: ({ message }) => {
-            this._messagesService.MessageSuccess('Formulario Agregado', message!);
-          },
-
-          error: (error) => {
-            console.log("error", error);
-
-            this._messagesService.MessageError('Error al Agregar', error.error.message);
-          },
-          complete: () => {
-            setTimeout(() => {
-              console.log('El proceso ha finalizado completamente.');
-            }, 2000);
-          }
-        });
-    }
+  closeModal() {
+    this.visibleForm3 = false;
+    this.visibleForm3Change.emit(this.visibleForm3);
   }
+
+  limpiarFormulario() {
+    this.deudaForm.reset(); 
+    const cuadroPagosArray = this.deudaForm.get('cuadro_pagos') as FormArray;
+    cuadroPagosArray.clear();
+  }
+
 
   changeFormatDate(date: any) { // 2024-10-30
     let fechaOriginal = new Date(date);
@@ -129,6 +110,48 @@ export class FormularioTresComponent {
     let month = (fechaOriginal.getMonth() + 1).toString().padStart(2, '0');
     let day = fechaOriginal.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+
+  obtenerCronogramaPorId() {
+    this._cronogramaDeudaService.GetCronogramaById(this.selectedSolicitudForm, this.token!)
+      .subscribe({
+        next: ({ data }: any) => {
+          this.deudaForm.patchValue({
+            acreedor_id: data.data.acreedor_id,
+            objeto_deuda: data.data.objeto_deuda,
+            moneda_id: data.data.moneda_id,
+            total_saldo: data.data.total_saldo,
+          });
+
+          data.data.cuadro_pagos.forEach((pago: any) => {
+            pago.fecha_vencimiento = new Date(pago.fecha_vencimiento);
+            this.agregarFilaDesdeServicio(pago);
+          });
+
+          this.actualizarTotales();
+
+        }, error: (err) => {
+          console.error(err);
+
+        },
+
+      })
+  }
+
+  agregarFilaDesdeServicio(pago: any) {
+    const fila = this.fb.group({
+      fecha_vencimiento: [pago.fecha_vencimiento, Validators.required],
+      capital: [parseFloat(pago.capital), Validators.required],
+      interes: [parseFloat(pago.interes), Validators.required],
+      comisiones: [parseFloat(pago.comisiones), Validators.required],
+      total: [{ value: parseFloat(pago.total), disabled: true }, Validators.required],
+      saldo: [{ value: parseFloat(pago.saldo), disabled: true }, Validators.required],
+      estado: [pago.estado]
+    });
+
+    fila.disable();
+    // Agregar la fila al FormArray
+    this.cuadroPagos.push(fila);
   }
 
   obtenerAcreedores() {
@@ -154,6 +177,7 @@ export class FormularioTresComponent {
 
   }
 
+
   restarSaldoConCapital(i: number) {
     if (i === 0) {
       // Restar capital de la primera fila con saldo principal
@@ -169,6 +193,7 @@ export class FormularioTresComponent {
     }
 
   }
+
 
   actualizarTotales() {
     this.total.capital = 0;
@@ -200,6 +225,7 @@ export class FormularioTresComponent {
   }
 
 
+
   agregarFila() {
     const index = this.cuadroPagos.length; //  indice de la nueva fila
     // Obtengo el saldo de la fila anterior o 0 si es la primera fila
@@ -213,14 +239,14 @@ export class FormularioTresComponent {
       interes: [0, Validators.required],
       comisiones: [0, Validators.required],
       total: [{ value: 0, disabled: true }, Validators.required],
-      //saldo: [{ value: saldoAnterior - (index > 0 ? this.cuadroPagos.at(index - 1).get('capital')?.value || 0 : 0), disabled: true }, Validators.required]
-      saldo: [{ value: saldoAnterior, disabled: true }, Validators.required]
+      saldo: [{ value: saldoAnterior - (index > 0 ? this.cuadroPagos.at(index - 1).get('capital')?.value || 0 : 0), disabled: true }, Validators.required]
     });
 
     // sumo capital + interes + comisiones  y lo muestro en el campo total
     cuadro.get('capital')?.valueChanges.subscribe(() => this.calcularTotal(cuadro, index));
     cuadro.get('interes')?.valueChanges.subscribe(() => this.calcularTotal(cuadro, index));
     cuadro.get('comisiones')?.valueChanges.subscribe(() => this.calcularTotal(cuadro, index));
+
     this.cuadroPagos.push(cuadro);
     this.actualizarTotales();
   }
@@ -244,20 +270,9 @@ export class FormularioTresComponent {
 
 
   eliminarFila(index: number) {
-    if (index === 0) { // si elimino todas las filas el saldo total se vuelve cero '0'
-      this.deudaForm.get('total_saldo')?.setValue(0);
-    }
     this.cuadroPagos.removeAt(index);
     this.actualizarTotales();
   }
-
-  /* actualizarSaldoInicial(nuevoSaldoTotal: number) {
-    if (this.cuadroPagos.length > 0) {
-      const saldo = 2;
-      this.cuadroPagos.at(0).patchValue({ saldo: nuevoSaldoTotal - saldo });
-    }
-  }
-   */
 
   actualizarSaldoInicial(nuevoSaldoTotal: number) {
     if (this.cuadroPagos.length > 0) {
@@ -266,4 +281,5 @@ export class FormularioTresComponent {
   }
 
 }
+
 

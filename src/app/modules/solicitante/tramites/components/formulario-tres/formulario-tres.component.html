@@ -60,7 +60,7 @@
             <div class="cuadro-pagos2">
                 <label>Ingrese el Saldo Total:</label>
                 <p-inputNumber class="p-fluid" mode="decimal"
-                    formControlName="saldoTotal"
+                    formControlName="total_saldo"
                     (ngModelChange)="actualizarTotales()" [minFractionDigits]="2" [maxFractionDigits]="2"
                     [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
                 </p-inputNumber>
@@ -98,7 +98,7 @@
                         </td>
                         <td>
                             <p-inputNumber class="p-fluid" formControlName="capital" mode="decimal"
-                                (ngModelChange)="actualizarTotales()" (onInput)="restarCapitalSaldoPrimeraFila(i)" [minFractionDigits]="2" [maxFractionDigits]="2"
+                                (ngModelChange)="actualizarTotales()" (onInput)="restarSaldoConCapital(i)" [minFractionDigits]="2" [maxFractionDigits]="2"
                                 [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
                             </p-inputNumber>
                             <div *ngIf="pago.get('capital')?.invalid && pago.get('capital')?.touched"

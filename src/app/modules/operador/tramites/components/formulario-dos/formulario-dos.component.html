@@ -1,0 +1,95 @@
+<p-toast></p-toast>
+<p-dialog [(visible)]="visibleForm2" [modal]="true" (onHide)="closeModal()">
+    <div class="form-container">
+        <form [formGroup]="deudaForm">
+            <div class="grid justify-content-center">
+                <div class="col-12 section">
+                    <h5>INFORMACIÓN DE DEUDA</h5>
+                    <div class="informacion">
+                        <div class="row">
+                            <!-- Pregunta 1 -->
+                            <label>1 ¿La entidad tiene deudas con saldos por desembolsar al 31 de diciembre de la
+                                gestión
+                                anterior?
+                                <br /><br />
+                                SI: Adjuntar el Formulario 4 Cronograma de Desembolsos <br />
+                                NO: La entidad no debe presentar ningún documento
+                            </label>
+                            <div class="flex justify-content-center gap-4">
+                                <p-radioButton name="pregunta_1" [value]="1" formControlName="pregunta_1"
+                                    label="SI"></p-radioButton>
+                                <p-radioButton name="pregunta_1" [value]="0" formControlName="pregunta_1"
+                                    label="NO"></p-radioButton>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="row">
+                            <label>2 ¿Se realizaron modificaciones a las condiciones financieras de deudas contratadas?
+                                <br /><br />
+                                SI: Adjuntar el Formulario 3 Cronograma de Servicio de Deuda <br />
+                                NO: La entidad no debe presentar ningún documento
+                            </label>
+                            <div class="flex justify-content-center gap-4">
+                                <p-radioButton name="pregunta_2" [value]="1" formControlName="pregunta_2"
+                                    label="SI"></p-radioButton>
+                                <p-radioButton name="pregunta_2" [value]="0" formControlName="pregunta_2"
+                                    label="NO"></p-radioButton>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="row">
+                            <label>3 ¿Se realizaron modificaciones al monto de deudas contratadas o certificados de
+                                RIOCP
+                                vigentes?
+                                <br /><br />
+                                SI: Adjuntar el Formulario 3 Cronograma de Servicio de Deuda <br />
+                                NO: La entidad no debe presentar ningún documento
+                            </label>
+                            <div class="flex justify-content-center gap-4">
+                                <p-radioButton name="pregunta_3" [value]="1" formControlName="pregunta_3"
+                                    label="SI"></p-radioButton>
+                                <p-radioButton name="pregunta_3" [value]="0" formControlName="pregunta_3"
+                                    label="NO"></p-radioButton>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="row">
+                            <label>4 ¿Tiene algún Certificado de Registro de Inicio de Operaciones de Crédito Público
+                                cuya
+                                contratación no se concretará?
+                                <br /><br />
+                                SI: Adjuntar el Certificado de Registro de Inicio de Operaciones de Crédito Público
+                                ORIGINAL
+                                <br />
+                                NO: La entidad no debe presentar ningún documento
+                            </label>
+                            <div class="flex justify-content-center gap-4">
+                                <p-radioButton name="pregunta_4" [value]="1" formControlName="pregunta_4"
+                                    label="SI"></p-radioButton>
+                                <p-radioButton name="pregunta_4" [value]="0" formControlName="pregunta_4"
+                                    label="NO"></p-radioButton>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Documento Adjunto -->
+                    <div class="cronograma-container" *ngIf="deudaForm.get('pregunta_4')?.value">
+                        <br>
+                        <p class="subtitulo" for="documento">Descargar Certificado no Vigente:</p>
+                        <div>
+                            <button pButton type="button" class="p-button-warning" icon="pi pi-download"
+                                (click)="openDocument()"></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                <button pButton type="button" class="p-button-danger" label="Cerrar" icon="pi pi-close"
+                    (click)="closeModal()"></button>
+            </div>
+        </form>
+    </div>
+</p-dialog>

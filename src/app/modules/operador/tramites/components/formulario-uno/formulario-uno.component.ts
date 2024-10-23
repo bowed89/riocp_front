@@ -4,11 +4,11 @@ import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
 import { EntidadeService } from 'src/app/shared/services/entidades.service';
 import { MonedasService } from 'src/app/shared/services/monedas.service';
 import { PeriodoService } from 'src/app/shared/services/periodos.service';
-import { generatePDF } from 'src/app/shared/utils/generatePdf';
 import { FirmaDigitalService } from 'src/app/shared/services/firma-digital.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
-import { TramitesService } from 'src/app/modules/solicitante/tramites/services/tramites.service';
 import { SolicitudService } from 'src/app/modules/solicitante/tramites/services/solicitud.service';
+import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
+
 @Component({
   selector: 'app-formulario-uno-view',
   templateUrl: './formulario-uno.component.html',
@@ -28,9 +28,8 @@ export class FormularioUnoComponent {
   fechaActual: string = '';
   // Datoe Entidad
   nombreEntidad: string = '';
-  usuarioEntidad: string = '';
-  idEntidad: number = 0;
   numEntidad: number = 0;
+  idEntidad: number = 0;
 
   acreedores: any[] = [{ name: '', code: '' }];
   monedas: any[] = [];
@@ -46,7 +45,6 @@ export class FormularioUnoComponent {
   firmaNombre = '';
   firmaInicioValidez = '';
   firmaFinValidez = '';
-  firmaMensajeError = '';
 
   constructor(
     private fb: FormBuilder,
@@ -57,6 +55,7 @@ export class FormularioUnoComponent {
     public _firmaDigitalService: FirmaDigitalService,
     public _solicitudService: SolicitudService,
     public _messagesService: MessagesService,
+    public _abrirDocumentoService: AbrirDocumentoService
 
   ) {
     this.solicitudForm = this.fb.group({
@@ -67,7 +66,8 @@ export class FormularioUnoComponent {
       moneda_id: ['', Validators.required],
       plazo: [null, Validators.required],
       interes_anual: [null, Validators.required],
-      comisiones: [''],
+      comision_concepto: [''],
+      comision_tasa: [''],
       periodo_id: ['', Validators.required],
       periodo_gracia: [null, Validators.required],
       objeto_operacion_credito: ['', Validators.required],
@@ -89,93 +89,73 @@ export class FormularioUnoComponent {
         this.formularioLlenada = false;
       }
     });
-  }
+  };
 
   ngOnChanges(): void {
-    console.log("this.selectedSolicitudForm ::))) ===>", this.selectedSolicitudForm);
-
+    if (this.selectedSolicitudForm !== undefined)
+      this.getValueSolicitante();
   }
 
   ngOnInit(): void {
-    this.fechaActual = this.obtenerFechaActual();
-    this.getEntidadesByUserRol();
+    //this.fechaActual = this.obtenerFechaActual();
     this.obtenerAcreedores();
     this.obtenerMonedas();
     this.obtenerPeriodos();
+
+  }
+
+  getValueSolicitante() {
+    this._solicitudService.GetSolicitudById(this.token!, this.selectedSolicitudForm).subscribe({
+      next: ({ data }: any) => {
+        console.log(data[0]);
+
+        this.solicitudForm.patchValue({
+          entidad_id: data[0].entidad_id,
+          identificador_id: data[0].identificador_id,
+          acreedor_id: data[0].acreedor_id,
+          monto_total: data[0].monto_total,
+          moneda_id: data[0].moneda_id,
+          plazo: data[0].plazo,
+          interes_anual: data[0].interes_anual,
+          comision_concepto: data[0].comision_concepto,
+          comision_tasa: data[0].comision_tasa,
+          periodo_id: data[0].periodo_id,
+          periodo_gracia: data[0].periodo_gracia,
+          objeto_operacion_credito: data[0].objeto_operacion_credito,
+          nombre_completo: data[0].nombre_completo,
+          cargo: data[0].cargo,
+          correo_electronico: data[0].correo_electronico,
+          telefono: data[0].telefono,
+          firma_digital: data[0].firma_digital ? 1 : 0,
+          documento: data[0].ruta_documento,
+          declaracion_jurada: data[0].declaracion_jurada,
+        });
+
+        this.solicitudForm.disable();
+        // entidades inputs
+        this.numEntidad = data[0].entidad_id;
+        this.nombreEntidad = data[0].denominacion;
+
+        // firma digital msg
+        if (data[0].firma_digital) {
+          this.firmaValido = true;
+        } else {
+          this.firmaNoValido = true;
+        }
+
+        // hora creacion del formulario
+        this.fechaActual = data[0].created_at;
+
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   closeModal() {
     this.visibleForm1 = false;
     this.visibleForm1Change.emit(this.visibleForm1);
-  }
-
-
-  adjustWidth(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const tempSpan = document.createElement('span');
-    tempSpan.style.visibility = 'hidden';
-    tempSpan.style.position = 'absolute';
-    tempSpan.style.whiteSpace = 'pre';
-    tempSpan.textContent = inputElement.value || inputElement.placeholder;
-
-    // Aplicar los mismos estilos de fuente para calcular el ancho correcto
-    const inputStyle = window.getComputedStyle(inputElement);
-    tempSpan.style.font = inputStyle.font;
-    tempSpan.style.padding = inputStyle.padding;
-
-    document.body.appendChild(tempSpan);
-
-    // Ajustar el ancho del input al ancho del span temporal
-    this.inputWidth = tempSpan.offsetWidth + 20; // +20 para margen adicional
-
-    // Eliminar el span temporal
-    document.body.removeChild(tempSpan);
-  }
-
-  onSubmit() {
-    if (this.comisionConcepto !== '' || this.comisionTasa !== '') {
-      this.solicitudForm.patchValue({ comisiones: `CONCEPTO: ${this.comisionConcepto} | TASA INTERES: ${this.comisionTasa}` });
-    } else {
-      this.solicitudForm.patchValue({ comisiones: '' });
-    }
-
-    if (this.solicitudForm.valid) {
-      const formData = new FormData();
-
-      Object.keys(this.solicitudForm.controls).forEach(key => {
-        if (key === 'documento') {
-          const file = this.solicitudForm.get(key)?.value;
-          if (file instanceof File) {
-            formData.append(key, file, file.name);
-          } else {
-            console.error('No se seleccionó un archivo.');
-          }
-        } else {
-          formData.append(key, this.solicitudForm.get(key)?.value);
-        }
-      });
-
-      this._solicitudService.PostSolicitudRiocp(formData, this.token!)
-        .subscribe({
-          next: ({ message }) => {
-            this._messagesService.MessageSuccess('Formulario Agregado', message!);
-
-          }, error: (error) => {
-            this._messagesService.MessageError('Error al Agregar', error.error.message);
-          }
-        });
-    }
-  }
-
-
-  getEntidadesByUserRol() {
-    this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
-      // this.nombreEntidad = (data[0].denominacion).toUpperCase();
-      this.usuarioEntidad = (`${data[0].nombre} ${data[0].apellido}`).toUpperCase();
-      this.idEntidad = data[0].entidad_id;
-      this.numEntidad = data[0].num_entidad;
-
-    });
   }
 
   obtenerAcreedores() {
@@ -213,68 +193,19 @@ export class FormularioUnoComponent {
     return `${dia}/${mes}/${anio}`;
   }
 
-  toPdf() {
-    generatePDF();
-  }
 
-  onFileSelect(event: any) {
-    const file = event.files[0];
-    if (file) {
-      const maxSize = 11000000; // 11MB max
-      if (file.type !== 'application/pdf') {
-        this.solicitudForm.get('documento')?.setErrors({ invalidFileType: true });
-      } else if (file.size > maxSize) {
-        this.solicitudForm.get('documento')?.setErrors({ maxSizeExceeded: true });
-      } else {
-        // Convertir pdf a base64 y validar firma digital
-        this.spinnerFirma = true;
-
-        this._firmaDigitalService.ValidateDigitalSign(file, this.token!).subscribe(data => {
-          console.log("firma digital ===>", data);
-          this.spinnerFirma = true;
-          this.onFileRemove();
-
-          if (data.length > 0) {
-            // valido cadenaConfianza,noModificado,firmadoAntesRevocacion,firmadoDuranteVigencia sean true
-            if (data[0].cadenaConfianza &&
-              data[0].noModificado &&
-              data[0].firmadoAntesRevocacion &&
-              data[0].firmadoDuranteVigencia) {
-
-              this.firmaValido = true;
-              this.firmaNombre = data[0].certificado.nombreSignatario;
-              this.firmaInicioValidez = data[0].certificado.inicioValidez;
-              this.firmaFinValidez = data[0].certificado.finValidez;
-
-              this.solicitudForm.patchValue({ firma_digital: 1, entidad_id: this.idEntidad });
-              this.solicitudForm.get('documento')?.setErrors(null); // Resetea errores si es válido
-              this.solicitudForm.get('documento')?.setValue(file); // Guardar el archivo en el control
-
-            } else {
-              this.firmaMensajeError = 'LA VALIDEZ DE LA FIRMA DIGITAL VENCIO O TIENE PROBLEMAS';
-              this.solicitudForm.patchValue({ firma_digital: 0 });
-            }
-
-          } else {
-            this.firmaNoValido = true;
-            this.firmaMensajeError = 'EL DOCUMENTO NO CUENTA CON FIRMA DIGITAL';
-            this.solicitudForm.patchValue({ firma_digital: 0 });
-
-          }
-          this.spinnerFirma = false;
-        });
-
+  openDocument() {
+    this._abrirDocumentoService.GetDocumentoRiocp(this.token!, this.selectedSolicitudForm).subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'documento.pdf';
+        a.click();
+      }, error: (err) => {
+        console.log(err);
       }
-    }
-  }
-
-  onFileRemove() {
-    this.solicitudForm.get('documento')?.setValue('');
-    this.firmaValido = false;
-    this.firmaNoValido = false;
-    this.firmaNombre = ''
-    this.firmaInicioValidez = ''
-    this.firmaFinValidez = ''
+    })
   }
 
 }

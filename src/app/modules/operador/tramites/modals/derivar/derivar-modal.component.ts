@@ -13,6 +13,9 @@ export class DerivarModalComponent implements OnInit {
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
+  form2ModalVisible: boolean = false; 
+  form3ModalVisible: boolean = false; 
+
   selectedSolicitudForm: any
 
 
@@ -33,7 +36,7 @@ export class DerivarModalComponent implements OnInit {
     private fb: FormBuilder,
     public _seguimientoOperadorService: SeguimientoOperadorService,
     public _messagesService: MessagesService,
-    private cdr: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef
   ) {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
@@ -79,6 +82,8 @@ export class DerivarModalComponent implements OnInit {
   closeModal() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
+    this.cdRef.detectChanges(); // Fuerza la detección de cambios
+
   }
 
 
@@ -90,6 +95,15 @@ export class DerivarModalComponent implements OnInit {
       this.form1ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
+    if (i === 1) {
+      this.form2ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+    if (i === 2) {
+      this.form3ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+
 
   }
 

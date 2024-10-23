@@ -1,7 +1,6 @@
 <p-toast></p-toast>
 
-<p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-    [style]="{ width: '90vw' }" (onHide)="closeModal()">
+<p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false"  [modal]="true" (onHide)="closeModal()">
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
@@ -117,6 +116,14 @@
     <!-- MODAL FORMULARIO 1 -->
     <app-formulario-uno-view [(visibleForm1)]="form1ModalVisible"
         [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-uno-view>
+
+    <!-- MODAL FORMULARIO 2 -->
+    <app-formulario-dos-view [(visibleForm2)]="form2ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-dos-view>
+    
+        <!-- MODAL FORMULARIO 3 -->
+    <app-formulario-tres-view [(visibleForm3)]="form3ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-tres-view>
 
 
 

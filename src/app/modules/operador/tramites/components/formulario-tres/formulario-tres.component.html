@@ -1,0 +1,179 @@
+<p-toast></p-toast>
+<p-dialog [(visible)]="visibleForm3" [modal]="true" [draggable]="false" [closeOnEscape]="false" [modal]="true"
+    [closeOnEscape]="false" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" (onHide)="closeModal()">
+
+
+
+    <form class="form-container" [formGroup]="deudaForm">
+        <div class="grid justify-content-center">
+            <!-- Cabecera -->
+            <div class="col-12">
+                <div class="text-center">
+                    <h3 class="titulo">
+                        CRONOGRAMA DEL SERVICIO DE LA DEUDA
+                    </h3>
+                </div>
+            </div>
+
+            <!-- Sección 2: Información General -->
+            <div class="col-12 section">
+                <!-- 2.3 Características de la Operación -->
+                <div class="caracteristicas-operacion">
+                    <div class="row">
+                        <label>Acreedor:</label>
+                        <p-dropdown formControlName="acreedor_id" [options]="acreedores" optionLabel="nombre"
+                            optionValue="id" placeholder="Seleccione un Acreedor" styleClass="w-full">
+                        </p-dropdown>
+
+                    </div>
+
+                    <div *ngIf="deudaForm.get('acreedor_id')?.invalid && deudaForm.get('acreedor_id')?.touched"
+                        class="error-message">
+                        <small *ngIf="deudaForm.get('acreedor_id')?.errors?.['required']">Seleccione un
+                            acreedor.</small>
+                    </div>
+
+                    <div class="row">
+                        <label>Objeto:</label>
+                        <input pInputText id="prueba2" formControlName="objeto_deuda"
+                            placeholder="Ingrese el objeto de la deuda" />
+                    </div>
+
+                    <div *ngIf="deudaForm.get('objeto_deuda')?.invalid && deudaForm.get('objeto_deuda')?.touched"
+                        class="error-message">
+                        <small *ngIf="deudaForm.get('objeto_deuda')?.errors?.['required']">El objeto de la deuda es
+                            obligatorio.</small>
+                    </div>
+                </div>
+
+                <!-- 2.4 Objeto de la Operación -->
+                <div class="cuadro-pagos">
+                    <h6>CUADRO DE PAGOS PROGRAMADOS</h6>
+                    <div class="pago-detalle">
+                        <label>Moneda:</label>
+                        <p-dropdown formControlName="moneda_id" [options]="monedas" optionLabel="nombre"
+                            optionValue="id" placeholder="Seleccione una Moneda" styleClass="w-full">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div *ngIf="deudaForm.get('moneda_id')?.invalid && deudaForm.get('moneda_id')?.touched"
+                    class="error-message-moneda">
+                    <small *ngIf="deudaForm.get('moneda_id')?.errors?.['required']">Seleccione una moneda.</small>
+                </div>
+                <p>(Expresado en Moneda de Origen, a partir del 1 de enero de la gestión corriente)</p>
+
+                <div class="cuadro-pagos2">
+                    <label>Ingrese el Saldo Total:</label>
+                    <p-inputNumber class="p-fluid" mode="decimal" formControlName="total_saldo"
+                        (ngModelChange)="actualizarTotales()" [minFractionDigits]="2" [maxFractionDigits]="2"
+                        [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                    </p-inputNumber>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Tabla -->
+        <div class="col-12 section">
+            <div formArrayName="cuadro_pagos">
+                <p-table [value]="cuadroPagos.controls" styleClass="table-full">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Fecha de Vencimiento</th>
+                            <th>Capital</th>
+                            <th>Interés</th>
+                            <th>Comisiones</th>
+                            <th>Total</th>
+                            <th>Saldo</th>
+                            <!-- <th>Acciones</th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-pago let-i="rowIndex">
+                        <tr [formGroupName]="i">
+                            <td>
+                                <p-calendar formControlName="fecha_vencimiento" appendTo="body"></p-calendar>
+                                <div *ngIf="pago.get('fecha_vencimiento')?.invalid && pago.get('fecha_vencimiento')?.touched"
+                                    class="error-message">
+                                    <small *ngIf="pago.get('fecha_vencimiento')?.errors?.['required']">La fecha es
+                                        obligatoria.</small>
+                                </div>
+                            </td>
+                            <td>
+                                <p-inputNumber class="p-fluid" formControlName="capital" mode="decimal"
+                                    (ngModelChange)="actualizarTotales()" (onInput)="restarSaldoConCapital(i)"
+                                    [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
+                                    [locale]="'de-DE'" placeholder="0.000,00">
+                                </p-inputNumber>
+                                <div *ngIf="pago.get('capital')?.invalid && pago.get('capital')?.touched"
+                                    class="error-message">
+                                    <small *ngIf="pago.get('capital')?.errors?.['required']">El capital es
+                                        obligatorio.</small>
+                                </div>
+                            </td>
+                            <td>
+                                <p-inputNumber class="p-fluid" formControlName="interes" mode="decimal"
+                                    (ngModelChange)="actualizarTotales()" [minFractionDigits]="2"
+                                    [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                    placeholder="0.000,00">
+                                </p-inputNumber>
+                                <div *ngIf="pago.get('interes')?.invalid && pago.get('interes')?.touched"
+                                    class="error-message">
+                                    <small *ngIf="pago.get('interes')?.errors?.['required']">El interés es
+                                        obligatorio.</small>
+                                </div>
+                            </td>
+                            <td>
+                                <p-inputNumber class="p-fluid" formControlName="comisiones" mode="decimal"
+                                    (ngModelChange)="actualizarTotales()" [minFractionDigits]="2"
+                                    [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                    placeholder="0.000,00">
+                                </p-inputNumber>
+                                <div *ngIf="pago.get('comisiones')?.invalid && pago.get('comisiones')?.touched"
+                                    class="error-message">
+                                    <small *ngIf="pago.get('comisiones')?.errors?.['required']">Las comisiones son
+                                        obligatorias.</small>
+                                </div>
+                            </td>
+                            <td>
+                                <p-inputNumber class="p-fluid" formControlName="total" mode="decimal"
+                                    (ngModelChange)="actualizarTotales()" [minFractionDigits]="2"
+                                    [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                    placeholder="0.000,00">
+                                </p-inputNumber>
+                            </td>
+                            <td>
+                                <p-inputNumber class="p-fluid" formControlName="saldo" mode="decimal"
+                                    (ngModelChange)="actualizarTotales()" [minFractionDigits]="2"
+                                    [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                    placeholder="0.000,00">
+                                </p-inputNumber>
+                            </td>
+                            <!--  <td>
+                                <button class="p-button-danger" pButton icon="pi pi-trash" (click)="eliminarFila(i)"
+                                    label="Eliminar"></button>
+                            </td> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                            <td>Total:</td>
+                            <td>{{ formatTotal(total.capital) }}</td>
+                            <td>{{ formatTotal(total.interes) }}</td>
+                            <td>{{ formatTotal(total.comisiones) }}</td>
+                            <td>{{ formatTotal(total.total) }}</td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+        <div class="col-12 text-center">
+            <button pButton type="button" class="p-button-danger" label="Cerrar" icon="pi pi-close"
+                (click)="closeModal()"></button>
+        </div>
+
+    </form>
+
+</p-dialog>

@@ -27,6 +27,11 @@ export class SolicitudService {
     };
   }
 
+  GetSolicitudById(token: string, id: number): Observable<Response<any>> {
+    const url = `${API.local}/solicitud-riocp/id/${id}`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  }
+
   PostSolicitudRiocp(solicitud: any, token: string): Observable<Response<any>> {
     const url = `${API.local}/solicitud-riocp/formulario`;
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));

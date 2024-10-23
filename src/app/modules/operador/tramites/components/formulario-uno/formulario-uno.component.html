@@ -3,7 +3,7 @@
 <p-dialog [(visible)]="visibleForm1" [modal]="true" (onHide)="closeModal()"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
 
-    <form class="form-container" [formGroup]="solicitudForm" (ngSubmit)="onSubmit()">
+    <form class="form-container" [formGroup]="solicitudForm">
 
         <div class="grid justify-content-center" id="pdfContent">
             <p style="text-align: center; font-size: 1.5rem;">FORMULARIO 1</p>
@@ -18,7 +18,7 @@
             </div>
             <!-- Fecha -->
             <div class="col-12 text-right fecha-container section">
-                <label for="fecha">Fecha:</label>
+                <label for="fecha">Fecha y Hora Creación Formulario:</label>
                 <div style="flex-direction: column; display: flex; align-items: flex-end;">
                     <input pInputText type="text" [value]="fechaActual" disabled />
                 </div>
@@ -117,19 +117,16 @@
                         *ngIf="solicitudForm.get('interes_anual')?.invalid && solicitudForm.get('interes_anual')?.touched">
                         <p class="p-error">La taza de interés es obligatorio y debe ser válido.</p>
                     </div>
-
                     <div class="row">
                         <label>2.3.5 Comisiones:</label>
                         <div class="input-container">
-                            <input placeholder="Concepto" [(ngModel)]="comisionConcepto"
-                                [ngModelOptions]="{standalone: true}" pInputText class="input-flex" />
-                            <!-- <p-inputNumber class="p-fluid" placeholder="Tasa" [(ngModel)]="comisionTasa"
-                            [ngModelOptions]="{standalone: true}" /> -->
-                            <p-inputNumber class="p-fluid" placeholder="Tasa" [ngModelOptions]="{standalone: true}"
-                                [(ngModel)]="comisionTasa" mode="decimal" [minFractionDigits]="2"
-                                [maxFractionDigits]="5" />
+                            <input placeholder="Concepto" formControlName="comision_concepto" pInputText
+                                class="input-flex" />
+                            <p-inputNumber class="p-fluid" placeholder="Tasa" formControlName="comision_tasa"
+                                mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" />
                         </div>
                     </div>
+
 
 
                     <div class="row">
@@ -224,15 +221,7 @@
                 <!-- 2.4 Objeto de la Operación -->
                 <h6>SECCIÓN 3 DECLARACIÓN JURADA Y COMPROMISO DE USO DE RECURSOS</h6>
                 <h4 class="declaracion-jurada">
-                    <!--     YO {{ usuarioEntidad}} EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
-                DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
-                CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
-                A UTILIZAR LOS RECURSOS PROVENIENTES DE LA OPERACIÓN DE CRÉDITO PÚBLICO SOLICITADA PARA
-                LOS FINES DECLARADOS EN EL PRESENTE FORMULARIO(RUBRO 2.4 OBJETO DE LA OPERACIÓN DE
-                CRÉDITO PÚBLICO). -->
-                    YO <input formControlName="declaracion_jurada" pInputText
-                        placeholder="Nombre para la declaración jurada" [style.width.px]="inputWidth"
-                        (input)="adjustWidth($event)" />
+                    YO {{ solicitudForm.get('declaracion_jurada')?.value }}
                     EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
                     DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
                     CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
@@ -244,60 +233,19 @@
         </div>
 
         <div>
-            <h6 class="titulo-validacion">
-                PARA COMPLETAR EL PROCESO DE LLENADO LA MAXIMA AUTORIDAD EJECUTIVA
-                DEBE FIRMAR DIGITALMENTE EL PRESENTE FORMULARIO Y REALIZAR LOS SIGUIENTES PASOS:
-            </h6>
             <div class="row">
-                <p class="subtitulo-validacion">
-                    1.- EXPORTE SU FORMULARIO A ARCHIVO PDF.
-                </p>
-                <div class="text-center">
-                    <!-- Botón PDF -->
-                    <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf"
-                        (click)="toPdf()"></button>
+                <!-- Documento Adjunto -->
+                <div class="text-center" style="margin-bottom: 1rem;">
+                    <p class="titulo" style="margin-bottom: 1rem;">Descargar Certificado RIOCP escaneado:</p>
+                        <button pButton type="button" (click)="openDocument()" class="p-button-warning" icon="pi pi-download"
+                            ></button>
                 </div>
-            </div>
-
-            <div class="row">
-                <p class="subtitulo-validacion">
-                    2.- SUBA SU FORMULARIO PDF CON SU FIRMA DIGITAL.
-                </p>
                 <div class="text-center">
-                    <p-fileUpload chooseLabel="Subir Archivo PDF" cancelLabel="Cancelar" [showUploadButton]="false"
-                        [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()"
-                        [multiple]="false" accept=".pdf" [maxFileSize]="10000000">
-                    </p-fileUpload>
-                </div>
-            </div>
-            <!--      <div class="error-message" *ngIf="spinnerFirma">
-            <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
-                animationDuration=".5s" />
-        </div> -->
-
-            <div *ngIf="firmaValido" class="firma-valida">
-                <h4 style="color: green;">FIRMA DIGITAL VÁLIDA</h4>
-                <p>NOMBRE: {{firmaNombre}}</p>
-                <p>INICIO DE VALIDEZ: {{firmaInicioValidez}}</p>
-                <p>FIN DE VALIDEZ: {{firmaFinValidez}}</p>
-            </div>
-
-            <div *ngIf="firmaNoValido" class="firma-no-valida">
-                <p style="color: red;">{{firmaMensajeError}}</p>
-            </div>
-
-            <div class="row">
-                <p class="subtitulo-validacion">
-                    3.- GUARDE SU FORMULARIO.
-                </p>
-                <div class="text-center">
-                    <button pButton type="submit" class="p-button-success" label="Guardar Formulario" icon="pi pi-check"
-                        [disabled]="solicitudForm.invalid"></button>
+                    <button pButton type="button" class="p-button-danger" label="Cerrar" icon="pi pi-close"
+                        (click)="closeModal()"></button>
                 </div>
             </div>
         </div>
-
-
     </form>
 
 </p-dialog>
