@@ -98,7 +98,7 @@ export class FormularioTresComponent {
   }
 
   limpiarFormulario() {
-    this.deudaForm.reset(); 
+    this.deudaForm.reset();
     const cuadroPagosArray = this.deudaForm.get('cuadro_pagos') as FormArray;
     cuadroPagosArray.clear();
   }
@@ -132,8 +132,7 @@ export class FormularioTresComponent {
 
         }, error: (err) => {
           console.error(err);
-
-        },
+        }
 
       })
   }
@@ -191,9 +190,7 @@ export class FormularioTresComponent {
       const CapitalNextRow = this.cuadroPagos.at(i).get('capital')?.value;
       this.cuadroPagos.at(i).patchValue({ saldo: (Math.round(SaldoNextRow * 100) / 100) - (Math.round(CapitalNextRow * 100) / 100) });
     }
-
   }
-
 
   actualizarTotales() {
     this.total.capital = 0;
@@ -213,7 +210,6 @@ export class FormularioTresComponent {
     this.total.interes = Math.round(this.total.interes * 100) / 100;
     this.total.comisiones = Math.round(this.total.comisiones * 100) / 100;
     this.total.total = Math.round(this.total.total * 100) / 100;
-
   }
 
   formatTotal(value: number): string {
@@ -246,7 +242,6 @@ export class FormularioTresComponent {
     cuadro.get('capital')?.valueChanges.subscribe(() => this.calcularTotal(cuadro, index));
     cuadro.get('interes')?.valueChanges.subscribe(() => this.calcularTotal(cuadro, index));
     cuadro.get('comisiones')?.valueChanges.subscribe(() => this.calcularTotal(cuadro, index));
-
     this.cuadroPagos.push(cuadro);
     this.actualizarTotales();
   }

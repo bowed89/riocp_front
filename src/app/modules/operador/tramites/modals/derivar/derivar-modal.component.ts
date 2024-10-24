@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, ChangeDetectorRef, OnInit } fro
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SeguimientoOperadorService } from '../../services/seguimiento-operador.service';
+import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 
 @Component({
   selector: 'app-derivar-modal',
@@ -13,8 +14,9 @@ export class DerivarModalComponent implements OnInit {
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
-  form2ModalVisible: boolean = false; 
-  form3ModalVisible: boolean = false; 
+  form2ModalVisible: boolean = false;
+  form3ModalVisible: boolean = false;
+  form4ModalVisible: boolean = false;
 
   selectedSolicitudForm: any
 
@@ -36,6 +38,7 @@ export class DerivarModalComponent implements OnInit {
     private fb: FormBuilder,
     public _seguimientoOperadorService: SeguimientoOperadorService,
     public _messagesService: MessagesService,
+    public _abrirDocumentoService: AbrirDocumentoService,
     private cdRef: ChangeDetectorRef
   ) {
     // Crear el formulario reactivo
@@ -86,25 +89,41 @@ export class DerivarModalComponent implements OnInit {
 
   }
 
-
-
   abrirModales(i: any) {
     console.log(i);
-    // abrir modal form1
+
     if (i === 0) {
+      this.openDocumentoCorrespondencia(this.selectedSolicitud, 'carta_solicitud');
+
+    }
+    if (i === 1) {
       this.form1ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
-    if (i === 1) {
+    if (i === 2) {
       this.form2ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
-    if (i === 2) {
+    if(i === 3) {
       this.form3ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
-
-
+    if (i === 4) {
+      this.form4ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+    if (i === 5) {
+      this.openDocument(1, 'cronograma_pagos');
+    }
+    if (i === 6) {
+      this.openDocument(2, 'cronograma_desembolso');
+    }
+    if (i === 7) {
+      this.openDocument(3, 'informacion_financiera');
+    }
+    if (i === 8) {
+      this.openDocument(3, 'informacion_financiera');
+    }
   }
 
   getTipoObservacion() {
@@ -112,9 +131,9 @@ export class DerivarModalComponent implements OnInit {
       next: ({ data }: any) => {
         data.forEach((res: any) => {
           this.observationsFormArray.push(this.fb.group({
-            cumple: [0, Validators.required],
+            cumple: [1, Validators.required],
             descripcion: [res.observacion, Validators.required],
-            observacion: ['', Validators.required]
+            observacion: ['SIN OBSERVACIÓN', Validators.required]
           }));
         });
       },
@@ -128,12 +147,39 @@ export class DerivarModalComponent implements OnInit {
     return this.seguimientoForm.get('observaciones') as FormArray;
   }
 
+  openDocument(id: number, nombreDoc: string) {
+    this._abrirDocumentoService.GetDocumentoRiocp(this.token!, id).subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${nombreDoc}.pdf`;
+        a.click();
+      }, error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+  openDocumentoCorrespondencia(id: number, nombreDoc: string) {
+    this._abrirDocumentoService.GetFormularioCorrespondencia(this.token!, id).subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${nombreDoc}.pdf`;
+        a.click();
+      }, error: (err) => {
+        console.log(err);
+      }
+    })
+  };
+
 
   onSubmit() {
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
 
-      /* this._seguimientoOperadorService.PostAsignarRevisorAJefeUnidad(this.seguimientoForm.value, this.token!).subscribe({
+      this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Formulario Agregado', message!);
           this.seguimientoChanged.emit();
@@ -143,11 +189,13 @@ export class DerivarModalComponent implements OnInit {
           this._messagesService.MessageError('Error al Agregar', error.error.message);
           this.closeModal();
         },
-      }); */
+      });
 
     } else {
       this._messagesService.MessageError('Formulario inválido', 'Por favor complete todos los campos requeridos.');
     }
   }
 }
+
+
 

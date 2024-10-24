@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
-<p-dialog [(visible)]="visibleForm1" [modal]="true" (onHide)="closeModal()"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+<p-dialog [(visible)]="visibleForm1" [modal]="true" [draggable]="false" [closeOnEscape]="false" [modal]="true"
+    [closeOnEscape]="false" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" (onHide)="closeModal()">
 
     <form class="form-container" [formGroup]="solicitudForm">
 
@@ -237,8 +237,8 @@
                 <!-- Documento Adjunto -->
                 <div class="text-center" style="margin-bottom: 1rem;">
                     <p class="titulo" style="margin-bottom: 1rem;">Descargar Certificado RIOCP escaneado:</p>
-                        <button pButton type="button" (click)="openDocument()" class="p-button-warning" icon="pi pi-download"
-                            ></button>
+                    <button pButton type="button" (click)="openDocument()" class="p-button-warning"
+                        icon="pi pi-download"></button>
                 </div>
                 <div class="text-center">
                     <button pButton type="button" class="p-button-danger" label="Cerrar" icon="pi pi-close"

@@ -43,6 +43,11 @@ export class SeguimientoOperadorService {
     return this.http.get<Response<TipoObservacion>>(url, this.getHttpOptions(token));
   }
 
+  PostTipoObservacion(body: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/operador/tipo-observacion`;
+    return this.http.post<Response<any>>(url, body, this.getHttpOptions(token));
+  };
+
   PostAsignarRevisorAJefeUnidad(body: any, token: string): Observable<Response<any>> {
     const url = `${API.local}/seguimiento/operador/store`;
     return this.http.post<Response<any>>(url, body, this.getHttpOptions(token));

@@ -1,0 +1,133 @@
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="visibleForm4" [modal]="true" [draggable]="false" [closeOnEscape]="false" [modal]="true"
+    [closeOnEscape]="false" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" (onHide)="closeModal()">
+
+    <div class="form-container">
+        <div class="grid justify-content-center">
+            <div class="col-12">
+                <div class="text-center">
+                    <h3 class="titulo">
+                        CRONOGRAMA DE DESEMBOLSOS PROGRAMADOS Y/O ESTIMADOS
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 section">
+            <h6>Tabla de Pagos</h6>
+            <p>(Detalles de pagos programados)</p>
+            <p-table [value]="pagos" [paginator]="false" [rows]="10" styleClass="table-full">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Objeto de la deuda</th>
+                        <th>Acreedor</th>
+                        <th>Monto Contratado (A)</th>
+                        <th>Monto Desembolsado al <br />31 de diciembre de la gestión anterior (B)</th>
+                        <th>Saldo por Desembolsar (A-B)</th>
+                        <th colspan="2">¿Se desistió el Saldo por Desembolsar?</th>
+                        <th colspan="2">Fechas y Montos</th>
+                    </tr>
+                    <tr>
+                        <th colspan="5"></th>
+                        <th>Sí</th>
+                        <th>No</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-pago let-i="rowIndex">
+                    <tr>
+                        <td><input pInputText [(ngModel)]="pago.objeto_deuda" placeholder="Ingrese un objeto"
+                                disabled /></td>
+                        <td>
+                            <p-dropdown [(ngModel)]="pago.acreedor_id" [options]="acreedores" optionLabel="nombre"
+                                optionValue="id" placeholder="Seleccione un Acreedor" styleClass="w-full"
+                                [disabled]="true">
+                            </p-dropdown>
+                        </td>
+                        <td>
+                            <p-inputNumber [(ngModel)]="pago.monto_contratado_a" mode="decimal"
+                                (ngModelChange)="restaDeSaldoDesembolso(pago.monto_contratado_a, pago.monto_desembolsado_b, i)"
+                                [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                [disabled]="true" placeholder="0.000,00">
+                            </p-inputNumber>
+                        </td>
+                        <td>
+                            <p-inputNumber [(ngModel)]="pago.monto_desembolsado_b" mode="decimal"
+                                (ngModelChange)="restaDeSaldoDesembolso(pago.monto_contratado_a, pago.monto_desembolsado_b, i)"
+                                [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                placeholder="0.000,00" [disabled]="true">
+                            </p-inputNumber>
+                        </td>
+                        <td>
+                            <p-inputNumber [(ngModel)]="pago.saldo_desembolso_a_b" mode="decimal" [disabled]="true"
+                                [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                placeholder="0.000,00" [disabled]="true">
+                            </p-inputNumber>
+                        </td>
+                        <td>
+                            <p-radioButton [value]="1" [(ngModel)]="pago.desembolso_desistido"
+                                (ngModelChange)="deshabilitarFechaMonto($event, i)" [disabled]="true"></p-radioButton>
+                        </td>
+                        <td>
+                            <p-radioButton [value]="0" (ngModelChange)="deshabilitarFechaMonto($event, i)"
+                                [(ngModel)]="pago.desembolso_desistido" [disabled]="true"></p-radioButton>
+                        </td>
+
+                        <!-- Fila para Fecha y Monto -->
+                        <td colspan="2">
+                            <div *ngFor="let desembolso of pago.fecha_desembolsos; let j = index">
+                        <td colspan="7"></td>
+                        <td>
+                            <input pInputText [(ngModel)]="desembolso.fecha" type="date" placeholder="Fecha"
+                                [disabled]="pago.fechaDisabled" />
+                        </td>
+                        <td>
+                            <p-inputNumber [(ngModel)]="desembolso.monto" mode="decimal" [disabled]="pago.montoDisabled"
+                                (ngModelChange)="recalcularTotalDesembolsos(i)" [minFractionDigits]="2"
+                                [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                            </p-inputNumber>
+                        </td>
+                        <!--  <td>
+                            <button pButton icon="pi pi-trash" class="p-button-warning"
+                                (click)="eliminarFechaMonto(i, j)" label="Eliminar Fecha y Monto"></button>
+                        </td> -->
+        </div>
+        </td>
+
+        <!--   <td>
+            <button pButton icon="pi pi-trash" class="p-button-danger" (click)="eliminarFila(i)"
+                label="Eliminar Fila"></button>
+        </td> -->
+
+        </tr>
+
+        <!-- Fila para el botón de agregar fecha y monto -->
+        <tr>
+            <td colspan="7"></td>
+            <td colspan="1"></td>
+            <!-- <td colspan="1">
+                <button pButton icon="pi pi-plus" (click)="agregarFechaMonto(i)" [disabled]="pago.fechaDisabled"
+                    label="Agregar Fecha y Monto"></button>
+            </td> -->
+            <td></td>
+        </tr>
+        </ng-template>
+
+        <div class="col-12 text-center">
+            <h4>Total general de desembolsos: {{ totalGeneralDesembolsos | number: '1.2-2' }}</h4>
+        </div>
+        </p-table>
+    </div>
+    <div class="col-12 text-center">
+        <button pButton type="button" class="p-button-danger" label="Cerrar" icon="pi pi-close"
+            (click)="closeModal()"></button>
+    </div>
+
+
+    </div>
+
+
+</p-dialog>

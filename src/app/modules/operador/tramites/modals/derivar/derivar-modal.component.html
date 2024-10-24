@@ -1,6 +1,8 @@
 <p-toast></p-toast>
 
-<p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false"  [modal]="true" (onHide)="closeModal()">
+<p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false" [modal]="true" (onHide)="closeModal()"
+    [style]="{width: '1000px'}">
+    >
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
@@ -36,6 +38,7 @@
                     <p-table [value]="observationsFormArray.controls" responsiveLayout="scroll">
                         <ng-template pTemplate="header">
                             <tr>
+                                <th style="width: 5%;">#</th>
                                 <th style="width: 40%;">REQUISITOS</th>
                                 <th style="width: 20%;">CUMPLE</th>
                                 <th style="width: 40%;">OBSERVACIÓN</th>
@@ -44,7 +47,11 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-control let-i="rowIndex">
                             <tr>
-                                <td style="width: 40%; text-align: justify;">
+                                <td style="width: 5%;">
+                                    {{ i + 1 }}
+
+                                </td>
+                                <td style="width: 40%; text-align: justify; font-size: large;">
                                     {{ control.get('descripcion').value }}
                                 </td>
                                 <td style="width: 20%;">
@@ -120,11 +127,13 @@
     <!-- MODAL FORMULARIO 2 -->
     <app-formulario-dos-view [(visibleForm2)]="form2ModalVisible"
         [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-dos-view>
-    
-        <!-- MODAL FORMULARIO 3 -->
+
+    <!-- MODAL FORMULARIO 3 -->
     <app-formulario-tres-view [(visibleForm3)]="form3ModalVisible"
         [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-tres-view>
 
-
+    <!-- MODAL FORMULARIO 4 -->
+    <app-formulario-cuatro-view [(visibleForm4)]="form4ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-cuatro-view>
 
 </p-dialog>

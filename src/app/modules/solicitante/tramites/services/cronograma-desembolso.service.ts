@@ -32,5 +32,10 @@ export class CronogramaDesembolsoService {
     return this.http.post<Response<any>>(url, solicitud, this.getHttpOptions(token));
   };
 
+  GetCronogramaById(id: number, token: string): Observable<Response<any>> {
+    const url = `${API.local}/cronograma-desembolso-deuda/formulario/${id}`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  };
+
 
 }

@@ -1,0 +1,86 @@
+/* Responsividad y estilo para el contenedor del formulario */
+.form-container {
+    width: 100%;
+    /* Ajusta el ancho del formulario */
+    margin: 0 auto;
+    /* Centra horizontalmente */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el título principal en negrita */
+.titulo {
+    margin: 0;
+    /* Quitar el margen por defecto */
+    line-height: 1.2;
+    /* Reducir el espacio entre líneas */
+    font-size: 1.6rem;
+    /* Ajustar tamaño si es necesario */
+}
+
+/* Estilo para las secciones del formulario */
+.section {
+    width: 100%;
+    border: 2px solid #c3c3c3;
+    background-color: #f0f0f0;
+    color: #000;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* Estilo para las filas nuevas */
+.fila-nueva {
+    background-color: #7a234f;
+    /* Color de fondo diferente para filas nuevas */
+}
+
+
+
+/* RADIO BUTTON CONVERTIDO CON X */
+
+:host ::ng-deep .p-radiobutton {
+    margin-top: 10px;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight,
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight:hover {
+    background-color: transparent;
+    border-color: black;
+    box-shadow: none;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+    border-color: black;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-icon {
+    display: none;
+}
+
+:host ::ng-deep .p-radiobutton.p-radiobutton-checked .p-radiobutton-box:after {
+    content: '✖';
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    /* Hacer la 'X' más gruesa si es necesario */
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box {
+    border: 2px solid black;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

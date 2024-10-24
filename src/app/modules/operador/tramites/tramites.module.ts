@@ -7,7 +7,7 @@ import { DerivarModalComponent } from './modals/derivar/derivar-modal.component'
 import { FormularioUnoComponent } from './components/formulario-uno/formulario-uno.component';
 import { FormularioDosComponent } from './components/formulario-dos/formulario-dos.component';
 import { FormularioTresComponent } from './components/formulario-tres/formulario-tres.component';
-
+import { FormularioCuatroComponent } from './components/formulario-cuatro/formulario-cuatro.component';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -32,7 +32,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     FormularioUnoComponent,
     FormularioDosComponent,
     FormularioTresComponent,
-
+    FormularioCuatroComponent,
+    
   ],
   imports: [
     CommonModule,
