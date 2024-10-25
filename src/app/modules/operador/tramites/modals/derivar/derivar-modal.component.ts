@@ -196,6 +196,17 @@ export class DerivarModalComponent implements OnInit {
       this._messagesService.MessageError('Observación inválida', 'Por favor complete todos los campos requeridos.');
     }
   }
+
+  generarPdf() {
+    let body = {
+      'nombre': 'juan',
+      'correo': 'hashs@gmail.com',
+      'campo1': 'asasasasas',
+      'campo2': 'asassascdcasasasas',
+    }
+    this._seguimientoOperadorService.generatePDF(body, this.token!);
+  }
+
 }
 
 
