@@ -133,7 +133,8 @@ export class DerivarModalComponent implements OnInit {
           this.observationsFormArray.push(this.fb.group({
             cumple: [1, Validators.required],
             descripcion: [res.observacion, Validators.required],
-            observacion: ['SIN OBSERVACIÓN', Validators.required]
+            tipo_observacion_id: [res.id, Validators.required],
+            observacion: ['', Validators.required]
           }));
         });
       },
@@ -181,7 +182,7 @@ export class DerivarModalComponent implements OnInit {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
-          this._messagesService.MessageSuccess('Formulario Agregado', message!);
+          this._messagesService.MessageSuccess('Observación Agregada', message!);
           this.seguimientoChanged.emit();
           this.closeModal();
         },
@@ -192,7 +193,7 @@ export class DerivarModalComponent implements OnInit {
       });
 
     } else {
-      this._messagesService.MessageError('Formulario inválido', 'Por favor complete todos los campos requeridos.');
+      this._messagesService.MessageError('Observación inválida', 'Por favor complete todos los campos requeridos.');
     }
   }
 }
