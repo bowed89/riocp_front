@@ -4,7 +4,6 @@ import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
 import { EntidadeService } from 'src/app/shared/services/entidades.service';
 import { MonedasService } from 'src/app/shared/services/monedas.service';
 import { PeriodoService } from 'src/app/shared/services/periodos.service';
-import { generatePDF } from 'src/app/shared/utils/generatePdf';
 import { FirmaDigitalService } from 'src/app/shared/services/firma-digital.service';
 import { SolicitudService } from '../../services/solicitud.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
@@ -218,10 +217,6 @@ export class FormularioUnoComponent {
     const anio = hoy.getFullYear();
     this.solicitudForm.patchValue({ fecha_actual: `${dia}/${mes}/${anio}` });
 
-  }
-
-  toPdf() {
-    generatePDF();
   }
 
   onFileSelect(event: any) {

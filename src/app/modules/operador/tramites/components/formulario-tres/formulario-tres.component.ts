@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
 import { MonedasService } from 'src/app/shared/services/monedas.service';
@@ -55,21 +55,23 @@ export class FormularioTresComponent {
     public _cronogramaDeudaService: CronogramaDeudaService,
     private primengConfig: PrimeNGConfig,
     public _tramitesService: TramitesService,
+    private cdr: ChangeDetectorRef,
+
   ) {
   }
 
   ngOnChanges(): void {
-    this.limpiarFormulario();
-
-    if (this.selectedSolicitudForm !== undefined)
+    if (this.selectedSolicitudForm !== undefined && this.visibleForm3) {
+      this.limpiarFormulario();
       this.obtenerCronogramaPorId();
+      
+      this.primengConfig.setTranslation(CalendarioEs);
+      this.obtenerAcreedores();
+      this.obtenerMonedas();
+    }
   }
 
   ngOnInit(): void {
-    this.primengConfig.setTranslation(CalendarioEs);
-    this.obtenerAcreedores();
-    this.obtenerMonedas();
-
     this.deudaForm = this.fb.group({
       acreedor_id: ['', Validators.required],
       objeto_deuda: ['', Validators.required],
@@ -98,9 +100,11 @@ export class FormularioTresComponent {
   }
 
   limpiarFormulario() {
-    this.deudaForm.reset();
     const cuadroPagosArray = this.deudaForm.get('cuadro_pagos') as FormArray;
     cuadroPagosArray.clear();
+    this.deudaForm.reset();
+    this.cdr.detectChanges();
+
   }
 
 

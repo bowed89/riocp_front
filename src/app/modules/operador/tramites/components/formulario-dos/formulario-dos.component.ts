@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnexosService } from 'src/app/modules/solicitante/tramites/services/anexos.service';
 import { InformacionDeudaService } from 'src/app/modules/solicitante/tramites/services/informacion-deuda.service';
 import { TramitesService } from 'src/app/modules/solicitante/tramites/services/tramites.service';
-import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 
 
@@ -28,12 +27,10 @@ export class FormularioDosComponent {
     public _informacionDeudaService: InformacionDeudaService,
     public _tramitesService: TramitesService,
     public _anexosService: AnexosService,
-    public _abrirDocumentoService: AbrirDocumentoService
 
   ) { }
 
   ngOnChanges(): void {
-    console.log('form2!!', this.selectedSolicitudForm);
     if (this.selectedSolicitudForm !== undefined)
       this.getAllInformacionById();
 
@@ -45,7 +42,6 @@ export class FormularioDosComponent {
       pregunta_2: [null, Validators.required],
       pregunta_3: [null, Validators.required],
       pregunta_4: [null, Validators.required],
-      documento: [null],
       solicitud_id: [0],
     });
   }
@@ -71,26 +67,6 @@ export class FormularioDosComponent {
         console.error(err);
       },
     });
-  }
-
-
-
-  onFileRemove() {
-    this.deudaForm.get('documento')?.setValue(null);
-  }
-
-  openDocument() {
-    this._abrirDocumentoService.GetDocumento(this.token!, this.selectedSolicitudForm, 4).subscribe({
-      next: (response: Blob) => {
-        const url = window.URL.createObjectURL(response);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'documento.pdf';
-        a.click();
-      }, error: (err) => {
-        console.log(err);
-      }
-    })
   }
 
 }

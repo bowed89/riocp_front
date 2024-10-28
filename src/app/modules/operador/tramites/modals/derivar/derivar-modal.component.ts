@@ -94,35 +94,38 @@ export class DerivarModalComponent implements OnInit {
 
     if (i === 0) {
       this.openDocumentoCorrespondencia(this.selectedSolicitud, 'carta_solicitud');
-
     }
     if (i === 1) {
       this.form1ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
     if (i === 2) {
+      const idTipo = 1;
+      this.openDocument(this.selectedSolicitud, idTipo, 'cronograma_pagos');
+    }
+    if (i === 3) {
+      const idTipo = 2;
+      this.openDocument(this.selectedSolicitud, idTipo, 'cronograma_desembolso');
+    }
+    if (i === 4) {
       this.form2ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
-    if(i === 3) {
+    if (i === 5) {
+      const idTipo = 4;
+      this.openDocument(this.selectedSolicitud, idTipo, 'certificado_no_vigente');
+    }
+    if (i === 6) {
       this.form3ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
-    if (i === 4) {
+    if (i === 7) {
       this.form4ModalVisible = true;
       this.selectedSolicitudForm = this.selectedSolicitud;
     }
-    if (i === 5) {
-      this.openDocument(1, 'cronograma_pagos');
-    }
-    if (i === 6) {
-      this.openDocument(2, 'cronograma_desembolso');
-    }
-    if (i === 7) {
-      this.openDocument(3, 'informacion_financiera');
-    }
     if (i === 8) {
-      this.openDocument(3, 'informacion_financiera');
+      const idTipo = 3;
+      this.openDocument(this.selectedSolicitud, idTipo, 'informacion_financiera');
     }
   }
 
@@ -131,10 +134,11 @@ export class DerivarModalComponent implements OnInit {
       next: ({ data }: any) => {
         data.forEach((res: any) => {
           this.observationsFormArray.push(this.fb.group({
+            enumeracion: [`${res.enumeracion}.`],
             cumple: [1, Validators.required],
             descripcion: [res.observacion, Validators.required],
             tipo_observacion_id: [res.id, Validators.required],
-            observacion: ['', Validators.required]
+            observacion: ['SIN OBSERVACIONES', Validators.required]
           }));
         });
       },
@@ -148,8 +152,9 @@ export class DerivarModalComponent implements OnInit {
     return this.seguimientoForm.get('observaciones') as FormArray;
   }
 
-  openDocument(id: number, nombreDoc: string) {
-    this._abrirDocumentoService.GetDocumentoRiocp(this.token!, id).subscribe({
+
+  openDocument(idSolicitud: number, idTipo: number, nombreDoc: string) {
+    this._abrirDocumentoService.GetDocumento(this.token!, idSolicitud, idTipo).subscribe({
       next: (response: Blob) => {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement('a');
@@ -161,6 +166,7 @@ export class DerivarModalComponent implements OnInit {
       }
     })
   }
+
   openDocumentoCorrespondencia(id: number, nombreDoc: string) {
     this._abrirDocumentoService.GetFormularioCorrespondencia(this.token!, id).subscribe({
       next: (response: Blob) => {
@@ -174,7 +180,6 @@ export class DerivarModalComponent implements OnInit {
       }
     })
   };
-
 
   onSubmit() {
     if (this.seguimientoForm.valid) {

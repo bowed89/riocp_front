@@ -47,9 +47,8 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-control let-i="rowIndex">
                             <tr>
-                                <td style="width: 5%;">
-                                    {{ i + 1 }}
-
+                                <td style="width: 5%; font-weight: bold;">
+                                    {{ control.get('enumeracion').value }}
                                 </td>
                                 <td style="width: 40%; text-align: justify; font-size: large;">
                                     {{ control.get('descripcion').value }}

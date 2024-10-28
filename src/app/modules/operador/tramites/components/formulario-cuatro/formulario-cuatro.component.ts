@@ -55,14 +55,18 @@ export class FormularioCuatroComponent {
   }
 
   ngOnChanges(): void {
-    this.limpiarFormulario();
-
-    if (this.selectedSolicitudForm !== undefined)
+    
+    if (this.selectedSolicitudForm !== undefined && this.visibleForm4) {
+      console.log("this.selectedSolicitudForm 4??? " + this.selectedSolicitudForm);
+      this.limpiarFormulario();
       this.obtenerCronogramaPorId();
+      this.obtenerAcreedores();
+
+    }
+      
   }
 
   ngOnInit(): void {
-    this.obtenerAcreedores();
   }
 
   limpiarFormulario() {
@@ -77,7 +81,7 @@ export class FormularioCuatroComponent {
             this.agregarFilasDesdeServicio(desembolso);
           });
         }, error: (err) => {
-          console.error(err);
+          this._messagesService.MessageError('Error', err.error.message)
         }
       })
   }
