@@ -9,6 +9,7 @@ import { FirmaDigitalService } from 'src/app/shared/services/firma-digital.servi
 import { SolicitudService } from '../../services/solicitud.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { TramitesService } from '../../services/tramites.service';
+import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 
 @Component({
   selector: 'app-formulario-uno',
@@ -20,11 +21,8 @@ export class FormularioUnoComponent {
 
   solicitudForm!: FormGroup;
   token = localStorage.getItem('token');
-  fechaActual: string = '';
   // Datoe Entidad
-  nombreEntidad: string = '';
   idEntidad: number = 0;
-  numEntidad: number = 0;
 
   acreedores: any[] = [{ name: '', code: '' }];
   monedas: any[] = [];
@@ -48,6 +46,7 @@ export class FormularioUnoComponent {
     public _solicitudService: SolicitudService,
     public _messagesService: MessagesService,
     public _tramitesService: TramitesService,
+    public _seguimientoOperadorService: SeguimientoOperadorService,
 
   ) {
     this.solicitudForm = this.fb.group({
@@ -58,8 +57,8 @@ export class FormularioUnoComponent {
       moneda_id: ['', Validators.required],
       plazo: [null, Validators.required],
       interes_anual: [null, Validators.required],
-      comision_concepto: [''],
-      comision_tasa: [''],
+      comision_concepto: [null],
+      comision_tasa: [null],
       periodo_id: ['', Validators.required],
       periodo_gracia: [null, Validators.required],
       objeto_operacion_credito: ['', Validators.required],
@@ -69,7 +68,15 @@ export class FormularioUnoComponent {
       telefono: ['', Validators.required],
       firma_digital: [0],
       documento: [null, Validators.required],
-      declaracion_jurada: ['', Validators.required]
+      declaracion_jurada: ['', Validators.required],
+      // variables para enviar a pdf
+      fecha_actual: [null],
+      entidad: [null],
+      nombre_entidad: [null],
+      nombre_acreedor: [null],
+      moneda_origen: [null],
+      nombre_periodo: [null],
+
     });
 
     this.solicitudForm.valueChanges.subscribe((changes) => {
@@ -84,7 +91,7 @@ export class FormularioUnoComponent {
   }
 
   ngOnInit(): void {
-    this.fechaActual = this.obtenerFechaActual();
+    this.obtenerFechaActual();
     this.getEntidadesByUserRol();
     this.obtenerAcreedores();
     this.obtenerMonedas();
@@ -111,6 +118,17 @@ export class FormularioUnoComponent {
 
     // Eliminar el span temporal
     document.body.removeChild(tempSpan);
+  }
+
+  generarPdf() {
+    console.log(this.solicitudForm.value);
+
+    this._seguimientoOperadorService.generatePDF(this.token!, this.solicitudForm.value).subscribe({
+      next: (value) => {
+        console.log(value);
+
+      },
+    });
   }
 
   onSubmit() {
@@ -145,9 +163,8 @@ export class FormularioUnoComponent {
 
   getEntidadesByUserRol() {
     this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
-      this.nombreEntidad = (data[0].denominacion).toUpperCase();
       this.idEntidad = data[0].entidad_id;
-      this.numEntidad = data[0].num_entidad;
+      this.solicitudForm.patchValue({ entidad: data[0].entidad, nombre_entidad: (data[0].denominacion).toUpperCase() });
 
     });
   }
@@ -159,6 +176,21 @@ export class FormularioUnoComponent {
         id: acreedor.id
       }));
     });
+  }
+
+  nombreAcreedor(e: any) {
+    const name = this.acreedores.find(acreedor => e.value === acreedor.id).nombre;
+    this.solicitudForm.patchValue({ nombre_acreedor: name });
+  }
+
+  monedaOrigen(e: any) {
+    const name = this.monedas.find(moneda => e.value === moneda.id).nombre;
+    this.solicitudForm.patchValue({ moneda_origen: name });
+  }
+
+  periodoPago(e: any) {
+    const name = this.periodos.find(periodo => e.value === periodo.id).nombre;
+    this.solicitudForm.patchValue({ nombre_periodo: name });
   }
 
   obtenerMonedas() {
@@ -179,12 +211,13 @@ export class FormularioUnoComponent {
     });
   }
 
-  obtenerFechaActual(): string {
+  obtenerFechaActual() {
     const hoy = new Date();
     const dia = ('0' + hoy.getDate()).slice(-2);
     const mes = ('0' + (hoy.getMonth() + 1)).slice(-2);
     const anio = hoy.getFullYear();
-    return `${dia}/${mes}/${anio}`;
+    this.solicitudForm.patchValue({ fecha_actual: `${dia}/${mes}/${anio}` });
+
   }
 
   toPdf() {

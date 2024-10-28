@@ -54,26 +54,38 @@ export class SeguimientoOperadorService {
   };
 
 
-  generatePDF(data: any, token: string) {
+  /*   generatePDF(data: any, token: string) {
+      const url = `${API.local}/generar-pdf`;
+  
+      const httpOptions = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        responseType: 'blob' as 'json' // Tipo de respuesta como blob para manejar el PDF
+      };
+  
+      this.http.post(url, data, httpOptions)
+        .subscribe((response: any) => {
+          const url = window.URL.createObjectURL(response);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'formulario.pdf';
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
+    }
+   */
+
+
+  generatePDF(token: string, body: any): Observable<Blob> {
     const url = `${API.local}/generar-pdf`;
 
-    const httpOptions = {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      responseType: 'blob' as 'json' // Tipo de respuesta como blob para manejar el PDF
-    };
-
-    this.http.post(url, data, httpOptions)
-      .subscribe((response: any) => {
-        const url = window.URL.createObjectURL(response);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'formulario.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
-      });
+    // Ajuste para manejar la respuesta como 'blob'
+    return this.http.post(url, body, {
+      headers: this.getHttpOptions(token).headers,
+      responseType: 'blob' // Especificar que la respuesta será binaria
+    });
   }
 
 

@@ -1,6 +1,7 @@
 export interface EntidadUserRol {
     apellido: string;
     correo: string;
+    entidad: string;
     denominacion: string;
     entidad_id: number;
     nombre: string;

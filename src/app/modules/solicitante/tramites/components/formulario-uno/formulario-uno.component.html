@@ -18,7 +18,7 @@
         <div class="col-12 text-right fecha-container section">
             <label for="fecha">Fecha:</label>
             <div style="flex-direction: column; display: flex; align-items: flex-end;">
-                <input pInputText type="text" [value]="fechaActual" disabled />
+                <input pInputText type="text" formControlName="fecha_actual" readonly />
             </div>
         </div>
 
@@ -27,10 +27,10 @@
             <h5>SECCIÓN 1: ENTIDAD SOLICITANTE</h5>
             <div class="seccion-uno">
                 <div class="input-container">
-                    <input pInputText [value]="numEntidad" disabled />
+                    <input pInputText formControlName="entidad" readonly />
                 </div>
                 <div class="input-container">
-                    <input pInputText [value]="nombreEntidad" disabled />
+                    <input pInputText formControlName="nombre_entidad" readonly />
                 </div>
             </div>
         </div>
@@ -53,7 +53,8 @@
             <!-- 2.2 Acreedor -->
             <h6>2.2 ACREEDOR</h6>
             <div class="dropdown-container">
-                <p-dropdown formControlName="acreedor_id" [options]="acreedores" optionLabel="nombre" optionValue="id"
+                <p-dropdown formControlName="acreedor_id" [options]="acreedores" (onChange)="nombreAcreedor($event)"
+                    optionLabel="nombre" optionValue="id"
                     placeholder="Seleccione un Acreedor" styleClass="w-full">
                 </p-dropdown>
                 <div class="error-message"
@@ -80,7 +81,7 @@
                 <div class="row">
                     <label>2.3.2 Moneda de Origen:</label>
                     <div class="dropdown-container">
-                        <p-dropdown formControlName="moneda_id" [options]="monedas" optionLabel="nombre"
+                        <p-dropdown formControlName="moneda_id" (onChange)="monedaOrigen($event)" [options]="monedas" optionLabel="nombre"
                             optionValue="id" placeholder="Seleccione una Moneda" styleClass="w-full">
                         </p-dropdown>
                     </div>
@@ -129,7 +130,7 @@
                 <div class="row">
                     <label>2.3.6 Periodicidad de Pago:</label>
                     <div class="dropdown-container">
-                        <p-dropdown formControlName="periodo_id" [options]="periodos" optionLabel="nombre"
+                        <p-dropdown formControlName="periodo_id" [options]="periodos" (onChange)="periodoPago($event)" optionLabel="nombre"
                             optionValue="id" placeholder="Seleccione un Periodo" styleClass="w-full">
                         </p-dropdown>
                     </div>
@@ -219,9 +220,9 @@
             <h6>SECCIÓN 3 DECLARACIÓN JURADA Y COMPROMISO DE USO DE RECURSOS</h6>
             <h4 class="declaracion-jurada">
                 YO <input formControlName="declaracion_jurada" pInputText
-                    placeholder="Nombre" [style.width.px]="inputWidth"
+                    placeholder="Ingrese el nombre" [style.width.px]="inputWidth"
                     (input)="adjustWidth($event)" />
-                EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{nombreEntidad}}
+                EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{ solicitudForm.get('nombre_entidad')?.value }}
                 DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
                 CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
                 A UTILIZAR LOS RECURSOS PROVENIENTES DE LA OPERACIÓN DE CRÉDITO PÚBLICO SOLICITADA PARA
@@ -242,7 +243,8 @@
             </p>
             <div class="text-center">
                 <!-- Botón PDF -->
-                <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf" (click)="toPdf()"></button>
+                <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf"
+                    (click)="generarPdf()"></button>
             </div>
         </div>
 
