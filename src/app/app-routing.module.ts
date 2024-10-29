@@ -1,9 +1,9 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { NotfoundComponent } from './shared/components/notfound/notfound.component';
 import { AppLayoutComponent } from "./layout/app.layout.component";
 import { authGuard } from './modules/auth/guards/auth.guard';
 import { urlGuard } from './modules/auth/guards/validate-url.guard';
+import { NotfoundComponent } from './shared/modules/formularios-views/notfound/notfound.component';
 
 @NgModule({
     imports: [

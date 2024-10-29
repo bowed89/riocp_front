@@ -5,7 +5,7 @@ import { TramitesRoutingModule } from './tramites-routing.module';
 import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.component';
 import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
 
-
+import { FormularioSharedModule } from 'src/app/shared/modules/formularios-views/formularios.shared.module';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -14,17 +14,16 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
-
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-
-import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [
     MisTramitesComponent,
-    DerivarModalComponent
+    DerivarModalComponent,
+
   ],
   imports: [
     CommonModule,
@@ -39,7 +38,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     FormsModule,
     DialogModule,
     InputTextareaModule,
-    ToastModule
+    ToastModule,
+    RadioButtonModule,
+    FormularioSharedModule
   ]
 })
 export class TramitesModule { }

@@ -86,7 +86,6 @@ export class DerivarModalComponent implements OnInit {
     this.visible = false;
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
-
   }
 
   abrirModales(i: any) {

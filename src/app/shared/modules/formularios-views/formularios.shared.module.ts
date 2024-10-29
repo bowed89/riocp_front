@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TramitesRoutingModule } from './tramites-routing.module';
-import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.component';
-import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FormularioSharedModule } from 'src/app/shared/modules/formularios-views/formularios.shared.module';
+import { FormularioUnoComponent } from './formulario-uno/formulario-uno.component';
+import { FormularioDosComponent } from './formulario-dos/formulario-dos.component';
+import { FormularioTresComponent } from './formulario-tres/formulario-tres.component';
+import { FormularioCuatroComponent } from './formulario-cuatro/formulario-cuatro.component';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -20,18 +20,17 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 
-import { InputTextareaModule } from 'primeng/inputtextarea';
-
-
 @NgModule({
   declarations: [
-    MisTramitesComponent,
-    DerivarModalComponent,
+    FormularioUnoComponent,
+    FormularioDosComponent,
+    FormularioTresComponent,
+    FormularioCuatroComponent,
 
   ],
   imports: [
     CommonModule,
-    TramitesRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     TableModule,
     DropdownModule,
@@ -39,15 +38,20 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ButtonModule,
     PasswordModule,
     CheckboxModule,
-    FormsModule,
-    DialogModule,
-    InputTextareaModule,
     ToastModule,
     RadioButtonModule,
     InputNumberModule,
     FileUploadModule,
     CalendarModule,
-    FormularioSharedModule,
+    DialogModule,
+
+  ],
+  exports: [
+    FormularioUnoComponent,
+    FormularioDosComponent,
+    FormularioTresComponent,
+    FormularioCuatroComponent,
   ]
 })
-export class TramitesModule { }
+
+export class FormularioSharedModule { }

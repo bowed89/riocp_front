@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectorRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
+import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
+import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 
 @Component({
   selector: 'app-derivar-modal',
@@ -17,6 +19,16 @@ export class DerivarModalComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() seguimientoChanged = new EventEmitter<void>();
 
+  // submodales
+  form1ModalVisible: boolean = false; // Para el modal de documentos
+  form2ModalVisible: boolean = false;
+  form3ModalVisible: boolean = false;
+  form4ModalVisible: boolean = false;
+
+  selectedSolicitudForm: any
+
+  activeTab: string = 'tab1'; // Para manejar la pestaña activa
+
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
 
@@ -25,15 +37,18 @@ export class DerivarModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public _seguimientoRevisorService: SeguimientoRevisorService,
+    public _seguimientoOperadorService: SeguimientoOperadorService,
     public _messagesService: MessagesService,
-    private cdr: ChangeDetectorRef
+    public _abrirDocumentoService: AbrirDocumentoService,
+    private cdRef: ChangeDetectorRef
   ) {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
       usuario_destino_id: [null, Validators.required],
       observacion: ['', Validators.required],
       solicitud_id: [null],
-      id_seguimiento: [null]
+      id_seguimiento: [null],
+      observaciones: this.fb.array([])
     });
   }
 
@@ -47,6 +62,8 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTipoObservacion();
+
     this._seguimientoRevisorService.GetJefeUnidad(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -66,9 +83,103 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 
+  abrirModales(i: any) {
+    console.log(i);
+
+    if (i === 0) {
+      this.openDocumentoCorrespondencia(this.selectedSolicitud, 'carta_solicitud');
+    }
+    if (i === 1) {
+      this.form1ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+    if (i === 2) {
+      const idTipo = 1;
+      this.openDocument(this.selectedSolicitud, idTipo, 'cronograma_pagos');
+    }
+    if (i === 3) {
+      const idTipo = 2;
+      this.openDocument(this.selectedSolicitud, idTipo, 'cronograma_desembolso');
+    }
+    if (i === 4) {
+      this.form2ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+    if (i === 5) {
+      const idTipo = 4;
+      this.openDocument(this.selectedSolicitud, idTipo, 'certificado_no_vigente');
+    }
+    if (i === 6) {
+      this.form3ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+    if (i === 7) {
+      this.form4ModalVisible = true;
+      this.selectedSolicitudForm = this.selectedSolicitud;
+    }
+    if (i === 8) {
+      const idTipo = 3;
+      this.openDocument(this.selectedSolicitud, idTipo, 'informacion_financiera');
+    }
+  }
+
+
+  getTipoObservacion() {
+    this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
+      next: ({ data }: any) => {
+        data.forEach((res: any) => {
+          this.observationsFormArray.push(this.fb.group({
+            enumeracion: [`${res.enumeracion}.`],
+            cumple: [1, Validators.required],
+            descripcion: [res.observacion, Validators.required],
+            tipo_observacion_id: [res.id, Validators.required],
+            observacion: ['SIN OBSERVACIONES', Validators.required]
+          }));
+        });
+      },
+      error(err) {
+        console.error(err);
+      },
+    });
+  }
+
+  get observationsFormArray(): FormArray {
+    return this.seguimientoForm.get('observaciones') as FormArray;
+  }
+
+
+  openDocument(idSolicitud: number, idTipo: number, nombreDoc: string) {
+    this._abrirDocumentoService.GetDocumento(this.token!, idSolicitud, idTipo).subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${nombreDoc}.pdf`;
+        a.click();
+      }, error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  openDocumentoCorrespondencia(id: number, nombreDoc: string) {
+    this._abrirDocumentoService.GetFormularioCorrespondencia(this.token!, id).subscribe({
+      next: (response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${nombreDoc}.pdf`;
+        a.click();
+      }, error: (err) => {
+        console.log(err);
+      }
+    })
+  };
+
   closeModal() {
     this.visible = false;
     this.visibleChange.emit(this.visible);
+    this.cdRef.detectChanges(); // Fuerza la detección de cambios
   }
 
   onSubmit() {
