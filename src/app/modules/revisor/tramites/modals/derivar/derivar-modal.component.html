@@ -5,13 +5,13 @@
 
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
-            Verificar Observación Técnico
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="changeModal('tab1')">
+            Observaciones Técnico
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="changeModal('tab2')">
             Revisar Requisitos
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="activeTab = 'tab3'">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="changeModal('tab3')">
             Derivar
         </button>
     </div>
@@ -21,107 +21,27 @@
 
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
-
+                <app-revisar-tecnico
+                    [observationsFormArray]=" observationTecnicoFormArray"
+                    (envioModal)="abrirModales($event)"
+                    [selectedSolicitud]="selectedSolicitud"></app-revisar-tecnico>
 
             </div>
 
-            <!-- Contenido de la Pestaña 1 -->
-            <div *ngIf="activeTab === 'tab2'" class="form-container">
-                <div class="container">
-                    <!-- Encabezado -->
-                    <div class="header">
-                        <h4>MINISTERIO DE ECONOMÍA Y FINANZAS PÚBLICAS</h4>
-                        <h4>VICEMINISTERIO DEL TESORO Y CRÉDITO PÚBLICO</h4>
-                        <h4>DIRECCIÓN GENERAL DE ADMINISTRACIÓN Y FINANZAS TERRITORIALES</h4>
-                        <h4>UNIDAD DE SEGUIMIENTO Y CONTROL A LAS FINANZAS TERRITORIALES</h4>
-                        <h5>REGISTRO DE INICIO DE OPERACIONES DE CRÉDITO PÚBLICO (RIOCP)</h5>
-                        <p>(Detalle de Observaciones)</p>
-                    </div>
-
-                    <!-- Subtítulo -->
-                    <div class="subtitle">
-                        <p><strong>ENTIDAD TERRITORIAL AUTÓNOMA:</strong> Gobierno Autónomo Municipal de Colquechaca
-                            (GAM CCQ)</p>
-                    </div>
-
-                    <!-- Tabla -->
-                    <p-table [value]="observationsFormArray.controls" responsiveLayout="scroll">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width: 5%;">#</th>
-                                <th style="width: 40%;">REQUISITOS</th>
-                                <th style="width: 20%;">CUMPLE</th>
-                                <th style="width: 40%;">OBSERVACIÓN</th>
-                                <th style="width: 40%;">VER DOCUMENTO</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-control let-i="rowIndex">
-                            <tr>
-                                <td style="width: 5%; font-weight: bold;">
-                                    {{ control.get('enumeracion').value }}
-                                </td>
-                                <td style="width: 40%; text-align: justify; font-size: large;">
-                                    {{ control.get('descripcion').value }}
-                                </td>
-                                <td style="width: 20%;">
-                                    <div class="flex justify-content-center gap-3">
-                                        <p-radioButton name="cumple{{i}}" value="1"
-                                            [formControl]="control.get('cumple')" label="Sí">
-                                        </p-radioButton>
-                                        <p-radioButton name="cumple{{i}}" value="0"
-                                            [formControl]="control.get('cumple')" label="No">
-                                        </p-radioButton>
-                                    </div>
-                                </td>
-                                <td style="width: 40%;">
-                                    <textarea pInputTextarea rows="5" class="w-full"
-                                        [formControl]="control.get('observacion')">
-                                    </textarea>
-                                </td>
-                                <td>
-                                    <button pButton type="button" icon="pi pi-file-import" (click)="abrirModales(i)"
-                                        class="p-button-success"></button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>
             <!-- Contenido de la Pestaña 2 -->
+            <div *ngIf="activeTab === 'tab2'" class="form-container">
+                <app-revisar-requisitos
+                    [observationsFormArray]=" observationsFormArray"
+                    (envioModal)="abrirModales($event)"></app-revisar-requisitos>
+            </div>
+            <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
 
-                <div class="form-container">
-                    <h4 style="text-align: center;">Derivar Solicitud</h4>
-                    <div>
-                        <div class="form-group">
-                            <label for="tecnico">Jefe Unidad:</label>
-                            <p-dropdown formControlName="usuario_destino_id" [options]="tecnicos" optionLabel="nombre"
-                                optionValue="id" placeholder="Seleccionar"></p-dropdown>
-                            <div *ngIf="seguimientoForm.get('usuario_destino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
-                                class="error">
-                                Seleccione un técnico.
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="observaciones">Observaciones:</label>
-                            <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
-                                style="width: 100%; margin-bottom: 30px;">
-                            </textarea>
-                            <div *ngIf="seguimientoForm.get('observacion')?.touched && seguimientoForm.get('observacion')?.invalid"
-                                class="error">
-                                Las observaciones son requeridas.
-                            </div>
-                        </div>
-
-                        <div class="p-dialog-footer">
-                            <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
-                                class="p-button-text"></button>
-                            <button pButton type="submit" label="Guardar" class="p-button-success"
-                                [disabled]="seguimientoForm.invalid"></button>
-                        </div>
-                    </div>
-                </div>
+                <app-derivar
+                    [tipoRol]="tipoRol"
+                    [listadoRol]="tecnicos"
+                    [seguimientoForm]="seguimientoForm"
+                    (valorBooleano)="closeModal($event)"></app-derivar>
             </div>
         </div>
     </form>

@@ -1,0 +1,80 @@
+/* pestaña 1 requisitos */
+
+.container {
+    padding: 20px;
+}
+
+.header,
+.subtitle {
+    text-align: center;
+}
+
+h4,
+h5 {
+    margin: 0;
+}
+
+p {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+p-table {
+    margin-top: 20px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 10px;
+}
+
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+
+
+/* RADIO BUTTON CONVERTIDO CON X */
+:host ::ng-deep .p-radiobutton {
+    margin-top: 10px;
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight,
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight:hover {
+    background-color: transparent;
+    border-color: black;
+    box-shadow: none;
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+    border-color: black;
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-icon {
+    display: none;
+  }
+  
+  :host ::ng-deep .p-radiobutton.p-radiobutton-checked .p-radiobutton-box:after {
+    content: '✖';
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    /* Hacer la 'X' más gruesa si es necesario */
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box {
+    border: 2px solid black;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

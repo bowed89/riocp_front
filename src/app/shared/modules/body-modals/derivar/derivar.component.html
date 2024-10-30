@@ -1,0 +1,32 @@
+<div class="form-container">
+    <h4 style="text-align: center;">Derivar Solicitud</h4>
+    <div [formGroup]="seguimientoForm">
+        <div class="form-group">
+            <label for="tecnico">{{tipoRol}}</label>
+            <p-dropdown formControlName="usuario_destino_id" [options]="listadoRol" optionLabel="nombre"
+                optionValue="id" placeholder="Seleccionar"></p-dropdown>
+            <div *ngIf="seguimientoForm.get('usuario_destino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
+                class="error">
+                Seleccione un técnico.
+            </div>
+        </div>
+
+        <div>
+            <label for="observaciones">Observaciones:</label>
+            <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
+                style="width: 100%; margin-bottom: 30px;">
+            </textarea>
+            <div *ngIf="seguimientoForm.get('observacion')?.touched && seguimientoForm.get('observacion')?.invalid"
+                class="error">
+                Las observaciones son requeridas.
+            </div>
+        </div>
+
+        <div class="p-dialog-footer">
+            <button pButton type="button" label="Cancelar" (click)="closeModal(false)" icon="pi pi-times"
+                class="p-button-text"></button>
+            <button pButton type="submit" label="Guardar" class="p-button-success"
+                [disabled]="seguimientoForm.invalid"></button>
+        </div>
+    </div>
+</div>

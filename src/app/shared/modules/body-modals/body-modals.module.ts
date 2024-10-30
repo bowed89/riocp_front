@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TramitesRoutingModule } from './tramites-routing.module';
-import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.component';
-import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { FormularioSharedModule } from 'src/app/shared/modules/formularios-views/formularios.shared.module';
-import { BodyModalsModule } from 'src/app/shared/modules/body-modals/body-modals.module';
+
+import { RevisarRequisitosComponent } from './revisar-requisitos/revisar-requisitos.component';
+import { DerivarComponent } from './derivar/derivar.component';
+import { RevisarTecnicoComponent } from './revisar-tecnico/revisar-tecnico.component';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -20,19 +19,17 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
-
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 @NgModule({
   declarations: [
-    MisTramitesComponent,
-    DerivarModalComponent,
-
+    RevisarRequisitosComponent,
+    DerivarComponent,
+    RevisarTecnicoComponent
   ],
   imports: [
     CommonModule,
-    TramitesRoutingModule,
     ReactiveFormsModule,
     TableModule,
     DropdownModule,
@@ -40,16 +37,18 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ButtonModule,
     PasswordModule,
     CheckboxModule,
-    FormsModule,
-    DialogModule,
-    InputTextareaModule,
     ToastModule,
     RadioButtonModule,
     InputNumberModule,
     FileUploadModule,
     CalendarModule,
-    FormularioSharedModule,
-    BodyModalsModule
+    DialogModule,
+    InputTextareaModule
+
+  ], exports: [
+    RevisarRequisitosComponent,
+    DerivarComponent,
+    RevisarTecnicoComponent
   ]
 })
-export class TramitesModule { }
+export class BodyModalsModule { }

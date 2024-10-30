@@ -11,6 +11,7 @@ import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.s
 })
 
 export class DerivarModalComponent implements OnInit {
+  tipoRol = 'Revisor(a)';
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
@@ -44,7 +45,7 @@ export class DerivarModalComponent implements OnInit {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
       usuario_destino_id: [null, Validators.required],
-      observacion: ['', Validators.required],
+      observacion: ['DERIVAR A REVISOR', Validators.required],
       solicitud_id: [null],
       id_seguimiento: [null],
       observaciones: this.fb.array([])
@@ -54,6 +55,9 @@ export class DerivarModalComponent implements OnInit {
   ngOnChanges(): void {
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
+    if (this.selectedSolicitud !== undefined) {
+      this.getTipoObservacion();
+    }
     this.seguimientoForm.patchValue({
       solicitud_id: this.selectedSolicitud,
       id_seguimiento: this.selectedSeguimiento
@@ -61,8 +65,6 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTipoObservacion();
-
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -82,8 +84,12 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 
-  closeModal() {
-    this.visible = false;
+  closeModal(flag?: boolean) {
+    this.visible = flag ?? false;
+
+    this.seguimientoForm.reset();
+    this.observationsFormArray.clear();
+
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
   }
@@ -183,7 +189,6 @@ export class DerivarModalComponent implements OnInit {
   onSubmit() {
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
-
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Observación Agregada', message!);

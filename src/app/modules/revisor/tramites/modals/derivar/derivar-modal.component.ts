@@ -4,6 +4,7 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
+import { ObservacionRevisorService } from '../../services/observacion-revisor.service';
 
 @Component({
   selector: 'app-derivar-modal',
@@ -11,6 +12,7 @@ import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/se
   styleUrls: ['./derivar-modal.component.scss']
 })
 export class DerivarModalComponent implements OnInit {
+  tipoRol = 'Jefe Unidad';
 
   @Input() visible: boolean = false;
   @Input() selectedSolicitud: any;
@@ -37,24 +39,29 @@ export class DerivarModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public _seguimientoRevisorService: SeguimientoRevisorService,
-    public _seguimientoOperadorService: SeguimientoOperadorService,
     public _messagesService: MessagesService,
     public _abrirDocumentoService: AbrirDocumentoService,
+    public _observacionRevisorService: ObservacionRevisorService,
     private cdRef: ChangeDetectorRef
   ) {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
       usuario_destino_id: [null, Validators.required],
-      observacion: ['', Validators.required],
+      observacion: ['DERIVAR A JEFE DE UNIDAD', Validators.required],
       solicitud_id: [null],
       id_seguimiento: [null],
-      observaciones: this.fb.array([])
+      observaciones: this.fb.array([]),
+      observacion_tecnico: this.fb.array([])
     });
   }
 
   ngOnChanges(): void {
-    console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
+    console.log("this.selectedSolicitud** ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
+
+    if (this.selectedSolicitud !== undefined) {
+    }
+
     this.seguimientoForm.patchValue({
       solicitud_id: this.selectedSolicitud,
       id_seguimiento: this.selectedSeguimiento
@@ -62,8 +69,6 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTipoObservacion();
-
     this._seguimientoRevisorService.GetJefeUnidad(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -83,9 +88,13 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 
-  abrirModales(i: any) {
-    console.log(i);
+  changeModal(tab: string) {
+    this.activeTab = tab;
+    this.getTipoObservacion();
+    this.observationTecnicoFormArray.clear();
+  }
 
+  abrirModales(i: number) {
     if (i === 0) {
       this.openDocumentoCorrespondencia(this.selectedSolicitud, 'carta_solicitud');
     }
@@ -123,30 +132,35 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 
-
   getTipoObservacion() {
-    this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
-      next: ({ data }: any) => {
-        data.forEach((res: any) => {
-          this.observationsFormArray.push(this.fb.group({
-            enumeracion: [`${res.enumeracion}.`],
-            cumple: [1, Validators.required],
-            descripcion: [res.observacion, Validators.required],
-            tipo_observacion_id: [res.id, Validators.required],
-            observacion: ['SIN OBSERVACIONES', Validators.required]
-          }));
-        });
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
+
+    if (this.observationsFormArray.length === 0) {
+      this._observacionRevisorService.GetTecnicoObservacion(this.token!, this.selectedSolicitud).subscribe({
+        next: ({ data }: any) => {
+          data.forEach((res: any) => {
+            this.observationsFormArray.push(this.fb.group({
+              enumeracion: [`${res.enumeracion}.`],
+              cumple: [res.cumple, Validators.required],
+              descripcion: [res.tipo_observacion, Validators.required],
+              tipo_observacion_id: [res.tipo_observacion_id, Validators.required],
+              observacion: [res.observacion, Validators.required]
+            }));
+          });
+        },
+        error(err) {
+          console.error(err);
+        },
+      });
+    }
   }
 
   get observationsFormArray(): FormArray {
     return this.seguimientoForm.get('observaciones') as FormArray;
   }
 
+  get observationTecnicoFormArray(): FormArray {
+    return this.seguimientoForm.get('observacion_tecnico') as FormArray;
+  }
 
   openDocument(idSolicitud: number, idTipo: number, nombreDoc: string) {
     this._abrirDocumentoService.GetDocumento(this.token!, idSolicitud, idTipo).subscribe({
@@ -176,8 +190,9 @@ export class DerivarModalComponent implements OnInit {
     })
   };
 
-  closeModal() {
-    this.visible = false;
+  closeModal(flag?: boolean) {
+    console.log(flag);
+    this.visible = flag ?? false;
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
   }
@@ -185,18 +200,18 @@ export class DerivarModalComponent implements OnInit {
   onSubmit() {
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
-
-      this._seguimientoRevisorService.PostAsignarRevisorJefeUnidad(this.seguimientoForm.value, this.token!).subscribe({
-        next: ({ message }) => {
-          this._messagesService.MessageSuccess('Formulario Agregado', message!);
-          this.seguimientoChanged.emit();
-          this.closeModal();
-        },
-        error: (error) => {
-          this._messagesService.MessageError('Error al Agregar', error.error.message);
-          this.closeModal();
-        },
-      });
+      this._seguimientoRevisorService.PostAsignarRevisorJefeUnidad(this.seguimientoForm.value, this.token!)
+        .subscribe({
+          next: ({ message }) => {
+            this._messagesService.MessageSuccess('Solicitud Dervidada', message!);
+            this.seguimientoChanged.emit();
+            this.closeModal();
+          },
+          error: (error) => {
+            this._messagesService.MessageError('Error al Dervivar', error.error.message);
+            this.closeModal();
+          },
+        });
     } else {
       this._messagesService.MessageError('Formulario inválido', 'Por favor complete todos los campos requeridos.');
     }
