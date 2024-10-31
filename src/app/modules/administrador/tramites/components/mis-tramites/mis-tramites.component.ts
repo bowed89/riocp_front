@@ -29,7 +29,7 @@ export class MisTramitesComponent {
 
   addDerivar(seguimiento: any) {
     console.log("seguimiento ===>", seguimiento);
-    
+
     this.selectedSolicitud = seguimiento.solicitud_id;
     this.selectedSeguimiento = seguimiento.id_seguimiento;
     this.newVisible = true;

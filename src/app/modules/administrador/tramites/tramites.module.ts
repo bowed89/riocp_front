@@ -6,6 +6,7 @@ import { TramitesRoutingModule } from './tramites-routing.module';
 import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.component';
 import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
 
+import { BodyModalsModule } from 'src/app/shared/modules/body-modals/body-modals.module';
 
 
 import { TableModule } from 'primeng/table';
@@ -40,7 +41,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     FormsModule,
     DialogModule,
     InputTextareaModule,
-    ToastModule
+    ToastModule,
+    BodyModalsModule
   ]
 })
 export class TramitesModule { }

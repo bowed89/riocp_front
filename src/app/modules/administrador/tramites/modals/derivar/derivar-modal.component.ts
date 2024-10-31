@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
@@ -9,6 +9,7 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
   styleUrls: ['./derivar-modal.component.scss']
 })
 export class DerivarModalComponent implements OnInit {
+  tipoRol = 'Técnico';
 
   @Input() visible: boolean = false;
   @Input() selectedSolicitud: any;
@@ -19,7 +20,6 @@ export class DerivarModalComponent implements OnInit {
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
   tecnicos: any[] = [];
-  revisores: any[] = [];
   token = localStorage.getItem('token');
 
   seguimientoForm: FormGroup;
@@ -28,6 +28,7 @@ export class DerivarModalComponent implements OnInit {
     private fb: FormBuilder,
     public _seguimientoAdminService: SeguimientoAdminService,
     public _messagesService: MessagesService,
+    private cdRef: ChangeDetectorRef
   ) {
     // Inicializar el FormGroup
     this.seguimientoForm = this.fb.group({
@@ -36,8 +37,6 @@ export class DerivarModalComponent implements OnInit {
       nro_hoja_ruta: ['', Validators.required],
       solicitud_id: [this.selectedSolicitud],
       usuario_destino_id: ['', Validators.required],
-      observacion_revisor: ['', Validators.required],
-      usuario_destino_id_revisor: ['', Validators.required]
     });
   }
   ngOnChanges(): void {
@@ -51,7 +50,6 @@ export class DerivarModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTecnicos();
-    this.getAllRevisores();
   }
 
   getAllTecnicos() {
@@ -65,26 +63,16 @@ export class DerivarModalComponent implements OnInit {
     });
   }
 
-  getAllRevisores() {
-    this._seguimientoAdminService.GetRevisores(this.token!).subscribe({
-      next: ({ data }) => {
-        this.revisores = data.map((tecnico: any) => ({
-          nombre: `${tecnico.nombre} ${tecnico.apellido}`,
-          id: tecnico.id
-        }));
-      },
-    });
-  }
-
-  closeModal() {
-    this.visible = false;
+  closeModal(flag?: boolean) {
+    this.visible = flag ?? false;
     this.visibleChange.emit(this.visible);
+    this.cdRef.detectChanges(); // Fuerza la detección de cambios
   }
 
   onSubmit() {
+    console.log(this.seguimientoForm.value);
     if (this.seguimientoForm.valid) {
-      console.log(this.seguimientoForm.value);
-      
+
       this._seguimientoAdminService.PostSeguimientoAdmin(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Formulario Agregado', message!);
@@ -96,8 +84,7 @@ export class DerivarModalComponent implements OnInit {
           this.closeModal();
         },
       });
-    } else {
-      this._messagesService.MessageError('Formulario inválido', 'Por favor complete todos los campos requeridos.');
-    }
+    
+    } 
   }
 }

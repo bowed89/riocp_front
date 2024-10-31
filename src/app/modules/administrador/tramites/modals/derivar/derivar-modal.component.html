@@ -7,16 +7,16 @@
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
             Derivar Técnico
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
-            Derivar Revisor
-        </button>
     </div>
 
     <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
         <div class="tab-content">
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
-                <h4 style="text-align: center;">Derivar Técnico</h4>
+
+                <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
+                    (valorBooleano)="closeModal($event)"></app-derivar>
+                <!--    <h4 style="text-align: center;">Derivar Técnico</h4>
                 <div>
                     <div class="form-group">
                         <label for="usuario_destino_id">Seleccionar Técnico:</label>
@@ -47,40 +47,7 @@
                             Las observaciones son requeridas.
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Contenido de la Pestaña 2 -->
-            <div *ngIf="activeTab === 'tab2'" class="form-container">
-                <h4 style="text-align: center;">Derivar Revisor</h4>
-                <div>
-                    <div class="form-group">
-                        <label for="usuario_destino_id_revisor">Seleccionar Revisor:</label>
-                        <p-dropdown formControlName="usuario_destino_id_revisor" [options]="revisores"
-                            optionLabel="nombre" optionValue="id" placeholder="Seleccionar Revisor"></p-dropdown>
-                        <div *ngIf="seguimientoForm.get('usuario_destino_id_revisor')?.invalid && seguimientoForm.get('usuario_destino_id_revisor')?.touched"
-                            class="error">
-                            Seleccione un revisor.
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="observacion_revisor">Observaciones:</label>
-                        <textarea rows="5" cols="30" pInputTextarea formControlName="observacion_revisor"
-                            style="width: 100%; margin-bottom: 30px;"></textarea>
-                        <div *ngIf="seguimientoForm.get('observacion_revisor')?.invalid && seguimientoForm.get('observacion_revisor')?.touched"
-                            class="error">
-                            Las observaciones son requeridas.
-                        </div>
-                    </div>
-
-                    <div class="p-dialog-footer">
-                        <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
-                            class="p-button-text"></button>
-                        <button pButton type="submit" label="Guardar" class="p-button-success"
-                            [disabled]="seguimientoForm.invalid"></button>
-                    </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </form>

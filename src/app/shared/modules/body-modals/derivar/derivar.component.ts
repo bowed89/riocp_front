@@ -12,7 +12,15 @@ export class DerivarComponent {
   @Input() listadoRol: any[] = [];
   @Input() seguimientoForm!: FormGroup;
 
+  hoja_ruta = false;
+
   @Output() valorBooleano: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  ngOnChanges(): void {
+    if (this.tipoRol === 'Técnico') {
+      this.hoja_ruta = true;
+    }
+  }
 
   closeModal(flag: boolean) {
     this.valorBooleano.emit(flag); // Emitimos el valor booleano al padre
