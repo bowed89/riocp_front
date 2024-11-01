@@ -16,38 +16,6 @@
 
                 <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
                     (valorBooleano)="closeModal($event)"></app-derivar>
-                <!--    <h4 style="text-align: center;">Derivar Técnico</h4>
-                <div>
-                    <div class="form-group">
-                        <label for="usuario_destino_id">Seleccionar Técnico:</label>
-                        <p-dropdown formControlName="usuario_destino_id" [options]="tecnicos" optionLabel="nombre"
-                            optionValue="id" placeholder="Seleccionar Técnico"></p-dropdown>
-                        <div *ngIf="seguimientoForm.get('usuario_destino_id')?.invalid && seguimientoForm.get('usuario_destino_id')?.touched"
-                            class="error">
-                            Seleccione un técnico.
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nro_hoja_ruta">Nro de Hoja de Ruta:</label>
-                        <input id="nro_hoja_ruta" type="text" pInputText formControlName="nro_hoja_ruta"
-                            placeholder="Ingrese Nro de Hoja de Ruta" />
-                        <div *ngIf="seguimientoForm.get('nro_hoja_ruta')?.invalid && seguimientoForm.get('nro_hoja_ruta')?.touched"
-                            class="error">
-                            El número de hoja de ruta es requerido.
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="observacion">Observaciones:</label>
-                        <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
-                            style="width: 100%; margin-bottom: 30px;"></textarea>
-                        <div *ngIf="seguimientoForm.get('observacion')?.invalid && seguimientoForm.get('observacion')?.touched"
-                            class="error">
-                            Las observaciones son requeridas.
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </form>

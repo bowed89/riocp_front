@@ -17,9 +17,13 @@ export class DerivarComponent {
   @Output() valorBooleano: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   ngOnChanges(): void {
+
+    console.log("sasaasasasasas", this.tipoRol);
+    
     if (this.tipoRol === 'Técnico') {
       this.hoja_ruta = true;
     }
+    
   }
 
   closeModal(flag: boolean) {

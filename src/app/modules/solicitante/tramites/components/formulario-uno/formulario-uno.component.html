@@ -81,7 +81,8 @@
                 <div class="row">
                     <label>2.3.2 Moneda de Origen:</label>
                     <div class="dropdown-container">
-                        <p-dropdown formControlName="moneda_id" (onChange)="monedaOrigen($event)" [options]="monedas" optionLabel="nombre"
+                        <p-dropdown formControlName="moneda_id" (onChange)="monedaOrigen($event)" [options]="monedas"
+                            optionLabel="nombre"
                             optionValue="id" placeholder="Seleccione una Moneda" styleClass="w-full">
                         </p-dropdown>
                     </div>
@@ -130,7 +131,8 @@
                 <div class="row">
                     <label>2.3.6 Periodicidad de Pago:</label>
                     <div class="dropdown-container">
-                        <p-dropdown formControlName="periodo_id" [options]="periodos" (onChange)="periodoPago($event)" optionLabel="nombre"
+                        <p-dropdown formControlName="periodo_id" [options]="periodos" (onChange)="periodoPago($event)"
+                            optionLabel="nombre"
                             optionValue="id" placeholder="Seleccione un Periodo" styleClass="w-full">
                         </p-dropdown>
                     </div>
@@ -201,8 +203,10 @@
                     <p class="p-error">El correo electrónico es obligatorio y debe ser válido.</p>
                 </div>
                 <div class="row">
+
                     <label>4. Número Teléfono/Celular:</label>
-                    <input pInputText formControlName="telefono" placeholder="Ingrese el número teléfono/celular" />
+                    <input pInputText formControlName="telefono" type="number"
+                        placeholder="Ingrese el número teléfono/celular" />
                 </div>
                 <!-- Mensaje de error  -->
                 <div class="error-message"
@@ -218,10 +222,21 @@
 
             <!-- 2.4 Objeto de la Operación -->
             <h6>SECCIÓN 3 DECLARACIÓN JURADA Y COMPROMISO DE USO DE RECURSOS</h6>
+            <div class="caracteristicas-operacion">
+                <div class="row">
+                    <label>1. Nombre Responsable Declaracion Jurada:</label>
+                    <input pInputText formControlName="declaracion_jurada"
+                        placeholder="Ingrese el nombre del responsable" />
+                </div>
+                <!-- Mensaje de error  -->
+                <div class="error-message"
+                    *ngIf="solicitudForm.get('declaracion_jurada')?.invalid && solicitudForm.get('declaracion_jurada')?.touched">
+                    <p class="p-error">El nombre del responsable para la declaración jurada es obligatoria.</p>
+                </div>
+            </div>
+
             <h4 class="declaracion-jurada">
-                YO <input formControlName="declaracion_jurada" pInputText
-                    placeholder="Ingrese el nombre" [style.width.px]="inputWidth"
-                    (input)="adjustWidth($event)" />
+                YO {{ solicitudForm.get('declaracion_jurada')?.value }}
                 EN MI CALIDAD DE MÁXIMA AUTORIDAD EJECUTIVA DE {{ solicitudForm.get('nombre_entidad')?.value }}
                 DECLARO HABER EVALUADO DIFERENTES FUENTES DE FINANCIAMIENTO, ELIGIENDO EL CRÉDITO
                 CON LAS CONDICIONES FINANCIERAS MAS VENTAJOSAS DISPONIBLES EN EL MERCADO Y ME COMPROMETO
@@ -243,7 +258,7 @@
             </p>
             <div class="text-center">
                 <!-- Botón PDF -->
-                <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf" 
+                <button pButton type="button" label="Exportar a PDF" icon="pi pi-file-pdf"
                     (click)="generarPdf()"></button>
             </div>
         </div>

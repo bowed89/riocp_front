@@ -8,6 +8,7 @@ import { SeguimientoOperadorService } from '../../services/seguimiento-operador.
   styleUrls: ['./mis-tramites.component.scss']
 })
 export class MisTramitesComponent {
+  title = 'Trámites Técnico';
   token = localStorage.getItem('token');
   seguimientos: any[] = []; // Nueva variable para los seguimientos
   newVisible: boolean = false;

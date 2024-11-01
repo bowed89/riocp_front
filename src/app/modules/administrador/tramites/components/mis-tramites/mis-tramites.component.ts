@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { SeguimientosService } from 'src/app/shared/services/seguimientos.service';
 import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
 
 @Component({
@@ -8,8 +7,9 @@ import { SeguimientoAdminService } from '../../services/seguimiento-admin.servic
   styleUrls: ['./mis-tramites.component.scss']
 })
 export class MisTramitesComponent {
+  title = 'Trámites Jefe de Unidad'
   token = localStorage.getItem('token');
-  seguimientos: any[] = []; // Nueva variable para los seguimientos
+  seguimientos: any[] = []; 
   newVisible: boolean = false;
   id: number = 0;
   selectedCategory: string | null = null;
@@ -18,6 +18,7 @@ export class MisTramitesComponent {
 
   selectedSolicitud: any
   selectedSeguimiento: any
+  selectedIdRolOrigen: any;
 
   constructor(
     public _seguimientoAdminService: SeguimientoAdminService
@@ -29,9 +30,9 @@ export class MisTramitesComponent {
 
   addDerivar(seguimiento: any) {
     console.log("seguimiento ===>", seguimiento);
-
     this.selectedSolicitud = seguimiento.solicitud_id;
     this.selectedSeguimiento = seguimiento.id_seguimiento;
+    this.selectedIdRolOrigen = seguimiento.id_rol_origen;
     this.newVisible = true;
   }
 

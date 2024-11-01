@@ -7,6 +7,7 @@ import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.com
 import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
 
 import { BodyModalsModule } from 'src/app/shared/modules/body-modals/body-modals.module';
+import { MisTramitesModule } from 'src/app/shared/modules/mis-tramites/mis-tramites.module';
 
 
 import { TableModule } from 'primeng/table';
@@ -42,7 +43,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     DialogModule,
     InputTextareaModule,
     ToastModule,
-    BodyModalsModule
+    BodyModalsModule,
+    MisTramitesModule
   ]
 })
 export class TramitesModule { }

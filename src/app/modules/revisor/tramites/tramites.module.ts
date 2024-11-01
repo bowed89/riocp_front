@@ -7,6 +7,7 @@ import { DerivarModalComponent } from './modals/derivar/derivar-modal.component'
 
 import { FormularioSharedModule } from 'src/app/shared/modules/formularios-views/formularios.shared.module';
 import { BodyModalsModule } from 'src/app/shared/modules/body-modals/body-modals.module';
+import { MisTramitesModule } from 'src/app/shared/modules/mis-tramites/mis-tramites.module';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -42,7 +43,8 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
     RadioButtonModule,
     FormularioSharedModule,
-    BodyModalsModule
+    BodyModalsModule,
+    MisTramitesModule
   ]
 })
 export class TramitesModule { }

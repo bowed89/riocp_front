@@ -8,58 +8,14 @@
         <button pButton type="button" class="p-button-success" icon="pi pi-user-plus"></button>
     </div>
 
-    <!-- Tabla de seguimientos -->
-    <h2>Trámites Jefe de Unidad</h2><br>
-    <p-table [value]="seguimientos" [rows]="10" [paginator]="true">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Nro Solicitud</th>
-                <th>Fecha Recepción</th>
-                <th>Fecha Derivación</th>
-                <th>Observación</th>
-                <th>Nro Hoja Ruta</th>
-                <th>Rol Origen</th>
-                <th>Rol Destino</th>
-                <th>Estado</th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-seguimiento>
-            <tr>
-                <td>{{ seguimiento.nro_solicitud }}</td>
-                <td>{{ seguimiento.fecha_recepcion }}</td>
-                <td>{{ seguimiento.fecha_derivacion }}</td>
-                <td>{{ seguimiento.observacion }}</td>
-                <td>{{ seguimiento.nro_hoja_ruta }}</td>
-                <td>
-                    {{ seguimiento.rol_origen | uppercase }} <br>
-                    {{ seguimiento.nombre_origen | uppercase }} {{ seguimiento.apellido_origen | uppercase }}
-                </td>
-                <td>{{ seguimiento.rol_destino | uppercase }} <br>
-                    {{ seguimiento.nombre_destino | uppercase }} {{ seguimiento.apellido_destino | uppercase }}
-                </td>
-                <td>
-                    <p
-                        [ngClass]="{'text-success': seguimiento.estado === 'DERIVADO', 'text-danger': seguimiento.estado === 'SIN DERIVAR'}">
-                        {{ seguimiento.estado }}
-                    </p>
-                </td>
-                <td *ngIf="seguimiento.estado === 'SIN DERIVAR'">
-                    <button pButton type="button" icon="pi pi-arrow-right" (click)="addDerivar(seguimiento)"
-                        class="p-button-info"></button>
-                </td> <!-- Botón para derivar -->
-                <td *ngIf="seguimiento.estado === 'DERIVADO'"></td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="9">No Existen Seguimientos.</td>
-            </tr>
-        </ng-template>
-    </p-table>
+    <app-table
+        [seguimientos]="seguimientos"
+        [title]="title"
+        (enviarSeguimiento)="addDerivar($event)">
+    </app-table>
+
 </div>
 
 <!-- Modals -->
-<app-derivar-modal [(visible)]="newVisible" [selectedSolicitud]="selectedSolicitud"
+<app-derivar-modal [(visible)]="newVisible" [selectedSolicitud]="selectedSolicitud" [selectedIdRolOrigen]="selectedIdRolOrigen"
     [selectedSeguimiento]="selectedSeguimiento" (seguimientoChanged)="seguimientoChanged()"></app-derivar-modal>
-    

@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { SeguimientoAdminService } from 'src/app/modules/administrador/tramites/services/seguimiento-admin.service';
+import { Component } from '@angular/core';
 import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
 
 @Component({
@@ -8,6 +7,7 @@ import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.se
   styleUrls: ['./mis-tramites.component.scss']
 })
 export class MisTramitesComponent {
+  title = 'Trámites Revisor';
   token = localStorage.getItem('token');
   seguimientos: any[] = []; // Nueva variable para los seguimientos
   newVisible: boolean = false;
@@ -28,7 +28,7 @@ export class MisTramitesComponent {
   }
 
   addDerivar(seguimiento: any) {
-    this.selectedSolicitud = seguimiento.solicitud_id; 
+    this.selectedSolicitud = seguimiento.solicitud_id;
     this.selectedSeguimiento = seguimiento.id_seguimiento;
     this.newVisible = true;
   }
@@ -37,8 +37,8 @@ export class MisTramitesComponent {
     this._seguimientoRevisorService.GetSeguimientoRevisor(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
-        
-       this.seguimientos = data;
+
+        this.seguimientos = data;
       },
       error: (err) => {
         console.error(err);
@@ -46,8 +46,8 @@ export class MisTramitesComponent {
     });
   }
 
-  seguimientoChanged(){
-    this. getSeguimientos();
+  seguimientoChanged() {
+    this.getSeguimientos();
   }
 
   derivar(seguimiento: any) {
