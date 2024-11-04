@@ -161,15 +161,30 @@ export class DerivarModalComponent implements OnInit {
   openDocument(idSolicitud: number, idTipo: number, nombreDoc: string) {
     this._abrirDocumentoService.GetDocumento(this.token!, idSolicitud, idTipo).subscribe({
       next: (response: Blob) => {
-        const url = window.URL.createObjectURL(response);
+        const blob = new Blob([response], { type: response.type });
+        const downloadURL = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `${nombreDoc}.pdf`;
-        a.click();
-      }, error: (err) => {
+        a.href = downloadURL;
+
+        const extension = response.type === 'application/pdf' ? 'pdf' :
+          response.type === 'application/vnd.ms-excel' ? 'xls' :
+            response.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ? 'xlsx' :
+              'unknown';
+
+        if (extension !== 'unknown') {
+          a.download = `${nombreDoc}.${extension}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          
+        } else {
+          this._messagesService.MessageError('Documento Adjunto', `No existe un documento adjunto de tipo ${nombreDoc}`);
+        }
+      },
+      error: (err) => {
         console.log(err);
       }
-    })
+    });
   }
 
   openDocumentoCorrespondencia(id: number, nombreDoc: string) {

@@ -14,6 +14,9 @@ export class TramitesService {
   disabledFormulario4 = true;
   disabledCorrespondencia = true;
 
+  notificacionChange = 0;
+
+
   disabledAnexo1 = true;
   disabledAnexo3 = true;
 

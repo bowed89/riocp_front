@@ -200,7 +200,7 @@ export class FormularioUnoComponent {
         const url = window.URL.createObjectURL(response);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'documento.pdf';
+        a.download = 'documento_riocp_escaneado.pdf';
         a.click();
       }, error: (err) => {
         console.log(err);

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-derivar',
@@ -17,9 +17,8 @@ export class DerivarComponent {
   @Output() valorBooleano: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   ngOnChanges(): void {
-
     console.log("sasaasasasasas", this.tipoRol);
-    
+
     if (this.tipoRol === 'Técnico') {
       this.hoja_ruta = true;
     } else {

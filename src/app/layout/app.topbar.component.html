@@ -9,19 +9,32 @@
 
     <div class="p-menubar">
         <p-dropdown [options]="entidad" [(ngModel)]="selectedEntidad"></p-dropdown>
-        <!--         <p-dropdown [options]="solicitudes" placeholder="Nro Solicitud"></p-dropdown>
- -->
     </div>
 
     <div #topbarmenu class="layout-topbar-menu"
         [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+        <!-- ICONO NOTIFICACION -->
+        <button class="p-link layout-topbar-button" [style.color]="notificationColor" style="margin-right: 3rem;"
+            (click)="notificaciones.toggle($event)">
+            <i class="pi pi-globe"></i>
+            <span>Notificacion</span>
+        </button>
+
+        <!-- ICONO USUARIO -->
         <button class="p-link layout-topbar-button" (click)="menu.toggle($event)">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
+        
         <!-- Submenu  -->
         <p-menu #menu [model]="items" [popup]="true" appendTo="body"
-        [style]="{ width: '250px', fontSize: '20px' }"></p-menu>
-    </div>
+            [style]="{ width: '250px', fontSize: '20px' }"></p-menu>
+
+        <!-- Submenu Notificaciones -->
+        <p-menu #notificaciones [model]="notificacion" [popup]="true" appendTo="body"
+            [style]="{ width: '350px', fontSize: '20px' }"></p-menu>
+    
+        </div>
 
 </div>

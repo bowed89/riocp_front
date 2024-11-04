@@ -23,14 +23,20 @@ export class WebSocketService {
       }
     });
   }
-
+  
   listenToMenuUpdates(callback: (data: any) => void) {
     const channel = this.pusherClient.subscribe('menu-pestania');
     channel.bind('App\\Events\\MenuUpdated', callback);
+  }
+
+  listenNotificacion(callback: (data: any) => void) {
+    const channel = this.pusherClient.subscribe('new-notificaciones');
+    channel.bind('App\\Events\\Notificaciones', callback);
   }
 
   private getCSRFToken(): string {
     const meta = document.querySelector('meta[name="csrf-token"]');
     return meta ? (meta as HTMLMetaElement).content : '';
   }
+
 }

@@ -38,7 +38,7 @@ export class AbrirDocumentoService {
 
   GetFormularioCorrespondencia(token: string, id: number) {
     const url = `${API.local}/abrir-formulario-correspondencia/${id}`
-    return this.http.get(url, {
+      return this.http.get(url, {
       responseType: 'blob',
       headers: this.getHttpOptions(token).headers
     });
