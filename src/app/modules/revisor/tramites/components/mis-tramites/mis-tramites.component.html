@@ -1,19 +1,16 @@
 <div class="table-container">
-    <div class="filter-container">
-        <!-- Filtros y botón para agregar usuario -->
-        <p-dropdown class="filter-element" [(ngModel)]="selectedRol" placeholder="Roles"></p-dropdown>
-        <input class="filter-element" type="text" pInputText placeholder="Filtrar por nombre"
-            [(ngModel)]="searchText" />
-        <button class="filter-element" pButton type="button" icon="pi pi-search"></button>
-        <button pButton type="button" class="p-button-success" icon="pi pi-user-plus"></button>
-    </div>
+    <app-filter
+        (arrayEmitido)="getFilterSeguimientos($event)"
+        [idRol]="idRol">
+    </app-filter>
+
 
     <app-table
         [seguimientos]="seguimientos"
         [title]="title"
         (enviarSeguimiento)="addDerivar($event)">
     </app-table>
-    
+
 </div>
 
 <!-- Modals -->

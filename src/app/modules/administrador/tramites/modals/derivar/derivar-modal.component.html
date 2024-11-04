@@ -5,7 +5,7 @@
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
-            Derivar Técnico
+            Derivar
         </button>
     </div>
 
@@ -14,7 +14,7 @@
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
 
-                <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
+                <app-derivar [tipoRol]="tipoRol" [listadoRol]="listadoRol" [seguimientoForm]="seguimientoForm"
                     (valorBooleano)="closeModal($event)"></app-derivar>
             </div>
         </div>

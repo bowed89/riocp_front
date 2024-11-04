@@ -1,0 +1,15 @@
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.filter-element {
+    margin: 0 0.5rem;
+}
+
+
+input {
+    flex: 1;
+  }

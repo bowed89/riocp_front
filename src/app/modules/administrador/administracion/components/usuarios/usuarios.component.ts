@@ -39,6 +39,8 @@ export class UsuariosComponent {
   ngOnInit() {
     this.getAllUsers();
     this.GetAllRoles();
+
+    console.log(this.roles);
   }
 
   getAllUsers() {
@@ -73,6 +75,9 @@ export class UsuariosComponent {
         });
       });
     }
+
+    
+    
   }
 
   showAllDropDown() {

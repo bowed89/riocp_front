@@ -22,8 +22,11 @@ export class DerivarComponent {
     
     if (this.tipoRol === 'Técnico') {
       this.hoja_ruta = true;
+    } else {
+      this.hoja_ruta = false;
+
     }
-    
+
   }
 
   closeModal(flag: boolean) {

@@ -1,0 +1,9 @@
+<div class="filter-container">
+    <!-- Filtros y botón para agregar usuario -->
+    <p-dropdown class="filter-element" [options]="filter" [(ngModel)]="selectedFilter"
+        (onChange)="showAllDropDown()"
+        placeholder="Buscar por"></p-dropdown>
+    <input class="filter-element" type="text" pInputText placeholder="{{placeholder}}"
+        [(ngModel)]="searchText" />
+    <button class="filter-element" pButton type="button" icon="pi pi-search" (click)="applyFilter()"></button>
+</div>

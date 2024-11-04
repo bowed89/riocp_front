@@ -22,7 +22,8 @@
             <td>{{ seguimiento.nro_hoja_ruta }}</td>
             <td>
                 {{ seguimiento.rol_origen | uppercase }} <br>
-                {{ seguimiento.nombre_origen | uppercase }} {{ seguimiento.apellido_origen | uppercase }}
+                {{ seguimiento.nombre_origen | uppercase }} {{ seguimiento.apellido_origen | uppercase }}<br>
+                {{ seguimiento.denominacion  }}
             </td>
             <td>{{ seguimiento.rol_destino | uppercase }} <br>
                 {{ seguimiento.nombre_destino | uppercase }} {{ seguimiento.apellido_destino | uppercase }}

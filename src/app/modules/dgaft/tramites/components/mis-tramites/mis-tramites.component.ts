@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
+import { Component, ViewChild } from '@angular/core';
+import { SeguimientoAdminService } from 'src/app/modules/administrador/tramites/services/seguimiento-admin.service';
+import { SeguimientoOperadorService } from '../../services/seguimiento-dgaft.service';
 
 @Component({
   selector: 'mis-tramites-component',
@@ -7,41 +8,48 @@ import { SeguimientoAdminService } from '../../services/seguimiento-admin.servic
   styleUrls: ['./mis-tramites.component.scss']
 })
 export class MisTramitesComponent {
-  title = 'Trámites Jefe de Unidad'
+  title = 'Trámites DGAFT';
   token = localStorage.getItem('token');
-  seguimientos: any[] = [];
+  seguimientos: any[] = []; // Nueva variable para los seguimientos
   newVisible: boolean = false;
 
-  idRol: number = 2;
+  idRol: number = 5;
 
+  selectedCategory: string | null = null;
+  selectedRol: string | null = null;
   searchText: string = '';
 
   selectedSolicitud: any
   selectedSeguimiento: any
-  selectedIdRolOrigen: any;
 
   constructor(
-    public _seguimientoAdminService: SeguimientoAdminService
+    public _seguimientoOperadorService: SeguimientoOperadorService
   ) { }
 
+  ngOnInit() {
+    this.getSeguimientos()
+  }
+
   addDerivar(seguimiento: any) {
-    console.log("seguimiento ===>", seguimiento);
     this.selectedSolicitud = seguimiento.solicitud_id;
     this.selectedSeguimiento = seguimiento.id_seguimiento;
-    this.selectedIdRolOrigen = seguimiento.id_rol_origen;
     this.newVisible = true;
   }
 
-  getFilterSeguimientos(array?: string[]) {    
+  getFilterSeguimientos(array?: string[]) {
     if (array !== undefined) {
       this.seguimientos = array
     }
   }
 
+
   getSeguimientos() {
-    this._seguimientoAdminService.GetSeguimientosAdministrador(this.token!).subscribe({
+    this._seguimientoOperadorService.GetSeguimientoOperador(this.token!).subscribe({
       next: ({ data }) => {
+        console.log(data);
+
         this.seguimientos = data;
+
       },
       error: (err) => {
         console.error(err);

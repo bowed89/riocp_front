@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { SeguimientoAdminService } from 'src/app/modules/administrador/tramites/services/seguimiento-admin.service';
+import { Component } from '@angular/core';
 import { SeguimientoOperadorService } from '../../services/seguimiento-operador.service';
 
 @Component({
@@ -12,7 +11,9 @@ export class MisTramitesComponent {
   token = localStorage.getItem('token');
   seguimientos: any[] = []; // Nueva variable para los seguimientos
   newVisible: boolean = false;
-  id: number = 0;
+
+  idRol: number = 3;
+
   selectedCategory: string | null = null;
   selectedRol: string | null = null;
   searchText: string = '';
@@ -24,23 +25,25 @@ export class MisTramitesComponent {
     public _seguimientoOperadorService: SeguimientoOperadorService
   ) { }
 
-  ngOnInit() {
-    this.getSeguimientos()
-  }
 
   addDerivar(seguimiento: any) {
-    this.selectedSolicitud = seguimiento.solicitud_id; 
+    this.selectedSolicitud = seguimiento.solicitud_id;
     this.selectedSeguimiento = seguimiento.id_seguimiento;
     this.newVisible = true;
+  }
+
+  getFilterSeguimientos(array?: string[]) {
+    console.log(array);
+
+    if (array !== undefined) {
+      this.seguimientos = array
+    }
   }
 
   getSeguimientos() {
     this._seguimientoOperadorService.GetSeguimientoOperador(this.token!).subscribe({
       next: ({ data }) => {
-        console.log(data);
-
         this.seguimientos = data;
-
       },
       error: (err) => {
         console.error(err);
@@ -48,12 +51,14 @@ export class MisTramitesComponent {
     });
   }
 
-  seguimientoChanged(){
-    this. getSeguimientos();
+  seguimientoChanged() {
+    this.getSeguimientos();
   }
 
   derivar(seguimiento: any) {
     console.log('Derivando seguimiento:', seguimiento);
   }
+
+
 
 }

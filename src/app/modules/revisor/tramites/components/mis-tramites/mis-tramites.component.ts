@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
 
 @Component({
@@ -11,7 +11,9 @@ export class MisTramitesComponent {
   token = localStorage.getItem('token');
   seguimientos: any[] = []; // Nueva variable para los seguimientos
   newVisible: boolean = false;
-  id: number = 0;
+
+  idRol: number = 4;
+
   selectedCategory: string | null = null;
   selectedRol: string | null = null;
   searchText: string = '';
@@ -20,7 +22,8 @@ export class MisTramitesComponent {
   selectedSeguimiento: any
 
   constructor(
-    public _seguimientoRevisorService: SeguimientoRevisorService
+    public _seguimientoRevisorService: SeguimientoRevisorService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -33,12 +36,19 @@ export class MisTramitesComponent {
     this.newVisible = true;
   }
 
+  getFilterSeguimientos(array?: string[]) {
+    if (array !== undefined) {
+      this.seguimientos = array
+    }
+  }
+
+
   getSeguimientos() {
     this._seguimientoRevisorService.GetSeguimientoRevisor(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
-
         this.seguimientos = data;
+        this.cdRef.detectChanges(); // Fuerza la detección de cambios
       },
       error: (err) => {
         console.error(err);

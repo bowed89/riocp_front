@@ -19,7 +19,7 @@ export class DerivarModalComponent implements OnInit {
   @Output() seguimientoChanged = new EventEmitter<void>();
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
-  tecnicos: any[] = [];
+  listadoRol: any[] = [];
   token = localStorage.getItem('token');
 
 
@@ -31,20 +31,34 @@ export class DerivarModalComponent implements OnInit {
     public _messagesService: MessagesService,
     private cdRef: ChangeDetectorRef
   ) {
-
+    this.seguimientoForm = this.fb.group({
+      id_seguimiento: [null],
+      observacion: [''],
+      nro_hoja_ruta: [''],
+      solicitud_id: [null],
+      usuario_destino_id: ['']
+    });
   }
+
   ngOnChanges(): void {
+
     if (this.selectedSolicitud !== undefined) {
       console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
       console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
       console.log("this.selectedIdRolOrigen ===>", this.selectedIdRolOrigen);
+
+      this.seguimientoForm.patchValue({
+        solicitud_id: this.selectedSolicitud,
+        id_seguimiento: this.selectedSeguimiento
+      });
+
 
       if (this.selectedIdRolOrigen === 1) {
         this.tipoRol = 'Técnico';
         // Inicializar el FormGroup
         this.seguimientoForm = this.fb.group({
           id_seguimiento: [this.selectedSeguimiento],
-          observacion: ['', Validators.required],
+          observacion: ['DERIVAR A TÉCNICO SELECCIONADO', Validators.required],
           nro_hoja_ruta: ['', Validators.required],
           solicitud_id: [this.selectedSolicitud],
           usuario_destino_id: ['', Validators.required],
@@ -56,19 +70,13 @@ export class DerivarModalComponent implements OnInit {
         this.tipoRol = 'DGAFT';
         this.seguimientoForm = this.fb.group({
           id_seguimiento: [this.selectedSeguimiento],
-          observacion: ['', Validators.required],
+          observacion: ['DERIVAR A DIRECTOR(A) DGAFT', Validators.required],
           solicitud_id: [this.selectedSolicitud],
           usuario_destino_id: ['', Validators.required],
         });
-        this.getAllDirectora();
+        this.getAllDgaft();
       }
-
     }
-
-    this.seguimientoForm.patchValue({
-      solicitud_id: this.selectedSolicitud,
-      id_seguimiento: this.selectedSeguimiento
-    });
   }
 
   ngOnInit(): void {
@@ -77,7 +85,7 @@ export class DerivarModalComponent implements OnInit {
   getAllTecnicos() {
     this._seguimientoAdminService.GetTecnicos(this.token!).subscribe({
       next: ({ data }) => {
-        this.tecnicos = data.map((tecnico: any) => ({
+        this.listadoRol = data.map((tecnico: any) => ({
           nombre: `${tecnico.nombre} ${tecnico.apellido}`,
           id: tecnico.id
         }));
@@ -85,17 +93,21 @@ export class DerivarModalComponent implements OnInit {
     });
   }
 
-  getAllDirectora() {
-    this.tecnicos = [
-      { nombre: 'Directora 1', id: 1 },
-      { nombre: 'Directora 2', id: 2 },
-    ]
+  getAllDgaft() {
+    this._seguimientoAdminService.GetDgaft(this.token!).subscribe({
+      next: ({ data }) => {
+        this.listadoRol = data.map((tecnico: any) => ({
+          nombre: `${tecnico.nombre} ${tecnico.apellido}`,
+          id: tecnico.id
+        }));
+      },
+    });
   }
 
   closeModal(flag?: boolean) {
     this.visible = flag ?? false;
     this.visibleChange.emit(this.visible);
-    this.cdRef.detectChanges(); // Fuerza la detección de cambios
+    this.cdRef.detectChanges();
   }
 
   onSubmit() {

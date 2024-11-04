@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
 import { TableComponent } from './table/table.component';
+import { FilterComponent } from './filter/filter.component';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -12,10 +16,13 @@ import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
-    TableComponent
+    TableComponent,
+    FilterComponent
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     TableModule,
     DropdownModule,
     InputTextModule,
@@ -24,7 +31,8 @@ import { ToastModule } from 'primeng/toast';
     ToastModule,
   ],
   exports: [
-    TableComponent
+    TableComponent,
+    FilterComponent
   ]
 })
 export class MisTramitesModule { }
