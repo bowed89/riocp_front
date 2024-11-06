@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { API } from 'src/app/shared/api/api';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Correspondencia } from '../interfaces/correspondencia.interface';
+import { Injectable } from '@angular/core';
 import { Response } from 'src/app/shared/interfaces/response.interface';
+import { API } from 'src/app/shared/api/api';
 
 export interface FormState {
   isValid: boolean;
@@ -28,7 +28,6 @@ export class CorrespondenciaService {
       })
     };
   }
-
 
   SetFormValid(isValid: boolean, message: string) {
     this.formValidSource.next({ isValid, message });

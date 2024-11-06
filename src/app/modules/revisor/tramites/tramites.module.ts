@@ -21,6 +21,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 
+import { CardModule } from 'primeng/card';
+
+
 @NgModule({
   declarations: [
     MisTramitesComponent,
@@ -44,7 +47,8 @@ import { ToastModule } from 'primeng/toast';
     RadioButtonModule,
     FormularioSharedModule,
     BodyModalsModule,
-    MisTramitesModule
+    MisTramitesModule,
+    CardModule
   ]
 })
 export class TramitesModule { }

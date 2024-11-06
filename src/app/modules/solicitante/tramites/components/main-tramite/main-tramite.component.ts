@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { TramitesService } from '../../services/tramites.service';
 import { MenuPestaniaService } from '../../services/menu-pestanias.service';
 import { WebSocketService } from 'src/app/shared/services/websocket.service';
-
 
 export interface Preguntas {
   pregunta_1: boolean,

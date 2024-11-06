@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SeguimientoAdminService } from 'src/app/modules/administrador/tramites/services/seguimiento-admin.service';
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 import { SeguimientoRevisorService } from 'src/app/modules/revisor/tramites/services/seguimiento-revisor.service';
+import { WebSocketService } from 'src/app/shared/services/websocket.service';
 
 @Component({
   selector: 'app-filter',
@@ -27,12 +28,21 @@ export class FilterComponent {
   constructor(
     public _seguimientoAdminService: SeguimientoAdminService,
     public _seguimientoOperadorService: SeguimientoOperadorService,
-    public _seguimientoRevisorService: SeguimientoRevisorService
+    public _seguimientoRevisorService: SeguimientoRevisorService,
+    private webSocketService: WebSocketService,
+
   ) { }
 
 
   ngOnInit() {
     this.getSeguimientos();
+/*     this.webSocketService.listenNotificacion((data) => {
+      console.log("notificacionessssss ===>", data.data);
+      this.seguimientos = data.data;
+      this.arrayEmitido.emit(this.seguimientos);
+
+
+    }); */
   }
 
   getSeguimientos() {
@@ -62,9 +72,10 @@ export class FilterComponent {
       });
     }
     if (this.idRol === 2) {
-      console.log("jefe unidad");
+
       this._seguimientoAdminService.GetSeguimientosAdministrador(this.token!).subscribe({
         next: ({ data }) => {
+          console.log("jefe unidad");
           this.seguimientos = data;
           this.arrayEmitido.emit(this.seguimientos);
 
@@ -73,6 +84,10 @@ export class FilterComponent {
           console.error(err);
         }
       });
+
+
+
+
     }
   }
 

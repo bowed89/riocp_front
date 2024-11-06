@@ -24,9 +24,9 @@ export class NotificacionService {
     };
   }
 
-  NotificacionJefeUnidad(token: string): Observable<Response<Monedas>> {
+  NotificacionJefeUnidad(token: string): Observable<Response<any>> {
     const url = `${API.local}/notificaciones`;
-    return this.http.get<Response<Monedas>>(url, this.getHttpOptions(token));
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 
 }

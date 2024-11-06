@@ -4,7 +4,7 @@ import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.com
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'ver-tramites', component: MisTramitesComponent },
+        { path: 'ver-tramite', component: MisTramitesComponent },
 
     ])],
     exports: [RouterModule]

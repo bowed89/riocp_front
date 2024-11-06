@@ -1,18 +1,131 @@
 <div class="table-container">
-    <app-filter
-        (arrayEmitido)="getFilterSeguimientos($event)"
-        [idRol]="idRol">
+    <app-filter (arrayEmitido)="getFilterSeguimientos($event)" [idRol]="idRol">
     </app-filter>
 
 
-    <app-table
-        [seguimientos]="seguimientos"
-        [title]="title"
-        (enviarSeguimiento)="addDerivar($event)">
+    <app-table [seguimientos]="seguimientos" [title]="title" (enviarSeguimiento)="addDerivar($event)">
     </app-table>
 
 </div>
 
+
+
 <!-- Modals -->
 <app-derivar-modal [(visible)]="newVisible" [selectedSolicitud]="selectedSolicitud"
     [selectedSeguimiento]="selectedSeguimiento" (seguimientoChanged)="seguimientoChanged()"></app-derivar-modal>
+
+
+
+<!--    CERTIFICADO -->
+<div class="card flex justify-content-center">
+    <p-button (click)="showDialog()" icon="pi pi-external-link" label="Show"></p-button>
+    <p-dialog header="Header" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '200vw' }"
+        [draggable]="false" [resizable]="false">
+
+        <p-card>
+            <div class="header">
+                <h1>SISTEMA NACIONAL DE TESORERÍA Y CRÉDITO PÚBLICO</h1>
+                <h2>CERTIFICADO DE REGISTRO DE INICIO DE OPERACIONES DE CRÉDITO PÚBLICO</h2>
+            </div>
+
+            <div class="content">
+                <!-- Checkbox Options -->
+                <!--   <div class="field">
+                    <p-radioButton value="1" label="Crédito Público Interno" [(ngModel)]="radio"></p-radioButton>
+                </div>
+                <div class="field">
+                    <p-radioButton value="2" label="Crédito Público Interno" [(ngModel)]="radio"></p-radioButton>
+                </div> -->
+
+                <div class="radio-label-left">
+                    <label>Crédito Público Interno</label>
+                    <p-radioButton value="1" [(ngModel)]="radio"></p-radioButton>
+                </div>
+
+                <div class="field">
+                    <label>Crédito Público Externo</label>
+                    <p-radioButton value="2" [(ngModel)]="radio"></p-radioButton>
+                </div>
+
+                <!-- Main Content -->
+                <div class="field">
+                    <label for="numSolicitud">N° DE SOLICITUD:</label>
+                    <input id="numSolicitud" pInputText placeholder="###########">
+                </div>
+                <div class="field">
+                    <label for="codigo">CÓDIGO:</label>
+                    <input id="codigo" pInputText placeholder="1434">
+                </div>
+                <div class="field">
+                    <label>ENTIDAD:</label>
+                    <textarea pInputTextarea rows="5"
+                        placeholder="GOBIERNO AUTÓNOMO MUNICIPAL DE HUAYLLAMARCA (SANTIAGO DE HUAYLLAMARCA)"
+                        class="w-full"></textarea>
+
+                </div>
+                <div class="field">
+                    <label>OBJETO DE LA OPERACIÓN DE CRÉDITO PÚBLICO:</label>
+                    <textarea rows="2" placeholder="FINANCIAMIENTO DE APORTE LOCAL..."></textarea>
+                </div>
+                <div class="field">
+                    <label>ACREEDOR:</label>
+                    <textarea rows="2" placeholder="FONDO NACIONAL DE DESARROLLO REGIONAL"></textarea>
+                </div>
+                <div class="field">
+                    <label for="monto">MONTO A SER CONTRATADO HASTA:</label>
+                    <input id="monto" pInputText placeholder="1.114.978,49">
+                </div>
+                <div class="field">
+                    <label for="moneda">MONEDA:</label>
+                    <input id="moneda" pInputText placeholder="BS">
+                </div>
+                <div class="field">
+                    <label for="tasaInteres">TASA DE INTERÉS:</label>
+                    <input id="tasaInteres" pInputText placeholder="4,1%">
+                </div>
+                <div class="field">
+                    <label for="comision">COMISIÓN:</label>
+                    <input id="comision" pInputText placeholder="COMPROMISO 1,0%">
+                </div>
+                <div class="field">
+                    <label for="plazo">PLAZO (AÑOS):</label>
+                    <input id="plazo" pInputText placeholder="5,0">
+                </div>
+                <div class="field">
+                    <label for="gracia">GRACIA (AÑOS):</label>
+                    <input id="gracia" pInputText placeholder="1,0">
+                </div>
+            </div>
+
+            <!-- Section Title -->
+            <div class="section-title">INDICADORES DE ENDEUDAMIENTO:</div>
+
+            <!-- Indicators -->
+            <div class="content">
+                <div class="field">
+                    <label for="servicioDeuda">SERVICIO DE LA DEUDA (LÍMITE 20%):</label>
+                    <input id="servicioDeuda" pInputText placeholder="10,3%">
+                </div>
+                <div class="field">
+                    <label for="valorPresente">VALOR PRESENTE DE DEUDA TOTAL (LÍMITE 200%):</label>
+                    <input id="valorPresente" pInputText placeholder="86,0%">
+                </div>
+            </div>
+
+            <!-- Footer Text -->
+            <div class="footer">
+                <p>EN BASE A LA DOCUMENTACIÓN PRESENTADA POR LA ENTIDAD SOLICITANTE Y LA INFORMACIÓN DISPONIBLE EN LA
+                    BASE DE DATOS DE DEUDA...</p>
+                <p class="highlight">EL PRESENTE CERTIFICADO NO CONSTITUYE UNA RESPONSABILIDAD O GARANTÍA...</p>
+                <p>ASIMISMO, EN CASO DE EFECTIVIZARSE LA OPERACIÓN DE CRÉDITO PÚBLICO...</p>
+                <p>EL PRESENTE CERTIFICADO TIENE EL SIGUIENTE PERIODO DE VIGENCIA:</p>
+                <ul>
+                    <li>A) PARA OPERACIONES DE CRÉDITO PÚBLICO INTERNO, SEIS (6) MESES...</li>
+                    <li>B) PARA OPERACIONES DE CRÉDITO PÚBLICO EXTERNO, POSTERIOR A SU EMISIÓN...</li>
+                </ul>
+            </div>
+        </p-card>
+
+
+    </p-dialog>
+</div>

@@ -6,6 +6,7 @@ export interface EntidadUserRol {
     entidad_id: number;
     nombre: string;
     rol: string;
+    rol_id: number;
     nombre_usuario: string;
     num_entidad: number;
 }

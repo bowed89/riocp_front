@@ -7,6 +7,15 @@ import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.se
   styleUrls: ['./mis-tramites.component.scss']
 })
 export class MisTramitesComponent {
+
+  // temporal ***
+  visible: boolean = false;
+  
+  radio: any;
+  showDialog() {
+    this.visible = true;
+  }
+
   title = 'Trámites Revisor';
   token = localStorage.getItem('token');
   seguimientos: any[] = []; // Nueva variable para los seguimientos

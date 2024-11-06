@@ -7,6 +7,7 @@ import { EntidadeService } from '../shared/services/entidades.service';
 import { WebSocketService } from '../shared/services/websocket.service';
 import { NotificacionService } from '../shared/services/notificacion.service';
 import { TramitesService } from '../modules/solicitante/tramites/services/tramites.service';
+import { SeguimientoAdminService } from '../modules/administrador/tramites/services/seguimiento-admin.service';
 
 @Component({
     selector: 'app-topbar',
@@ -18,7 +19,6 @@ export class AppTopBarComponent {
     selectedEntidad: any;
     nombreUsuario: any;
     rolUsuario: any;
-
     items: MenuItem[] = [];
     count: number = 0;
 
@@ -38,23 +38,14 @@ export class AppTopBarComponent {
         public _tramitesService: TramitesService,
         private webSocketService: WebSocketService,
         private router: Router,
-        private cdRef: ChangeDetectorRef
+        public _seguimientoAdminService: SeguimientoAdminService,
 
-    ) { }
-
-    ngOnInit() {
+    ) {
         this.getEntidadesByUserRol();
-        this.getAllNotificaciones();
-        this.webSocketService.listenNotificacion((data) => {
-            console.log("notificacionessssss", data.data);
-            //this.count = data.data;
-            this._tramitesService.notificacionChange = data.data;
-            this.getNotificaciones();
-            this.cdRef.detectChanges(); // Forzar cambio en la vista
-
-        })
     }
 
+    ngOnInit() {
+    }
 
     logout() {
         const token = localStorage.getItem('token');
@@ -65,9 +56,9 @@ export class AppTopBarComponent {
     }
 
     getEntidadesByUserRol() {
-        const token = localStorage.getItem('token');
-        this._entidadeService.GetEntidadByUserRol(token!).subscribe(({ data }) => {
-            console.log(data);
+        this._entidadeService.GetEntidadByUserRol(this.token!).subscribe(({ data }) => {
+            let rolIdUsuario = data[0].rol_id
+
             if (data.length > 0 && data[0]?.denominacion) { // si es rol solicitante                    
                 this.entidad.push({
                     label: data[0].denominacion,
@@ -81,7 +72,7 @@ export class AppTopBarComponent {
             } else if (data.length > 0) {
                 this.nombreUsuario = `${data[0].nombre} ${data[0].apellido}`
                 this.rolUsuario = `${data[0].rol}`
-                this._entidadeService.GetEntidades(token!).subscribe(({ data }) => {
+                this._entidadeService.GetEntidades(this.token!).subscribe(({ data }) => {
                     data.map((value) => {
                         this.entidad.push({
                             label: value.denominacion,
@@ -98,25 +89,39 @@ export class AppTopBarComponent {
                 { label: 'Cerrar Sesión', icon: 'pi pi-sign-out', command: () => this.logout() }
             ];
 
+            /**************** NOTIFICACIONES ****************/
+            // Jefe Unidad
+            if (rolIdUsuario !== 1) {
+                const tipoUrl = rolIdUsuario === 2 ? 'admin' : rolIdUsuario === 3 ? 'operador' : rolIdUsuario === 4 && 'revisor';
+                this.getNotificacionesJefeUnidad();
+                this.webSocketService.listenNotificacion((data) => {
+                    console.log(data);
+
+                    this.count = data.data;
+                    this.notificacion = [
+                        {
+                            label: `${this.count} Trámite(s) Pendiente(s)`,
+                            icon: 'pi pi-envelope',
+                            command: () => this.router.navigate([`/${tipoUrl}/ver-tramite`])
+                        }
+                    ];
+                });
+            }
+
+
         });
     }
 
-    getNotificaciones() {
-        this.notificacion = [
-            { label: `${this._tramitesService.notificacionChange} Trámite(s) Pendiente(s)`, icon: 'pi pi-envelope' }
-        ];
-    }
-
     get notificationColor(): string {
-        return this._tramitesService.notificacionChange  > 0 ? 'rgb(205 23 53)' : '';
+        return this.count > 0 ? 'rgb(205 23 53)' : '';
     }
 
-    getAllNotificaciones() {
+    getNotificacionesJefeUnidad() {
         this._notificacionService.NotificacionJefeUnidad(this.token!).subscribe({
-            next(value) {
-            }, error(err) {
-                console.error(err);
-            },
+            next(res) {
+                console.log("dsddssdsdfsd" + res);
+
+            }
         })
     }
 

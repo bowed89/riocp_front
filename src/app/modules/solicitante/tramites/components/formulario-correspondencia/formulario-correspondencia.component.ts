@@ -200,6 +200,13 @@ export class FormularioCorrespondenciaComponent {
 
         console.log('Confirmado');
 
+        // Imprimir todo el contenido
+        for (let key of formData.keys()) {
+          console.log(key, formData.getAll(key));
+        }
+
+
+
         this._correspondenciaService.PostSolicitudCorrespondencia(formData, token!)
           .subscribe({
             next: ({ message }) => {
