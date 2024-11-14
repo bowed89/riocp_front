@@ -1,0 +1,24 @@
+<p-toast></p-toast>
+
+<div class="container cronograma-container">
+    <h4 class="text-center subtitulo-container">Información Gral.Deuda Pública Externa</h4>
+
+
+    <div class="p-field p-mb-4">
+        <p class="subtitulo" for="documento">Seleccionar Documento:</p>
+        <p-fileUpload chooseLabel="Subir Archivo" cancelLabel="Cancelar" [showUploadButton]="false"
+            [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()" [multiple]="false"
+            accept=".xlsx,.xls,.csv" [maxFileSize]="10000000" class="fileupload">
+        </p-fileUpload>
+    </div>
+    <div class="error-message" *ngIf="spinner">
+        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+            animationDuration=".5s" />
+    </div>
+
+
+    <div class="p-mt-4">
+        <button type="submit" [disabled]="activeBtn" (click)="onSubmit()" pButton label="Guardar Archivo"
+            class="p-button-success"></button>
+    </div>
+</div>

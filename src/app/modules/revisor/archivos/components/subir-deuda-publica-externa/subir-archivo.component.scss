@@ -1,0 +1,36 @@
+.cronograma-container {
+    border: 1px solid #ccc;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+.subtitulo-container {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.subtitulo {
+    margin-top: 30px;
+}
+
+/* Responsividad para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .cronograma-container {
+        width: 100%;
+        /* Ancho completo para pantallas pequeñas */
+        padding: 15px;
+        /* Ajusta el padding para pantallas pequeñas */
+    }
+
+    .form-container {
+        padding: 0 5%;
+        /* Reduce el padding lateral en pantallas pequeñas */
+    }
+}

@@ -3,66 +3,39 @@
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">DOCUMENTOS ADMINISTRADOR</span>
-                    <div class="text-900 font-medium text-xl">152</div>
+                    <span class="block text-500 font-medium mb-3">TOTAL SOLICITUDES DERIVADAS</span>
+                    <div class="text-900 font-medium text-xl">
+                        +152
+                        <span class="text-blue-400 font-medium"> Solicitudes </span>
+                    </div>
+                    
                 </div>
                 <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
                     [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                    <i class="pi pi-thumbs-up text-blue-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">24 nuevos </span>
-            <span class="text-500">desde la ultima visita</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">TOTAL PRESTAMO PENDIENTE</span>
-                    <div class="text-900 font-medium text-xl">$2.100.000</div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    <span class="block text-500 font-medium mb-3">TOTAL SOLICITUDES NO DERIVADAS</span>
+                    <div class="text-900 font-medium text-xl">
+                        +152
+                        <span class="text-red-500 font-medium"> Solicitudes </span>
+                    </div>                </div>
+                <div class="flex align-items-center justify-content-center bg-red-100 border-round"
                     [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                    <i class="pi pi-thumbs-down text-red-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">%52+ </span>
-            <span class="text-500">desde la ultima semana</span>
+           
         </div>
     </div>
-    <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-0">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-3">SOLICITUDES</span>
-                    <div class="text-900 font-medium text-xl">28441</div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
-                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                </div>
-            </div>
-          <!--   <span class="text-green-500 font-medium">520 </span>
-            <span class="text-500">newly registered</span> -->
-        </div>
-    </div>
-    <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-0">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-3">SOLICITUDES</span>
-                    <div class="text-900 font-medium text-xl">152 sin ver</div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
-                    [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-comment text-purple-500 text-xl"></i>
-                </div>
-            </div>
-      <!--       <span class="text-green-500 font-medium">85 </span>
-            <span class="text-500">responded</span> -->
-        </div>
-    </div>
+
+
 
     <div class="col-12 xl:col-6">
         <div class="card">
@@ -101,11 +74,7 @@
         <div class="card">
             <div class="flex align-items-center justify-content-between mb-4">
                 <h5>NOTIFICACIONES</h5>
-                <div>
-                    <button pButton type="button" icon="pi pi-ellipsis-v"
-                        class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)"></button>
-                    <p-menu #menu [popup]="true" [model]="items"></p-menu>
-                </div>
+    
             </div>
 
             <span class="block text-600 font-medium mb-3">HOY</span>

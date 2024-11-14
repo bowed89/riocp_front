@@ -7,11 +7,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
     templateUrl: './inicio-admin.component.html',
 })
 export class InicioAdminComponent implements OnInit, OnDestroy {
-
-    items!: MenuItem[];
-
     products!: any[];
-
     chartData: any;
 
     chartOptions: any;
@@ -24,10 +20,7 @@ export class InicioAdminComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
+
     }
 
  
