@@ -42,6 +42,11 @@ export class SubirArchivosService {
     const url = `${API.local}/import/balance-general`;
     return this.http.post<Response<any>>(url, body, this.getHttpOptions(token));
   };
+
+  PostSubirIcrEta(body: any, token: string): Observable<Response<any>> {
+    const url = `${API.local}/import/icr-eta`;
+    return this.http.post<Response<any>>(url, body, this.getHttpOptions(token));
+  };
   
   
 
