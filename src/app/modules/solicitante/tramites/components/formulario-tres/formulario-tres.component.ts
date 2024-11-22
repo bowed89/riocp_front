@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AcreedoresService } from 'src/app/shared/services/acreedores.service';
 import { MonedasService } from 'src/app/shared/services/monedas.service';
 import { PrimeNGConfig } from 'primeng/api';
@@ -7,7 +7,6 @@ import { CalendarioEs } from 'src/app/shared/utils/calendario-es';
 import { CronogramaDeudaService } from '../../services/cronograma-deuda.service';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { TramitesService } from '../../services/tramites.service';
-
 
 interface Pago {
   fechaVencimiento: string;
@@ -30,6 +29,8 @@ export class FormularioTresComponent {
   token = localStorage.getItem('token');
   es: any;
 
+  indexFilas: any;
+
   pagos: Pago[] = [];
   total: Pago = {
     fechaVencimiento: '',
@@ -42,14 +43,13 @@ export class FormularioTresComponent {
 
   constructor(
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
     public _acreedoresService: AcreedoresService,
     public _monedasService: MonedasService,
     public _messagesService: MessagesService,
     public _cronogramaDeudaService: CronogramaDeudaService,
     private primengConfig: PrimeNGConfig,
     public _tramitesService: TramitesService,
-
-
   ) {
   }
 
@@ -68,12 +68,21 @@ export class FormularioTresComponent {
       total_comisiones: [0, Validators.required],
       total_sum: [0, Validators.required],
       cuadro_pagos: this.fb.array([]),
-      total_saldo: [0, Validators.required], // Agregado
-
+      total_saldo: [0, Validators.required]
     });
+
     // Suscribirse a los cambios de `total_saldo`
     this.deudaForm.get('total_saldo')?.valueChanges.subscribe((nuevoSaldoTotal) => {
       console.log("nuevoSaldoTotal", nuevoSaldoTotal);
+      console.log("indexes ==>" + this.indexFilas);
+
+      // si total_saldo es cero o esta vacio borro Capital y Saldo de todas las filas agregadas
+      if (nuevoSaldoTotal === null || nuevoSaldoTotal === 0) {
+        for (let i = 0; i <= this.indexFilas; i++) {
+          this.cuadroPagos.at(i).patchValue({ capital: 0 });
+          this.cuadroPagos.at(i).patchValue({ saldo: 0 });
+        }
+      }
       this.actualizarSaldoInicial(nuevoSaldoTotal);
     });
 
@@ -154,9 +163,19 @@ export class FormularioTresComponent {
 
   }
 
+  llamarDosMetodos(index?: number) {
+    this.restarSaldoConCapital(index!);
+    this.actualizarTotales();
+  }
+
   restarSaldoConCapital(i: number) {
+
     if (i === 0) {
+      console.log('entra a i =>>');
+      console.log('saldo total =>>', this.deudaForm.get('total_saldo')?.value);
+
       // Restar capital de la primera fila con saldo principal
+      // Obtengo saldo_total
       const SaldoFirstRow = this.deudaForm.get('total_saldo')?.value;
       const CapitalFirstRow = this.cuadroPagos.at(0).get('capital')?.value;
       this.cuadroPagos.at(0).patchValue({ saldo: (Math.round(SaldoFirstRow * 100) / 100) - (Math.round(CapitalFirstRow * 100) / 100) });
@@ -167,6 +186,20 @@ export class FormularioTresComponent {
       const CapitalNextRow = this.cuadroPagos.at(i).get('capital')?.value;
       this.cuadroPagos.at(i).patchValue({ saldo: (Math.round(SaldoNextRow * 100) / 100) - (Math.round(CapitalNextRow * 100) / 100) });
     }
+  }
+
+  restarSaldoConCapitalPrimeraFila() {
+
+
+    console.log('entra a i =>>');
+    console.log('saldo total =>>', this.deudaForm.get('total_saldo')?.value);
+
+    // Restar capital de la primera fila con saldo principal
+    // Obtengo saldo_total
+    const SaldoFirstRow = this.deudaForm.get('total_saldo')?.value;
+    const CapitalFirstRow = this.cuadroPagos.at(0).get('capital')?.value;
+    this.cuadroPagos.at(0).patchValue({ saldo: (Math.round(SaldoFirstRow * 100) / 100) - (Math.round(CapitalFirstRow * 100) / 100) });
+
 
   }
 
@@ -199,9 +232,16 @@ export class FormularioTresComponent {
     return formatter.format(value);
   }
 
+  obtenerIndex(index: number) {
+    this.indexFilas = index;
+  }
+
 
   agregarFila() {
     const index = this.cuadroPagos.length; //  indice de la nueva fila
+
+    this.obtenerIndex(index);
+
     // Obtengo el saldo de la fila anterior o 0 si es la primera fila
     const saldoAnterior = index > 0 ? this.cuadroPagos.at(index - 1).get('saldo')?.value : 0;
 
@@ -209,12 +249,11 @@ export class FormularioTresComponent {
 
     let cuadro = this.fb.group({
       fecha_vencimiento: ['', Validators.required],
-      capital: [0, Validators.required],
-      interes: [0, Validators.required],
-      comisiones: [0, Validators.required],
-      total: [{ value: 0, disabled: true }, Validators.required],
-      //saldo: [{ value: saldoAnterior - (index > 0 ? this.cuadroPagos.at(index - 1).get('capital')?.value || 0 : 0), disabled: true }, Validators.required]
-      saldo: [{ value: saldoAnterior, disabled: true }, Validators.required]
+      capital: [0, [Validators.required, this.nonNegativeValidator]],
+      interes: [0, [Validators.required, this.nonNegativeValidator]],
+      comisiones: [0, [Validators.required, this.nonNegativeValidator]],
+      total: [0, [Validators.required, this.nonNegativeValidator]],
+      saldo: [0, [Validators.required, this.nonNegativeValidator]]
     });
 
     // sumo capital + interes + comisiones  y lo muestro en el campo total
@@ -244,25 +283,33 @@ export class FormularioTresComponent {
 
 
   eliminarFila(index: number) {
-    if (index === 0) { // si elimino todas las filas el saldo total se vuelve cero '0'
-      this.deudaForm.get('total_saldo')?.setValue(0);
+    if (index > 0) {
+      this.cuadroPagos.removeAt(index);
+      this.actualizarTotales();
+      /* 
+        cuando elimino una fila al inicio me sale error,
+        para q angular detecte esos cambios agrego 'cdr' 
+      */
+      this.cdr.detectChanges();
     }
-    this.cuadroPagos.removeAt(index);
-    this.actualizarTotales();
+
   }
 
-  /* actualizarSaldoInicial(nuevoSaldoTotal: number) {
-    if (this.cuadroPagos.length > 0) {
-      const saldo = 2;
-      this.cuadroPagos.at(0).patchValue({ saldo: nuevoSaldoTotal - saldo });
-    }
-  }
-   */
 
   actualizarSaldoInicial(nuevoSaldoTotal: number) {
     if (this.cuadroPagos.length > 0) {
       this.cuadroPagos.at(0).patchValue({ saldo: nuevoSaldoTotal });
     }
+  }
+
+  // Funcion para validar que los numeros no sean negativos en FB
+  nonNegativeValidator(control: AbstractControl): ValidationErrors | null {
+    return control.value >= 0 ? null : { nonNegative: true };
+  }
+
+  // bloque los campos total y saldo
+  blockKeyPress(event: KeyboardEvent): void {
+    event.preventDefault(); // Evita que cualquier tecla afecte el input
   }
 
 }

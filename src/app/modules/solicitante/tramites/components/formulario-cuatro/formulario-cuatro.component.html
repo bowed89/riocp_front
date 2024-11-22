@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<div class="form-container" *ngIf="!this._tramitesService.disabledFormulario4">
+< class="form-container" *ngIf="!this._tramitesService.disabledFormulario4">
     <div class="grid justify-content-center">
         <div class="col-12">
             <div class="text-center">
@@ -112,13 +112,12 @@
         <h4>Total general de desembolsos: {{ totalGeneralDesembolsos | number: '1.2-2' }}</h4>
     </div>
     </p-table>
-</div>
+    </div>
 
-<div class="col-12 text-center">
-    <button (click)="agregarFila()" pButton label="Agregar Fila" icon="pi pi-plus"></button>
-</div>
+    <div class="col-12 text-center">
+        <button (click)="agregarFila()" pButton label="Agregar Fila" icon="pi pi-plus"></button>
+    </div>
 
-<div class="col-12 text-center">
-    <button (click)="onSubmit()" pButton label="Guardar" icon="pi pi-plus"></button>
-</div>
-</div>
+    <div class="col-12 text-center">
+        <button (click)="onSubmit()" pButton label="Guardar" icon="pi pi-plus"></button>
+    </div>

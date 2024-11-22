@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 
-<form class="form-container" [formGroup]="deudaForm" (ngSubmit)="onSubmit()" *ngIf="!this._tramitesService.disabledFormulario3">
+<form class="form-container" [formGroup]="deudaForm" (ngSubmit)="onSubmit()"
+    *ngIf="!this._tramitesService.disabledFormulario3">
     <div class="grid justify-content-center">
         <!-- Cabecera -->
         <div class="col-12">
@@ -59,12 +60,11 @@
 
             <div class="cuadro-pagos2">
                 <label>Ingrese el Saldo Total:</label>
-                <p-inputNumber class="p-fluid" mode="decimal"
-                    formControlName="total_saldo"
-                    (ngModelChange)="actualizarTotales()" [minFractionDigits]="2" [maxFractionDigits]="2"
+                <p-inputNumber class="p-fluid" mode="decimal" formControlName="total_saldo"
+                    (ngModelChange)="actualizarTotales()" (onInput)="restarSaldoConCapitalPrimeraFila()" [minFractionDigits]="2" [maxFractionDigits]="2"
                     [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
                 </p-inputNumber>
-           
+
             </div>
 
         </div>
@@ -82,7 +82,9 @@
                         <th>Interés</th>
                         <th>Comisiones</th>
                         <th>Total</th>
-                        <th>Saldo</th>
+                        <th>Saldo <br>
+                            (Saldo Total-Capital)
+                        </th>
                         <th>Acciones</th>
                     </tr>
                 </ng-template>
@@ -97,10 +99,19 @@
                             </div>
                         </td>
                         <td>
+                            <!-- <p-inputNumber class="p-fluid" formControlName="capital" mode="decimal"
+                                (ngModelChange)="actualizarTotales()" (onInput)="restarSaldoConCapital(i)"
+                                [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                placeholder="0.000,00">
+                            </p-inputNumber> -->
+
                             <p-inputNumber class="p-fluid" formControlName="capital" mode="decimal"
-                                (ngModelChange)="actualizarTotales()" (onInput)="restarSaldoConCapital(i)" [minFractionDigits]="2" [maxFractionDigits]="2"
-                                [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                                (ngModelChange)="llamarDosMetodos(i)"
+                                [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
+                                placeholder="0.000,00">
                             </p-inputNumber>
+
+
                             <div *ngIf="pago.get('capital')?.invalid && pago.get('capital')?.touched"
                                 class="error-message">
                                 <small *ngIf="pago.get('capital')?.errors?.['required']">El capital es
@@ -132,18 +143,21 @@
                         <td>
                             <p-inputNumber class="p-fluid" formControlName="total" mode="decimal"
                                 (ngModelChange)="actualizarTotales()" [minFractionDigits]="2" [maxFractionDigits]="2"
-                                [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                                [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00"
+                                (keydown)="blockKeyPress($event)" class="p-fluid readonly-field">
                             </p-inputNumber>
                         </td>
                         <td>
                             <p-inputNumber class="p-fluid" formControlName="saldo" mode="decimal"
+                                (keydown)="blockKeyPress($event)" class="p-fluid readonly-field"
                                 (ngModelChange)="actualizarTotales()" [minFractionDigits]="2" [maxFractionDigits]="2"
                                 [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
                             </p-inputNumber>
                         </td>
                         <td>
                             <button class="p-button-danger" pButton icon="pi pi-trash" (click)="eliminarFila(i)"
-                                label="Eliminar"></button>
+                                label="Eliminar">
+                            </button>
                         </td>
                     </tr>
                 </ng-template>

@@ -54,8 +54,7 @@
             <h6>2.2 ACREEDOR</h6>
             <div class="dropdown-container">
                 <p-dropdown formControlName="acreedor_id" [options]="acreedores" (onChange)="nombreAcreedor($event)"
-                    optionLabel="nombre" optionValue="id"
-                    placeholder="Seleccione un Acreedor" styleClass="w-full">
+                    optionLabel="nombre" optionValue="id" placeholder="Seleccione un Acreedor" styleClass="w-full">
                 </p-dropdown>
                 <div class="error-message"
                     *ngIf="solicitudForm.get('acreedor_id')?.invalid && solicitudForm.get('acreedor_id')?.touched">
@@ -82,8 +81,8 @@
                     <label>2.3.2 Moneda de Origen:</label>
                     <div class="dropdown-container">
                         <p-dropdown formControlName="moneda_id" (onChange)="monedaOrigen($event)" [options]="monedas"
-                            optionLabel="nombre"
-                            optionValue="id" placeholder="Seleccione una Moneda" styleClass="w-full">
+                            optionLabel="nombre" optionValue="id" placeholder="Seleccione una Moneda"
+                            styleClass="w-full">
                         </p-dropdown>
                     </div>
                 </div>
@@ -132,8 +131,8 @@
                     <label>2.3.6 Periodicidad de Pago:</label>
                     <div class="dropdown-container">
                         <p-dropdown formControlName="periodo_id" [options]="periodos" (onChange)="periodoPago($event)"
-                            optionLabel="nombre"
-                            optionValue="id" placeholder="Seleccione un Periodo" styleClass="w-full">
+                            optionLabel="nombre" optionValue="id" placeholder="Seleccione un Periodo"
+                            styleClass="w-full">
                         </p-dropdown>
                     </div>
                 </div>
@@ -146,8 +145,12 @@
 
                 <div class="row">
                     <label>2.3.7 Periodo de Gracia (Expresado en años):</label>
+                    <!--    <p-inputNumber class="p-fluid"  placeholder="Periodo de Gracia (Expresado en años)" 
+                    formControlName="periodo_gracia" mode="decimal"
+                    [minFractionDigits]="1" [maxFractionDigits]="2" /> -->
                     <p-inputNumber class="p-fluid" placeholder="Periodo de Gracia (Expresado en años)"
-                        formControlName="periodo_gracia" />
+                        formControlName="periodo_gracia" mode="decimal" [minFractionDigits]="1" [maxFractionDigits]="1"
+                        [min]="0" [max]="999.9" locale="es" />
                 </div>
 
                 <!-- Mensaje de error  -->

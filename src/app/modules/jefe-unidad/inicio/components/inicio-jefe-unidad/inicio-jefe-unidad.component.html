@@ -1,0 +1,15 @@
+<div class="grid">
+    <div class="col-12 xl:col-6">
+        <div class="card">
+            <app-table [seguimientos]="seguimientos" [title]="title" [inicioActivo]="inicioActivo"> </app-table>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <app-total-solicitudes [derivado]="derivado" [noDerivado]="noDerivado"></app-total-solicitudes>
+
+        <div class="card">
+            <app-notificaciones></app-notificaciones>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ import { EntidadeService } from '../shared/services/entidades.service';
 import { WebSocketService } from '../shared/services/websocket.service';
 import { NotificacionService } from '../shared/services/notificacion.service';
 import { TramitesService } from '../modules/solicitante/tramites/services/tramites.service';
-import { SeguimientoAdminService } from '../modules/administrador/tramites/services/seguimiento-admin.service';
+import { SeguimientoAdminService } from '../modules/jefe-unidad/tramites/services/seguimiento-admin.service';
 
 @Component({
     selector: 'app-topbar',

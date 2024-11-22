@@ -9,6 +9,7 @@ export class TableComponent {
 
   @Input() seguimientos: any[] = [];
   @Input() title: string = '';
+  @Input() inicioActivo: boolean = false;
 
   @Output() enviarSeguimiento = new EventEmitter();
 

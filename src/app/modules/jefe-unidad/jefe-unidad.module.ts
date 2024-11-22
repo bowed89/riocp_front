@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdministradorRoutingModule } from './administrador-routing.module';
+import { JefeUnidadRoutingModule } from './jefe-unidad-routing.module';
 
 
 @NgModule({
@@ -8,8 +8,7 @@ import { AdministradorRoutingModule } from './administrador-routing.module';
   ],
   imports: [
     CommonModule,
-    AdministradorRoutingModule
-    
+    JefeUnidadRoutingModule
   ]
 })
-export class AdministradorModule { }
+export class JefeUnidadModule { }

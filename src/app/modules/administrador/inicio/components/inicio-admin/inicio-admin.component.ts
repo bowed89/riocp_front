@@ -6,7 +6,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 @Component({
     templateUrl: './inicio-admin.component.html',
 })
-export class InicioAdminComponent implements OnInit, OnDestroy {
+export class InicioAdminsComponent implements OnInit, OnDestroy {
     products!: any[];
     chartData: any;
 

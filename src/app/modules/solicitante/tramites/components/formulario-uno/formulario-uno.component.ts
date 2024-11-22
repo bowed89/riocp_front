@@ -120,15 +120,25 @@ export class FormularioUnoComponent {
   }
 
   generarPdf() {
-    console.log(this.solicitudForm.value);
+    this._seguimientoOperadorService.generatePDF(this.token!, this.solicitudForm.value).subscribe(
+      (pdfBlob: Blob) => {
+        // Crear un enlace temporal para descargar el archivo PDF
+        const url = window.URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'formulario1.pdf'; // Nombre del archivo que se descargará
+        link.click();
 
-    this._seguimientoOperadorService.generatePDF(this.token!, this.solicitudForm.value).subscribe({
-      next: (value) => {
-        console.log(value);
-
+        // Liberar el objeto URL para evitar fugas de memoria
+        window.URL.revokeObjectURL(url);
       },
-    });
+      (error) => {
+        console.error('Error al generar el PDF', error);
+      }
+    );
+
   }
+
 
   onSubmit() {
     if (this.solicitudForm.valid) {

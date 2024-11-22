@@ -8,6 +8,9 @@
             Revisar Requisitos
         </button>
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
+            Generar Certificado RIOCP
+        </button>
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="activeTab = 'tab3'">
             Derivar
         </button>
     </div>
@@ -22,6 +25,11 @@
 
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
+                <app-certificado-riocp [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
+            </div>
+
+            <!-- Contenido de la Pestaña 2 -->
+            <div *ngIf="activeTab === 'tab3'" class="form-container">
                 <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
                     (valorBooleano)="closeModal($event)">
                 </app-derivar>

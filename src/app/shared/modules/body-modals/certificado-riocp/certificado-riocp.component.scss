@@ -1,0 +1,245 @@
+.table-container {
+    width: 100%;
+  }
+  
+  /* temporal */
+  .container {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    border: 3px solid black;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+  
+  }
+
+  input, textarea {
+    font-size: 12px;
+    font-weight: bold;
+    resize: none;
+
+  }
+  
+  .header {
+    text-align: center;
+  }
+  
+  .header p {
+    margin: 5px 0;
+    font-weight: 900;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .logos {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .logo {
+    width: 80px;
+  }
+  
+  .credit-type {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  .form-body {
+    display: flex;
+  
+    gap: 20px;
+  }
+  
+  .column1 {
+    flex: 1;
+    width: 70%;
+  }
+  
+  .column2 {
+    flex: 1;
+    width: 30%;
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* RADIO BUTTON ALINEACIONES */
+  .field-radio {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .field-radio label {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 30px;
+  }
+  
+  .field-radio p-radioButton {
+    margin-left: 30px;
+  }
+  
+  
+  /* CAMPOS MONEDA,COMISION,GRACIA */
+  .field-centrar {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .field-centrar label {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: left;
+    margin-right: 50px;
+  }
+  
+  .field-centrar input,
+  .field-centrar textarea {
+    width: 30%;
+  }
+  
+  .field label {
+    font-size: 10px;
+    width: 200px;
+    font-weight: bold;
+    text-align: left;
+    margin-right: 100px;
+  }
+  
+  .field input,
+  .field textarea {
+    resize: none;
+    width: 30%;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: #333;
+  }
+  
+  .field-centrar input {
+    width: 30%;
+    border-width: 1.5px; 
+    border-style: solid;
+    border-color: #333;
+  }
+  
+  .field2 input {
+    border-width: 1.5px; 
+    border-style: solid;
+    border-color: #333;
+  }
+  
+  .field .entidad-label {
+    width: 20px;
+  }
+  
+  .field .entidad-input {
+    width: 100%;
+  }
+  
+  /* INDICADORES DE ENDEUDAMIENTO */
+  .field2 {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .label-one-row {
+    padding: 30px 30px 30px 0;
+    white-space: nowrap;
+  }
+  
+  .label-one-row-2 {
+    padding: 15px 15px 15px 0;
+    white-space: nowrap;
+  }
+  
+  .field2 .indicadores {
+    width: 30%;
+  }
+  
+  .section-title {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .msg-documentacion {
+    margin-top: 20px;
+    font-size: 12px;
+    text-align: justify;
+    outline: 2px solid rgb(0, 0, 0);
+    padding: 15px;
+    font-weight: 600;
+  }
+  
+  .msg-certificado {
+    margin-top: 10px;
+    font-size: 12px;
+    font-style: italic;
+    text-align: justify;
+    padding: 20px;
+  
+  }
+  
+  /* Espaciado */
+  .espaciado {
+    padding: 60px;
+  }
+  
+  
+  /* RADIO BUTTON CONVERTIDO CON X */
+  :host ::ng-deep .p-radiobutton {
+    margin-top: 10px;
+    margin-bottom: 15px;
+  
+  }
+  
+  :host ::ng-deep p-radioButton .p-radiobutton-box.p-highlight,
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight:hover {
+    background-color: transparent;
+    border-color: black;
+    box-shadow: none;
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+    border-color: black;
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-icon {
+    display: none;
+  }
+  
+  :host ::ng-deep .p-radiobutton.p-radiobutton-checked .p-radiobutton-box:after {
+    content: '✖';
+    color: black;
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    /* Hacer la 'X' más gruesa si es necesario */
+  }
+  
+  :host ::ng-deep .p-radiobutton .p-radiobutton-box {
+    border: 2px solid black;
+    padding: 16px 60px 16px 60px;
+  
+    border-radius: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

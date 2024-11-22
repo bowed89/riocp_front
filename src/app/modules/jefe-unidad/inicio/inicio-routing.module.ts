@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { InicioAdminsComponent } from './components/inicio-admin/inicio-admin.component';
+import { InicioJefeUnidadComponent } from './components/inicio-jefe-unidad/inicio-jefe-unidad.component';
+
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'inicio', component: InicioAdminsComponent },
+        { path: 'inicio', component: InicioJefeUnidadComponent },
 
     ])],
     exports: [RouterModule]

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { SeguimientoAdminService } from 'src/app/modules/administrador/tramites/services/seguimiento-admin.service';
+import { SeguimientoAdminService } from 'src/app/modules/jefe-unidad/tramites/services/seguimiento-admin.service';
 import { SeguimientoOperadorService } from '../../services/seguimiento-dgaft.service';
 
 @Component({

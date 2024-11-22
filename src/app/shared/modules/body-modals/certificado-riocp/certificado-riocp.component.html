@@ -1,0 +1,155 @@
+<!--    CERTIFICADO -->
+<div class="card flex justify-content-center">
+
+    <div class="container">
+        <form [formGroup]="certificadoForm" (ngSubmit)="onSubmit()">
+
+            <!-- Header with Logos -->
+            <div class="header">
+                <!--     <div class="logos">
+                    <img src="path/to/logo1.png" alt="Logo Bolivia" class="logo">
+                    <img src="path/to/logo2.png" alt="Logo Bicentenario" class="logo">
+                    <img src="path/to/logo3.png" alt="Ministerio" class="logo">
+                </div> -->
+                <p>SISTEMA NACIONAL DE TESORERÍA Y CRÉDITO PÚBLICO</p>
+                <p>CERTIFICADO DE REGISTRO DE INICIO DE OPERACIONES DE CRÉDITO PÚBLICO</p>
+            </div>
+
+            <!-- Form Body with Two Columns -->
+            <div class="form-body">
+                <!-- Column 1 -->
+                <div class="column1">
+                    <div class="field-radio">
+                        <label>CRÉDITO PÚBLICO INTERNO</label>
+                        <p-radioButton id="interno" formControlName="identificador_id" value="1">
+                        </p-radioButton>
+                    </div>
+                    <div class="field">
+                        <label for="numSolicitud">N° DE SOLICITUD:</label>
+                        <input id="numSolicitud" pInputText formControlName="solicitud_id" >
+                    </div>
+                    <div class="field">
+                        <label for="codigo">CÓDIGO:</label>
+                        <input id="codigo" pInputText formControlName="codigo">
+                    </div>
+                    <div class="field">
+                        <label class="label-one-row">OBJETO DE LA OPERACIÓN DE CRÉDITO PÚBLICO:</label>
+                    </div>
+                    <div class="field">
+                        <label class="label-one-row">ACREEDOR:</label>
+                    </div>
+
+                    <div class="field">
+                        <label for="codigo">MONTO A SER CONTRATADO HASTA:</label>
+                        <input id="codigo" pInputText formControlName="monto_total" >
+                    </div>
+
+                    <div class="field">
+                        <label for="codigo">TASA DE INTERÉS:</label>
+                        <input id="codigo" pInputText formControlName="interes_anual">
+                    </div>
+
+                    <div class="field">
+                        <label for="codigo">PLAZO(AÑOS):</label>
+                        <input id="codigo" pInputText formControlName="plazo">
+                    </div>
+
+
+                </div>
+
+                <!-- Column 2 -->
+                <div class="column2">
+                    <div class="field-radio">
+                        <label for="externo">CRÉDITO PÚBLICO EXTERNO</label>
+                        <p-radioButton id="externo" value="2"
+                            formControlName="identificador_id"></p-radioButton>
+                    </div>
+
+                    <div class="field" style="visibility: hidden">
+                        <label>hidden....</label>
+                        <input pInputText rows="2" placeholder="hidden....">
+                    </div>
+                    <div class="field">
+                        <label class="entidad-label">ENTIDAD</label>
+                        <textarea class="entidad-input" pInputTextarea formControlName="entidad"  rows="3" 
+                        cols="50"></textarea>
+                    </div>
+                    <div class="field">
+                        <textarea pInputTextarea class="entidad-input" formControlName="objeto_operacion_credito"  rows="5" 
+                        cols="50"></textarea>
+                    </div>
+                    <div class="field">
+                        <textarea pInputTextarea class="entidad-input" formControlName="acreedor"
+                            placeholder="lorem ipsus ..llasdkaskdaskdlks"></textarea>
+                    </div>
+                    <!-- field centrar -->
+                    <div class="field-centrar">
+                        <label for="moneda">MONEDA:</label>
+                        <input id="moneda" pInputText formControlName="moneda">
+                    </div>
+                    <div class="field-centrar">
+                        <label for="moneda">COMISIÓN:</label>
+                        <textarea pInputTextarea formControlName="comision"></textarea>
+                    </div>
+                    <div class="field-centrar">
+                        <label>GRACIA(AÑOS):</label>
+                        <input pInputText formControlName="periodo_gracia">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Indicators Section -->
+            <div class="section-title">INDICADORES DE ENDEUDAMIENTO:</div>
+            <div class="form-body">
+                <!-- Column 1 -->
+                <div class="column1">
+                    <div class="field">
+                        <label class="label-one-row-2">SERVICIO DE LA DEUDA(LÍMITE 20%):</label>
+                    </div>
+                    <div class="field">
+                        <label class="label-one-row-2">VALOR PRESENTE DE LA DEUDA TOTAL(LÍMITE 200%):</label>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="column2">
+                    <div class="field2">
+                        <input class="indicadores" pInputText formControlName="servicio_deuda">
+                    </div>
+                    <div class="field2">
+                        <input class="indicadores" pInputText formControlName="valor_deuda_total">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Text -->
+            <div class="msg-documentacion">
+                EN BASE A LA DOCUMENTACIÓN PRESENTADA POR LA ENTIDAD
+                SOLICITANTE Y LA INFORMACIÓN DISPONIBLE EN LA BASE DE DATOS
+                DE DEUDA, EN APLICACIÓN DE LA NORMATIVA VIGENTE EL VICEMINISTERIO
+                DEL TESORO Y CRÉDITO PÚBLICO REGISTRA LA PRESENTE OPERACIÓN DE
+                CRÉDITO PÚBLICO.
+
+            </div>
+            <div class="msg-certificado">
+                EL PRESENTE CERTIFICADO NO CONSTITUYE UNA RESPONSABILIDAD O GARANTÍA DEL NIVEL CENTRAL DEL ESTADO POR
+                LOS COMPROMISOS QUE SE CONTRAIGAN, NI EXIME DEL CUMPLIMIENTO NORMATIVO EN VIGENCIA.
+                ASIMISMO, EN CASO DE EFECTIVIZARSE LA OPERACIÓN DE CRÉDITO PÚBLICO, DEBERÁ SER EXCLUSIVAMENTE
+                REEMBOLSADA POR LA ENTIDAD SOLICITANTE CON LOS RECURSOS QUE EL MARCO LEGAL VIGENTE DISPONGA PARA EL
+                EFECTO.
+                EL PRESENTE CERTIFICADO TIENE EL SIGUIENTE PERIODO DE VIGENCIA: <br>
+                A) PARA OPERACIONES DE CRÉDITO PÚBLICO INTERNO, SEIS (6) MESES POSTERIORES A SU EMISIÓN. <br>
+                B) PARA OPERACIONES DE CRÉDITO PÚBLICO EXTERNO, POSTERIOR A SU EMISIÓN UN (1) AÑO PARA LA SUSCRIPCIÓN
+                <br>
+                DEL CONTRATO DE PRÉSTAMO, CONTINUANDO VIGENTE HASTA LA TRANSFERENCIA DEL CRÉDITO MEDIANTE CONVENIO
+                SUBSIDIARIO U OTRO TIPO DE DOCUMENTO.
+            </div>
+
+            <div class="espaciado">
+            </div>
+        </form>
+    </div>
+
+
+</div>

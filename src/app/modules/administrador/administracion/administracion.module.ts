@@ -27,7 +27,6 @@ import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { InicioAdminComponent } from '../inicio/components/inicio-admin/inicio-admin.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,6 @@ import { InicioAdminComponent } from '../inicio/components/inicio-admin/inicio-a
     MenuPermisoComponent,
     EntidadModalComponent,
     EntidadModificarModalComponent,
-    InicioAdminComponent
   ],
   imports: [
     CommonModule,

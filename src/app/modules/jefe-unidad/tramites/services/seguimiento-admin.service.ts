@@ -49,6 +49,10 @@ export class SeguimientoAdminService {
     return this.http.get<Response<Acreedores>>(url, this.getHttpOptions(token));
   }
 
+  GetContadorDerivado(token: string): Observable<Response<any>> {
+    const url = `${API.local}/seguimiento/administrador/count-asignado`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  }
 
 
 }
