@@ -65,13 +65,9 @@ export class CertificadoRiocpComponent {
           comision: `${data[0].comision_concepto}\n${data[0].comision_tasa}`,
           plazo: data[0].plazo,
           periodo_gracia: data[0].periodo_gracia,
-          servicio_deuda: data[0].servicio_deuda,
-
-        })
-
-
-
-
+          servicio_deuda: `${data[0].servicio_deuda}%`,
+        });
+        
       }, error(err) {
         console.error(err);
 

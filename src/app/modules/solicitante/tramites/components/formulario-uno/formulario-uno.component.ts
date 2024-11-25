@@ -157,6 +157,10 @@ export class FormularioUnoComponent {
         }
       });
 
+      formData.forEach((value, key) => {
+        console.log(` resultado ====> ${key}:`, value);
+      });
+      
       this._solicitudService.PostSolicitudRiocp(formData, this.token!)
         .subscribe({
           next: ({ message }) => {

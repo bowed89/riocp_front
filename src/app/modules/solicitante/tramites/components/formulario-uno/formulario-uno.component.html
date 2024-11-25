@@ -93,8 +93,10 @@
                 </div>
                 <div class="row">
                     <label>2.3.3 Plazo (Expresado en años):</label>
-                    <p-inputNumber class="p-fluid" placeholder="Ingrese el Plazo" formControlName="plazo" [min]="0"
-                        [max]="100" />
+                    <!--   <p-inputNumber class="p-fluid" placeholder="Ingrese el Plazo" formControlName="plazo" [min]="0"
+                        [max]="100" /> -->
+                    <p-inputNumber class="p-fluid" placeholder="Ingrese el Plazo" formControlName="plazo"
+                        mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" />
 
                 </div>
                 <!-- Mensaje de error  -->
