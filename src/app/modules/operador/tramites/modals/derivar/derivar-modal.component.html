@@ -7,20 +7,22 @@
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
             Revisar Requisitos
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
-            Generar Certificado RIOCP
+        <button class="tab-button" [disabled]="!botonRiocp" [ngClass]="{'active': activeTab === 'tab2'}"
+            (click)="activeTab = 'tab2'">
+            Certificado RIOCP
         </button>
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="activeTab = 'tab3'">
             Derivar
         </button>
     </div>
-    <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
 
+    <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
         <div class="tab-content">
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
                 <app-revisar-requisitos [observationsFormArray]=" observationsFormArray"
-                    (envioModal)="abrirModales($event)"></app-revisar-requisitos>
+                    (envioModal)="abrirModales($event)"
+                    (botonRiocp)="actualizarEstadoBotonRiocp($event)"></app-revisar-requisitos>
             </div>
 
             <!-- Contenido de la Pestaña 2 -->
@@ -34,10 +36,7 @@
                     (valorBooleano)="closeModal($event)">
                 </app-derivar>
             </div>
-
         </div>
-
-
     </form>
 
     <!-- MODAL FORMULARIO 1 -->

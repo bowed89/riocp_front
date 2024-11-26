@@ -21,6 +21,8 @@ export class DerivarModalComponent implements OnInit {
 
   selectedSolicitudForm: any
 
+  // desactivar boton de la siguiente pestaña(certificado riocp)
+  botonRiocp: boolean = true;
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
@@ -55,6 +57,10 @@ export class DerivarModalComponent implements OnInit {
   ngOnChanges(): void {
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
+
+    console.log("this.observationsFormArray ===>", this.observationsFormArray);
+
+
     if (this.selectedSolicitud !== undefined) {
       this.getTipoObservacion();
     }
@@ -92,6 +98,12 @@ export class DerivarModalComponent implements OnInit {
 
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
+  }
+
+  // Método para manejar el evento
+  actualizarEstadoBotonRiocp(estado: boolean) {
+    this.botonRiocp = estado;
+    console.log('Estado recibido desde el hijo:', estado);
   }
 
   abrirModales(i: any) {
@@ -132,6 +144,7 @@ export class DerivarModalComponent implements OnInit {
       const idTipo = 3;
       this.openDocument(this.selectedSolicitud, idTipo, 'informacion_financiera');
     }
+
   }
 
   getTipoObservacion() {
@@ -157,7 +170,6 @@ export class DerivarModalComponent implements OnInit {
     return this.seguimientoForm.get('observaciones') as FormArray;
   }
 
-
   openDocument(idSolicitud: number, idTipo: number, nombreDoc: string) {
     this._abrirDocumentoService.GetDocumento(this.token!, idSolicitud, idTipo).subscribe({
       next: (response: Blob) => {
@@ -176,7 +188,7 @@ export class DerivarModalComponent implements OnInit {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          
+
         } else {
           this._messagesService.MessageError('Documento Adjunto', `No existe un documento adjunto de tipo ${nombreDoc}`);
         }

@@ -32,9 +32,10 @@ export class CertificadoRiocpComponent {
       interes_anual: ['', Validators.required],
       comision: ['', Validators.required],
       plazo: ['', Validators.required],
-      periodo_gracia: [''],
-      servicio_deuda: [''],
-      valor_deuda_total: [''],
+      periodo_gracia: ['', Validators.required],
+      servicio_deuda: ['', Validators.required],
+      valor_presente_deuda_total: ['', Validators.required],
+      solicitud_id: [''],
     });
   }
 
@@ -45,6 +46,22 @@ export class CertificadoRiocpComponent {
   }
 
   onSubmit() {
+    this.certificadoForm.patchValue({
+      solicitud_id: this.idSolicitud,
+    });
+
+    console.log(this.certificadoForm.value);
+
+    this._certificadoRiocpService.PostFormularioRegistro(this.certificadoForm.value, this.token!)
+      .subscribe({
+        next: (value) => {
+          console.log(value);
+
+        }, error: (err) => {
+          console.error(err);
+
+        },
+      })
 
   }
 
@@ -68,7 +85,7 @@ export class CertificadoRiocpComponent {
           periodo_gracia: data[0].periodo_gracia,
           servicio_deuda: `${data[0].servicio_deuda}`,
         });
-        
+
       }, error(err) {
         console.error(err);
 
@@ -80,6 +97,5 @@ export class CertificadoRiocpComponent {
   showDialog() {
     this.visible = true;
   }
-
 
 }
