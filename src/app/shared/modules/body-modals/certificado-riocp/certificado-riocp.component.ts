@@ -22,7 +22,7 @@ export class CertificadoRiocpComponent {
   ) {
     this.certificadoForm = this.fb.group({
       identificador_id: [{ value: '', disabled: true }, Validators.required],
-      solicitud_id: ['', Validators.required],
+      nro_solicitud: ['', Validators.required],
       codigo: ['', Validators.required],
       entidad: ['', Validators.required],
       objeto_operacion_credito: [''],
@@ -55,6 +55,7 @@ export class CertificadoRiocpComponent {
         this.certificadoForm.patchValue({
           identificador_id: data[0].identificador_id,
           solicitud_id: data[0].solicitud_id,
+          nro_solicitud: data[0].nro_solicitud,
           codigo: data[0].codigo,
           entidad: data[0].entidad,
           objeto_operacion_credito: data[0].objeto_operacion_credito,
@@ -65,7 +66,7 @@ export class CertificadoRiocpComponent {
           comision: `${data[0].comision_concepto}\n${data[0].comision_tasa}`,
           plazo: data[0].plazo,
           periodo_gracia: data[0].periodo_gracia,
-          servicio_deuda: `${data[0].servicio_deuda}%`,
+          servicio_deuda: `${data[0].servicio_deuda}`,
         });
         
       }, error(err) {

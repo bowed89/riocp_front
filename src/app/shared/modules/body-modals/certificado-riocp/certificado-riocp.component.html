@@ -26,7 +26,7 @@
                     </div>
                     <div class="field">
                         <label for="numSolicitud">N° DE SOLICITUD:</label>
-                        <input id="numSolicitud" pInputText formControlName="solicitud_id" >
+                        <input id="numSolicitud" pInputText formControlName="nro_solicitud">
                     </div>
                     <div class="field">
                         <label for="codigo">CÓDIGO:</label>
@@ -41,17 +41,31 @@
 
                     <div class="field">
                         <label for="codigo">MONTO A SER CONTRATADO HASTA:</label>
-                        <input id="codigo" pInputText formControlName="monto_total" >
+                        <!-- <input id="codigo" pInputText formControlName="monto_total"> -->
+                        <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="monto_total"
+                            mode="decimal"
+                            [minFractionDigits]="2"
+                            [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                        </p-inputNumber>
                     </div>
 
                     <div class="field">
                         <label for="codigo">TASA DE INTERÉS:</label>
-                        <input id="codigo" pInputText formControlName="interes_anual">
+                        <!-- <input id="codigo" pInputText formControlName="interes_anual"> -->
+                        <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="interes_anual"
+                            mode="decimal"
+                            [minFractionDigits]="2"
+                            [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                        </p-inputNumber>
                     </div>
 
                     <div class="field">
                         <label for="codigo">PLAZO(AÑOS):</label>
-                        <input id="codigo" pInputText formControlName="plazo">
+                        <!-- <input id="codigo" pInputText formControlName="plazo"> -->
+                        <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="plazo" mode="decimal"
+                            [minFractionDigits]="2"
+                            [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                        </p-inputNumber>
                     </div>
 
 
@@ -71,16 +85,16 @@
                     </div>
                     <div class="field">
                         <label class="entidad-label">ENTIDAD</label>
-                        <textarea class="entidad-input" pInputTextarea formControlName="entidad"  rows="3" 
-                        cols="50"></textarea>
+                        <textarea class="entidad-input" pInputTextarea formControlName="entidad" rows="3"
+                            cols="50"></textarea>
                     </div>
                     <div class="field">
-                        <textarea pInputTextarea class="entidad-input" formControlName="objeto_operacion_credito"  rows="5" 
-                        cols="50"></textarea>
+                        <textarea pInputTextarea class="entidad-input" formControlName="objeto_operacion_credito"
+                            rows="5"
+                            cols="50"></textarea>
                     </div>
                     <div class="field">
-                        <textarea pInputTextarea class="entidad-input" formControlName="acreedor"
-                            placeholder="lorem ipsus ..llasdkaskdaskdlks"></textarea>
+                        <textarea pInputTextarea class="entidad-input" formControlName="acreedor"></textarea>
                     </div>
                     <!-- field centrar -->
                     <div class="field-centrar">
@@ -93,7 +107,12 @@
                     </div>
                     <div class="field-centrar">
                         <label>GRACIA(AÑOS):</label>
-                        <input pInputText formControlName="periodo_gracia">
+                        <!-- <input pInputText formControlName="periodo_gracia"> -->
+                        <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="periodo_gracia"
+                            mode="decimal"
+                            [minFractionDigits]="2"
+                            [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                        </p-inputNumber>
                     </div>
 
                 </div>
@@ -115,10 +134,20 @@
                 <!-- Column 2 -->
                 <div class="column2">
                     <div class="field2">
-                        <input class="indicadores" pInputText formControlName="servicio_deuda">
+                        <!-- <input class="indicadores" pInputText formControlName="servicio_deuda"> -->
+                        <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="servicio_deuda"
+                            mode="decimal"
+                            [minFractionDigits]="2"
+                            [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                        </p-inputNumber>
                     </div>
                     <div class="field2">
-                        <input class="indicadores" pInputText formControlName="valor_deuda_total">
+                        <!-- <input class="indicadores" pInputText formControlName="valor_deuda_total"> -->
+                        <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="valor_deuda_total"
+                            mode="decimal"
+                            [minFractionDigits]="2"
+                            [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
+                        </p-inputNumber>
                     </div>
                 </div>
             </div>
@@ -147,6 +176,11 @@
             </div>
 
             <div class="espaciado">
+            </div>
+
+            <div class="text-center">
+                <button pButton type="submit" class="p-button-success" label="Generar Certificado"
+                    icon="pi pi-file-o"></button>
             </div>
         </form>
     </div>
