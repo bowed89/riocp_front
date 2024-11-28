@@ -1,0 +1,78 @@
+.container {
+    font-family: 'Arial', sans-serif;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+    border: 2px solid black;
+    /* Borde negro alrededor del contenedor */
+    box-sizing: border-box;
+    /* Asegura que el padding no afecte el tamaño total del contenedor */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logos img {
+    width: 100px;
+    height: auto;
+}
+
+.title {
+    font-size: 20px;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.info-body {
+    display: flex;
+
+    margin-bottom: 20px;
+}
+
+.destinatario {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.referencia {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+
+textarea {
+    width: 100%;
+
+}
+
+
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 40px;
+    border-top: 1px solid #000;
+    padding-top: 10px;
+}

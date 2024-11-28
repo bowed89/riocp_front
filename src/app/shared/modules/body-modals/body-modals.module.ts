@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms'; // Necesario para ngModel
+import { FormsModule } from '@angular/forms'; 
 
 
 import { RevisarRequisitosComponent } from './revisar-requisitos/revisar-requisitos.component';
 import { DerivarComponent } from './derivar/derivar.component';
 import { RevisarTecnicoComponent } from './revisar-tecnico/revisar-tecnico.component';
 import { CertificadoRiocpComponent } from './certificado-riocp/certificado-riocp.component';
+import { NotaRechazoComponent } from './nota-rechazo/nota-rechazo.component';
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -30,6 +31,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     DerivarComponent,
     RevisarTecnicoComponent,
     CertificadoRiocpComponent,
+    NotaRechazoComponent,
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     RevisarRequisitosComponent,
     DerivarComponent,
     RevisarTecnicoComponent,
-    CertificadoRiocpComponent
+    CertificadoRiocpComponent,
+    NotaRechazoComponent
   ]
 })
 export class BodyModalsModule { }

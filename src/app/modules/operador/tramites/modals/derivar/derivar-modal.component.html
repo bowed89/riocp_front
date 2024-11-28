@@ -11,7 +11,11 @@
             (click)="activeTab = 'tab2'">
             Certificado RIOCP
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="activeTab = 'tab3'">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}"
+            (click)="activeTab = 'tab3'">
+            Nota de Rechazo
+        </button>
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab4'}" (click)="activeTab = 'tab4'">
             Derivar
         </button>
     </div>
@@ -30,8 +34,16 @@
                 <app-certificado-riocp [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
             </div>
 
-            <!-- Contenido de la Pestaña 2 -->
+            <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
+                <!-- <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
+                    (valorBooleano)="closeModal($event)">
+                </app-derivar> -->
+                <app-nota-rechazo></app-nota-rechazo>
+            </div>
+
+            <!-- Contenido de la Pestaña 4 -->
+            <div *ngIf="activeTab === 'tab4'" class="form-container">
                 <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
                     (valorBooleano)="closeModal($event)">
                 </app-derivar>
@@ -56,3 +68,7 @@
         [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-cuatro-view>
 
 </p-dialog>
+
+
+
+
