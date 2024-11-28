@@ -84,6 +84,7 @@ export class CertificadoRiocpComponent {
           plazo: data[0].plazo,
           periodo_gracia: data[0].periodo_gracia,
           servicio_deuda: `${data[0].servicio_deuda}`,
+          valor_presente_deuda_total: `${data[0].valor_presente_deuda}`,
         });
 
       }, error(err) {

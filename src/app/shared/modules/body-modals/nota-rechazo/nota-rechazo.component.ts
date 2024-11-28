@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certificado-riocp.service';
 
 @Component({
   selector: 'app-nota-rechazo',
@@ -7,21 +8,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./nota-rechazo.component.scss']
 })
 export class NotaRechazoComponent {
-  certificadoForm!: FormGroup;
+  @Input() idSolicitud: any;
 
+  certificadoForm!: FormGroup;
+  token = localStorage.getItem('token');
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _notaCertificadoRiocpService: NotaCertificadoRiocpService
   ) {
     this.certificadoForm = this.fb.group({
+      body: ['', Validators.required],
       fecha: ['', Validators.required],
       codigo: ['', Validators.required],
       destinatario: ['', Validators.required],
       referencia: ['', Validators.required],
-      cuerpo: ['', Validators.required],
-      firma: ['', Validators.required],
+      footer: ['', Validators.required],
       codigoInferior: ['', Validators.required],
     });
+  }
+
+  ngOnInit() {
+    this.obtenerDatosNota();
+    console.log("idSolicitud =>" + this.idSolicitud);
+
   }
 
   // Método para manejar el envío del formulario
@@ -32,6 +42,19 @@ export class NotaRechazoComponent {
     } else {
       console.log('Formulario inválido');
     }
+  }
+
+  obtenerDatosNota() {
+    this._notaCertificadoRiocpService.GetDatosNotaCertificado(this.token!, this.idSolicitud)
+      .subscribe({
+        next: (value) => {
+          console.log(value.data);
+
+        }, error(err) {
+          console.error(err);
+
+        },
+      })
   }
 
 }
