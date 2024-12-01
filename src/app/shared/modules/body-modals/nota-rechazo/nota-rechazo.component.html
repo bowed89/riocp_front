@@ -1,36 +1,23 @@
 <div class="container">
-    <!-- Header -->
-    <header class="header">
-        <div class="logos">
-            <img src="assets/logo1.png" alt="Logo Bolivia">
-            <img src="assets/logo2.png" alt="Logo Ministerio">
-        </div>
-        <h1 class="title">ESTADO PLURINACIONAL DE BOLIVIA</h1>
-        <h2 class="subtitle">MINISTERIO DE ECONOMÍA Y FINANZAS PÚBLICAS</h2>
-    </header>
+
     <form [formGroup]="certificadoForm" (ngSubmit)="onSubmit()">
         <!-- Fecha y Código -->
         <div class="info-row">
             <div class="left">
-                <textarea pInputTextarea placeholder="La Paz, 6 de mayo de 2024" formControlName="fecha"
-                    rows="2"></textarea>
-                <textarea pInputTextarea placeholder="MEFP/VTCP/DGAFP/USCFT/N° 711/2024" formControlName="codigo"
-                    rows="2"></textarea>
-            </div>
-            <div class="right">
-                <textarea pInputTextarea placeholder="MEFP/VTCP/DGAFP/USCFT/N° 711/2024" formControlName="codigo"
-                    rows="2"></textarea>
+                <!-- <textarea pInputTextarea formControlName="fecha"
+                    rows="2"></textarea> -->
+                <input pInputText formControlName="fecha" readonly />
+                <input pInputText formControlName="nro_nota" />
             </div>
         </div>
 
         <div class="info-body">
-
             <!-- Destinatario -->
             <div class="destinatario">
-                <textarea pInputTextarea placeholder="Señor Edwin Rojas Rioja"
-                formControlName="destinatario" rows="4"></textarea>
+                <textarea pInputTextarea
+                    formControlName="header" rows="5"></textarea>
             </div>
-            
+
         </div>
         <!-- Referencia -->
         <div class="referencia">
@@ -43,13 +30,16 @@
         <textarea pInputTextarea placeholder="Cursa en este despacho la nota CITE/EXT/G.A.M.A./149/2024"
             formControlName="body" rows="10"></textarea>
 
-        <!-- Firma -->
-        <textarea pInputTextarea placeholder="Viceministra del Tesoro y Crédito Público" formControlName="firma"
-            rows="2"></textarea>
+        <!-- Footer -->
+        <div class="footer">
+            <input pInputText formControlName="remitente" />
+        </div>
+
+        <div class="header">
+            <textarea pInputTextarea
+                formControlName="revisado" rows="10"></textarea>
+        </div>
+
     </form>
-    <!-- Footer -->
-    <footer class="footer">
-        <p>Av. Mariscal Santa Cruz esq. calle Loayza - Teléfono: (591-2) 218 3333 - www.economiayfinanzas.gob.bo</p>
-        <p>La Paz - Bolivia</p>
-    </footer>
+
 </div>

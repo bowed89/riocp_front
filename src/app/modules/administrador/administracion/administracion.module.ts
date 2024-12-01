@@ -7,6 +7,8 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { RolesComponent } from './components/roles/roles.component';
 import { RolPermisoComponent } from './components/rol-permiso/rol-permiso.component';
 import { MenuPermisoComponent } from './components/menu-permiso/menu-permiso.component';
+import { MonedaComponent } from './components/moneda/moneda.component';
+
 
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -15,12 +17,15 @@ import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 
 import { EntidadModalComponent } from './modals/entidad/entidad-modal.component';
 import { EntidadModificarModalComponent } from './modals/entidad-modificar/entidad-modificar-modal.component';
+import { MonedaModalComponent } from './modals/moneda/moneda-modal.component';
+import { MonedaModificarModalComponent } from './modals/moneda-modificar/moneda-modificar-modal.component';
 
 // Dashboard
 import { ChartModule } from 'primeng/chart';
@@ -36,6 +41,9 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     MenuPermisoComponent,
     EntidadModalComponent,
     EntidadModificarModalComponent,
+    MonedaComponent,
+    MonedaModalComponent,
+    MonedaModificarModalComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +61,8 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     MenuModule,
     StyleClassModule,
     PanelMenuModule,
-    ToastModule
+    ToastModule,
+    InputNumberModule
   ]
 })
 export class AdministracionModule { }

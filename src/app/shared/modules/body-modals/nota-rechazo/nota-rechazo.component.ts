@@ -18,13 +18,13 @@ export class NotaRechazoComponent {
     private _notaCertificadoRiocpService: NotaCertificadoRiocpService
   ) {
     this.certificadoForm = this.fb.group({
-      body: ['', Validators.required],
       fecha: ['', Validators.required],
-      codigo: ['', Validators.required],
-      destinatario: ['', Validators.required],
+      nro_nota: ['', Validators.required],
+      header: ['', Validators.required],
       referencia: ['', Validators.required],
-      footer: ['', Validators.required],
-      codigoInferior: ['', Validators.required],
+      body: ['', Validators.required],
+      remitente: ['', Validators.required],
+      revisado: ['', Validators.required],
     });
   }
 
@@ -45,16 +45,19 @@ export class NotaRechazoComponent {
   }
 
   obtenerDatosNota() {
-    this._notaCertificadoRiocpService.GetDatosNotaCertificado(this.token!, this.idSolicitud)
-      .subscribe({
-        next: (value) => {
-          console.log(value.data);
+    console.log(this.idSolicitud);
 
-        }, error(err) {
-          console.error(err);
+    this._notaCertificadoRiocpService.GetDatosNotaCertificado(this.token!, this.idSolicitud).subscribe({
+      next: (value) => {
+        const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = value.data;
+        this.certificadoForm.patchValue({
+          body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+        });
 
-        },
-      })
+      }, error(err) {
+        console.error(err);
+      },
+    })
   }
 
 }

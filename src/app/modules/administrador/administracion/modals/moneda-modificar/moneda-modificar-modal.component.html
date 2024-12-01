@@ -1,0 +1,53 @@
+<p-toast></p-toast>
+
+<p-dialog header="Modificar Moneda" [(visible)]="visible" [modal]="true"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }" (onHide)="closeModal()">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid grid">
+            <div class="col-12">
+                <div class="grid">
+
+                    <div class="col-6">
+                        <label for="nombre">Nombre</label>
+                        <input id="nombre" type="text" pInputText formControlName="tipo" />
+                        <div *ngIf="userForm.get('tipo')?.invalid && userForm.get('tipo')?.touched" class="p-error">
+                            Nombre de la moneda es requerida.
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="field-checkbox">
+                            <label for="estado">Activar Moneda</label>
+                            <p-checkbox formControlName="estado" inputId="estado" [binary]="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="nombre">Sigla</label>
+                <input id="nombre" type="text" pInputText formControlName="sigla" />
+                <div *ngIf="userForm.get('sigla')?.invalid && userForm.get('sigla')?.touched" class="p-error">
+                    Sigla es requerida.
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="apellido">Cambio</label>
+                <p-inputNumber class="p-fluid" placeholder="Tipo de Cambio"
+                    formControlName="cambio" mode="decimal" [minFractionDigits]="1" [maxFractionDigits]="3"
+                    [min]="0" [max]="999.99" locale="es" />
+                <div *ngIf="userForm.get('cambio')?.invalid && userForm.get('cambio')?.touched" class="p-error">
+                    Tipo de Cambio es requerido.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="p-dialog-footer">
+            <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
+                class="p-button-text"></button>
+            <button pButton type="submit" label="Guardar" icon="pi pi-check" [disabled]="userForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>

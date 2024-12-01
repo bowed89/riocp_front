@@ -5,6 +5,7 @@ import { RolesComponent } from './components/roles/roles.component';
 import { RolPermisoComponent } from './components/rol-permiso/rol-permiso.component';
 import { MenuPermisoComponent } from './components/menu-permiso/menu-permiso.component';
 import { InicioAdminsComponent } from '../inicio/components/inicio-admin/inicio-admin.component';
+import { MonedaComponent } from './components/moneda/moneda.component';
 
 @NgModule({
     imports: [RouterModule.forChild([
@@ -13,6 +14,7 @@ import { InicioAdminsComponent } from '../inicio/components/inicio-admin/inicio-
         { path: 'roles', component: RolesComponent },
         { path: 'roles-permisos', component: RolPermisoComponent },
         { path: 'menu-permisos', component: MenuPermisoComponent },
+        { path: 'moneda', component: MonedaComponent },
     ])],
     exports: [RouterModule]
 })
