@@ -11,7 +11,7 @@
             (click)="activeTab = 'tab2'">
             Certificado RIOCP
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}"
+        <button class="tab-button" [disabled]="!botonNotaRechazo" [ngClass]="{'active': activeTab === 'tab3'}"
             (click)="activeTab = 'tab3'">
             Nota de Rechazo
         </button>

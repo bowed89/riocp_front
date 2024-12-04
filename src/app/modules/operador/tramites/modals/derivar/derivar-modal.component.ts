@@ -21,8 +21,11 @@ export class DerivarModalComponent implements OnInit {
 
   selectedSolicitudForm: any
 
-  // desactivar boton de la siguiente pestaña(certificado riocp)
+  // desactivar boton de la siguiente pestaña certificado riocp
   botonRiocp: boolean = true;
+
+  // desactivar boton de la siguiente pestaña nota de rechazo
+  botonNotaRechazo: boolean = true;
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
@@ -216,6 +219,8 @@ export class DerivarModalComponent implements OnInit {
   onSubmit() {
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
+
+      return;
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Observación Agregada', message!);

@@ -89,7 +89,6 @@ export class CertificadoRiocpComponent {
 
       }, error(err) {
         console.error(err);
-
       },
     })
 

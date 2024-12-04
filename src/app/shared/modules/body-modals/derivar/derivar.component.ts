@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class DerivarComponent {
   // valor input que recibe desde el padre al hijo
   @Input() tipoRol!: string;
+
   @Input() listadoRol: any[] = [];
   @Input() seguimientoForm!: FormGroup;
 
@@ -23,7 +24,6 @@ export class DerivarComponent {
       this.hoja_ruta = true;
     } else {
       this.hoja_ruta = false;
-
     }
 
   }
