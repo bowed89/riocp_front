@@ -13,7 +13,7 @@
         </button>
         <button class="tab-button" [disabled]="!botonNotaRechazo" [ngClass]="{'active': activeTab === 'tab3'}"
             (click)="activeTab = 'tab3'">
-            Nota de Rechazo
+            Nota
         </button>
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab4'}" (click)="activeTab = 'tab4'">
             Derivar
@@ -25,21 +25,19 @@
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
                 <app-revisar-requisitos [observationsFormArray]=" observationsFormArray"
-                    (envioModal)="abrirModales($event)"
-                    (botonRiocp)="actualizarEstadoBotonRiocp($event)"></app-revisar-requisitos>
+                    (envioModal)="abrirModales($event)" (botonRiocp)="actualizarEstadoBotonRiocp($event)"
+                    (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"></app-revisar-requisitos>
             </div>
 
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
-                <app-certificado-riocp [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
+                <app-certificado-riocp (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"
+                    [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
             </div>
 
             <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
-                <!-- <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
-                    (valorBooleano)="closeModal($event)">
-                </app-derivar> -->
-                <app-nota-rechazo [idSolicitud]="selectedSolicitud"></app-nota-rechazo>
+                <app-nota-rechazo [tipoNotaRiocp]="tipoNotaRiocp" [idSolicitud]="selectedSolicitud"></app-nota-rechazo>
             </div>
 
             <!-- Contenido de la Pestaña 4 -->
@@ -68,7 +66,3 @@
         [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-cuatro-view>
 
 </p-dialog>
-
-
-
-

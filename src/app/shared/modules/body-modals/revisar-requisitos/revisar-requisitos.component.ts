@@ -13,6 +13,7 @@ export class RevisarRequisitosComponent {
   // valor output que envia desde el hijo hasta el padre
   @Output() envioModal = new EventEmitter();
   @Output() botonRiocp: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() tipoNotaRiocp: EventEmitter<string> = new EventEmitter<string>();
 
   abrirModales(i: any) {
     this.envioModal.emit(i);
@@ -21,5 +22,12 @@ export class RevisarRequisitosComponent {
   activarBotonRiocp() {
     const nuevoEstado = !this.observationsFormArray.value.some((item: any) => Number(item.cumple) === 0);
     this.botonRiocp.emit(nuevoEstado);
+
+    if(!nuevoEstado) {
+      this.tipoNotaRiocp.emit("OBSERVACIONES");
+    } else {
+      this.tipoNotaRiocp.emit("");
+    }
+
   }
 }

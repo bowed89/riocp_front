@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CertificadoRiocpService } from 'src/app/shared/services/certificado-riocp.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -10,6 +10,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class CertificadoRiocpComponent {
   token = localStorage.getItem('token');
   @Input() idSolicitud: any;
+  @Output() tipoNotaRiocp: EventEmitter<string> = new EventEmitter<string>();
+
 
   certificadoForm!: FormGroup;
   radio: any;
@@ -62,12 +64,21 @@ export class CertificadoRiocpComponent {
 
         },
       })
-
   }
 
   datosCertificado() {
     this._certificadoRiocpService.GetDatosCertificado(this.token!, this.idSolicitud).subscribe({
       next: ({ data }) => {
+
+        // verifico que los indicadores estan dentro del rango 
+        // para emitir por output
+        if (data[0].servicio_deuda <= 20.00 && data[0].valor_presente_deuda <= 200.00) {
+          this.tipoNotaRiocp.emit('APROBACIÓN');
+        } else {
+          this.tipoNotaRiocp.emit('RECHAZO');
+        }
+
+
         console.log("riocp=>" + JSON.stringify(data[0]));
         this.certificadoForm.patchValue({
           identificador_id: data[0].identificador_id,
@@ -94,8 +105,46 @@ export class CertificadoRiocpComponent {
 
   }
 
-  showDialog() {
-    this.visible = true;
+  detectarRangoSD(e: any) {
+    let valorNumerico = parseFloat(e); // Convierte a número
+
+    if (isNaN(valorNumerico)) {
+      this.certificadoForm.patchValue({
+        servicio_deuda: 0
+      });
+
+      this.tipoNotaRiocp.emit('RECHAZO');
+      console.log(valorNumerico);
+    }
+
+    if (valorNumerico <= 20) {
+      console.log(valorNumerico);
+      this.tipoNotaRiocp.emit('APROBACIÓN');
+    } else {
+      this.tipoNotaRiocp.emit('RECHAZO');
+    }
+  }
+
+  detectarRangoVPD(e: any) {
+    let valorNumerico = parseFloat(e);
+
+    console.log(valorNumerico);
+  
+
+    if (isNaN(valorNumerico)) {
+      this.certificadoForm.patchValue({
+        valor_presente_deuda_total: 0
+      });
+      this.tipoNotaRiocp.emit('RECHAZO');
+    }
+
+    if (valorNumerico <= 200) {
+      console.log(valorNumerico);
+      this.tipoNotaRiocp.emit('APROBACIÓN');
+    } else {
+      this.tipoNotaRiocp.emit('RECHAZO');
+    }
+
   }
 
 }

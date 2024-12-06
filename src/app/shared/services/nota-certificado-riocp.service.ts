@@ -23,8 +23,8 @@ export class NotaCertificadoRiocpService {
     };
   }
 
-  GetDatosNotaCertificado(token: string, solicitudId: number): Observable<Response<any>> {
-    const url = `${API.local}/nota-certificado-riocp/${solicitudId}`;
+  GetDatosNotaRechazoRiocp(token: string, solicitudId: number): Observable<Response<any>> {
+    const url = `${API.local}/nota-rechazo-certificado-riocp/${solicitudId}`;
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 

@@ -26,6 +26,7 @@ export class DerivarModalComponent implements OnInit {
 
   // desactivar boton de la siguiente pestaña nota de rechazo
   botonNotaRechazo: boolean = true;
+  tipoNotaRiocp: string = "";
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
@@ -106,7 +107,12 @@ export class DerivarModalComponent implements OnInit {
   // Método para manejar el evento
   actualizarEstadoBotonRiocp(estado: boolean) {
     this.botonRiocp = estado;
-    console.log('Estado recibido desde el hijo:', estado);
+    console.log('Estado recibido desde el hijo actualizarEstadoBotonRiocp:', estado);
+  }
+
+  obtenerTipoNotaRiocp(tipo: string) {
+    this.tipoNotaRiocp = tipo;
+    console.log('Tipo recibido desde el hijo obtenerTipoNotaRiocp:', tipo);
   }
 
   abrirModales(i: any) {

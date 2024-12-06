@@ -1,5 +1,9 @@
 <div class="container">
 
+    <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">
+        NOTA DE {{ tipoNotaRiocp}}
+    </p>
+
     <form [formGroup]="certificadoForm" (ngSubmit)="onSubmit()">
         <!-- Fecha y Código -->
         <div class="info-row">
@@ -14,8 +18,7 @@
         <div class="info-body">
             <!-- Destinatario -->
             <div class="destinatario">
-                <textarea pInputTextarea
-                    formControlName="header" rows="5"></textarea>
+                <textarea pInputTextarea formControlName="header" rows="5"></textarea>
             </div>
 
         </div>
@@ -36,8 +39,7 @@
         </div>
 
         <div class="header">
-            <textarea pInputTextarea
-                formControlName="revisado" rows="10"></textarea>
+            <textarea pInputTextarea formControlName="revisado" rows="10"></textarea>
         </div>
 
     </form>

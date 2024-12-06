@@ -9,6 +9,7 @@ import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certif
 })
 export class NotaRechazoComponent {
   @Input() idSolicitud: any;
+  @Input() tipoNotaRiocp: any;
 
   certificadoForm!: FormGroup;
   token = localStorage.getItem('token');
@@ -31,6 +32,7 @@ export class NotaRechazoComponent {
   ngOnInit() {
     this.obtenerDatosNota();
     console.log("idSolicitud =>" + this.idSolicitud);
+    console.log("tipoNotaRiocp =>" + this.tipoNotaRiocp);
 
   }
 
@@ -47,7 +49,7 @@ export class NotaRechazoComponent {
   obtenerDatosNota() {
     console.log(this.idSolicitud);
 
-    this._notaCertificadoRiocpService.GetDatosNotaCertificado(this.token!, this.idSolicitud).subscribe({
+    this._notaCertificadoRiocpService.GetDatosNotaRechazoRiocp(this.token!, this.idSolicitud).subscribe({
       next: (value) => {
         const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = value.data;
         this.certificadoForm.patchValue({
