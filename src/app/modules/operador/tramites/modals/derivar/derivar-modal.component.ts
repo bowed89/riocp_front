@@ -37,6 +37,13 @@ export class DerivarModalComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() seguimientoChanged = new EventEmitter<void>();
 
+  // intermediario para pasar sd y vpd desde componente certificado-riocp a nota-rechazo
+  sd: any;
+  vpd: any;
+
+  valoresHijo: any;  // Para almacenar los valores del formulario hijo
+
+
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
   seguimientoForm: FormGroup;
@@ -52,13 +59,46 @@ export class DerivarModalComponent implements OnInit {
     this.seguimientoForm = this.fb.group({
       usuario_destino_id: [null, Validators.required],
       observacion: ['DERIVAR A REVISOR', Validators.required],
-      solicitud_id: [null],
+      solicitud_id: [null], // tambien cuenta solicitud RIOCP *
       id_seguimiento: [null],
-      observaciones: this.fb.array([])
+      observaciones: this.fb.array([]),
+
+      // Campos del formulario del certificado RIOCP *
+      identificador_id: [null],
+      nro_solicitud: [null],
+      codigo: [''],
+      entidad: [''],
+      objeto_operacion_credito: [''],
+      acreedor: [''],
+      monto_total: [''],
+      moneda: [''],
+      interes_anual: [''],
+      comision: [''],
+      plazo: [''],
+      periodo_gracia: [''],
+      servicio_deuda: [''],
+      valor_presente_deuda_total: [''],
+
+      // nota
+      fecha: [''],
+      nro_nota: [''],
+      header: [''],
+      referencia: [''],
+      body: [''],
+      remitente: [''],
+      revisado: [''],
+      
     });
   }
 
   ngOnChanges(): void {
+    // Asegúrate de actualizar la validez del formulario
+    if (this.seguimientoForm) {
+      console.log('entra??');
+
+      this.seguimientoForm.updateValueAndValidity();
+    }
+
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
 
@@ -72,7 +112,14 @@ export class DerivarModalComponent implements OnInit {
       solicitud_id: this.selectedSolicitud,
       id_seguimiento: this.selectedSeguimiento
     });
+
+
+    /*    this.seguimientoForm.valueChanges.subscribe(() => {
+         console.log('Formulario válido:', this.seguimientoForm.valid);
+       }); */
   }
+
+
 
   ngOnInit(): void {
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
@@ -94,6 +141,13 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 
+  capturarSD(dato: any) {
+    this.sd = dato;
+  }
+  capturarVPD(dato: any) {
+    this.vpd = dato;
+  }
+
   closeModal(flag?: boolean) {
     this.visible = flag ?? false;
 
@@ -108,7 +162,26 @@ export class DerivarModalComponent implements OnInit {
   actualizarEstadoBotonRiocp(estado: boolean) {
     this.botonRiocp = estado;
     console.log('Estado recibido desde el hijo actualizarEstadoBotonRiocp:', estado);
+
+    if (estado) {
+      // Cambiar validadores para los campos DE CERTIFICADO RIOCP
+      this.seguimientoForm.get('identificador_id')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('nro_solicitud')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('codigo')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('entidad')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('objeto_operacion_credito')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('acreedor')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('monto_total')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('moneda')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('interes_anual')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('comision')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('plazo')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('periodo_gracia')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('servicio_deuda')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('valor_presente_deuda_total')?.setValidators([Validators.required]);
+    }
   }
+
 
   obtenerTipoNotaRiocp(tipo: string) {
     this.tipoNotaRiocp = tipo;
@@ -223,8 +296,8 @@ export class DerivarModalComponent implements OnInit {
   };
 
   onSubmit() {
+    console.log(this.seguimientoForm.value);
     if (this.seguimientoForm.valid) {
-      console.log(this.seguimientoForm.value);
 
       return;
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

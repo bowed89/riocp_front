@@ -17,6 +17,7 @@ export class DerivarComponent {
 
   @Output() valorBooleano: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+
   ngOnChanges(): void {
     console.log("sasaasasasasas", this.tipoRol);
 
@@ -28,9 +29,17 @@ export class DerivarComponent {
 
   }
 
+  ngOnInit(): void {
+    // Cuando el formulario cambia, emite los valores
+  
+  }
+
+
   closeModal(flag: boolean) {
     this.valorBooleano.emit(flag); // Emitimos el valor booleano al padre
   }
+
+ 
 
 
 }

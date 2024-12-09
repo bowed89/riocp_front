@@ -11,14 +11,18 @@ export class NotaRechazoComponent {
   @Input() idSolicitud: any;
   @Input() tipoNotaRiocp: any;
 
-  certificadoForm!: FormGroup;
+  // recibimos sd y vpd desde certificado riocp componente con internediario en derivar-modal
+  @Input() sd: any;
+  @Input() vpd: any;
+  @Input() seguimientoForm!: FormGroup;
+
+  //certificadoForm!: FormGroup;
   token = localStorage.getItem('token');
 
   constructor(
-    private fb: FormBuilder,
     private _notaCertificadoRiocpService: NotaCertificadoRiocpService
   ) {
-    this.certificadoForm = this.fb.group({
+/*     this.certificadoForm = this.fb.group({
       fecha: ['', Validators.required],
       nro_nota: ['', Validators.required],
       header: ['', Validators.required],
@@ -26,33 +30,72 @@ export class NotaRechazoComponent {
       body: ['', Validators.required],
       remitente: ['', Validators.required],
       revisado: ['', Validators.required],
-    });
+    }); */
   }
 
   ngOnInit() {
-    this.obtenerDatosNota();
     console.log("idSolicitud =>" + this.idSolicitud);
     console.log("tipoNotaRiocp =>" + this.tipoNotaRiocp);
+    console.log("sd =>" + this.sd);
+    console.log("vpd =>" + this.vpd);
 
-  }
-
-  // Método para manejar el envío del formulario
-  onSubmit(): void {
-    if (this.certificadoForm.valid) {
-      console.log('Formulario enviado:', this.certificadoForm.value);
-      // Aquí puedes enviar los datos al backend o procesarlos como desees
-    } else {
-      console.log('Formulario inválido');
+    switch (this.tipoNotaRiocp) {
+      case 'APROBACIÓN':
+        this.obtenerDatosNotaAprobado();
+        break;
+      case 'OBSERVACIONES':
+        this.obtenerDatosNotaObservacion();
+        break;
+      case 'RECHAZO':
+        this.obtenerDatosNotaRechazo();
+        break;
+      default:
+        // Lógica para casos no contemplados
+        break;
     }
+
   }
 
-  obtenerDatosNota() {
+
+  obtenerDatosNotaAprobado() {
     console.log(this.idSolicitud);
 
-    this._notaCertificadoRiocpService.GetDatosNotaRechazoRiocp(this.token!, this.idSolicitud).subscribe({
+    this._notaCertificadoRiocpService.GetDatosNotaAprobadoRiocp(this.token!, this.idSolicitud).subscribe({
       next: (value) => {
         const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = value.data;
-        this.certificadoForm.patchValue({
+        this.seguimientoForm.patchValue({
+          body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+        });
+
+      }, error(err) {
+        console.error(err);
+      },
+    })
+  }
+
+  obtenerDatosNotaObservacion() {
+    console.log(this.idSolicitud);
+
+    this._notaCertificadoRiocpService.GetDatosNotaObservacionRiocp(this.token!, this.idSolicitud).subscribe({
+      next: (value) => {
+        const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = value.data;
+        this.seguimientoForm.patchValue({
+          body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+        });
+
+      }, error(err) {
+        console.error(err);
+      },
+    })
+  }
+
+  obtenerDatosNotaRechazo() {
+    console.log(this.idSolicitud);
+
+    this._notaCertificadoRiocpService.GetDatosNotaRechazoRiocp(this.token!, this.idSolicitud, this.sd, this.vpd).subscribe({
+      next: (value) => {
+        const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = value.data;
+        this.seguimientoForm.patchValue({
           body, footer, header, referencia, fecha, nro_nota, remitente, revisado
         });
 

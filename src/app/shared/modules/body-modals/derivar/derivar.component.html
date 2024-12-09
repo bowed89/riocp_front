@@ -3,7 +3,7 @@
     <div [formGroup]="seguimientoForm">
         <div class="form-group">
             <label for="tecnico">Derivar {{tipoRol}}</label>
-            <p-dropdown formControlName="usuario_destino_id" [options]="listadoRol" optionLabel="nombre"
+            <p-dropdown formControlName="usuario_destino_id" [options]="listadoRol" optionLabel="nombre" 
                 optionValue="id" placeholder="Seleccionar"></p-dropdown>
             <div *ngIf="seguimientoForm.get('usuario_destino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
                 class="error">
@@ -13,7 +13,7 @@
 
         <div class="form-group" *ngIf="hoja_ruta">
             <label for="nro_hoja_ruta">Nro de Hoja de Ruta:</label>
-            <input id="nro_hoja_ruta" type="text" pInputText formControlName="nro_hoja_ruta"
+            <input id="nro_hoja_ruta" type="text" pInputText formControlName="nro_hoja_ruta" 
                 placeholder="Ingrese Nro de Hoja de Ruta" />
             <div *ngIf="seguimientoForm.get('nro_hoja_ruta')?.invalid && seguimientoForm.get('nro_hoja_ruta')?.touched"
                 class="error">

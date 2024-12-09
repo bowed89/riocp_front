@@ -2,7 +2,7 @@
 <div class="card flex justify-content-center">
 
     <div class="container">
-        <form [formGroup]="certificadoForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="seguimientoForm">
 
             <!-- Header with Logos -->
             <div class="header">
@@ -21,16 +21,16 @@
                 <div class="column1">
                     <div class="field-radio">
                         <label>CRÉDITO PÚBLICO INTERNO</label>
-                        <p-radioButton id="interno" formControlName="identificador_id" value="1">
+                        <p-radioButton id="interno" formControlName="identificador_id" value="1" class="disabled-radio">
                         </p-radioButton>
                     </div>
                     <div class="field">
                         <label for="numSolicitud">N° DE SOLICITUD:</label>
-                        <input id="numSolicitud" pInputText formControlName="nro_solicitud">
+                        <input id="numSolicitud" pInputText formControlName="nro_solicitud" readonly>
                     </div>
                     <div class="field">
                         <label for="codigo">CÓDIGO:</label>
-                        <input id="codigo" pInputText formControlName="codigo">
+                        <input id="codigo" pInputText formControlName="codigo" readonly>
                     </div>
                     <div class="field">
                         <label class="label-one-row">OBJETO DE LA OPERACIÓN DE CRÉDITO PÚBLICO:</label>
@@ -44,7 +44,7 @@
                         <!-- <input id="codigo" pInputText formControlName="monto_total"> -->
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="monto_total"
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
-                            [locale]="'de-DE'" placeholder="0.000,00">
+                            [locale]="'de-DE'" placeholder="0.000,00" [readonly]="true" >
                         </p-inputNumber>
                     </div>
 
@@ -53,7 +53,7 @@
                         <!-- <input id="codigo" pInputText formControlName="interes_anual"> -->
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="interes_anual"
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
-                            [locale]="'de-DE'" placeholder="0.000,00">
+                            [locale]="'de-DE'" placeholder="0.000,00" [readonly]="true">
                         </p-inputNumber>
                     </div>
 
@@ -62,7 +62,7 @@
                         <!-- <input id="codigo" pInputText formControlName="plazo"> -->
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="plazo" mode="decimal"
                             [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'"
-                            placeholder="0.000,00">
+                            placeholder="0.000,00" [readonly]="true">
                         </p-inputNumber>
                     </div>
 
@@ -74,7 +74,7 @@
                 <div class="column2">
                     <div class="field-radio">
                         <label for="externo">CRÉDITO PÚBLICO EXTERNO</label>
-                        <p-radioButton id="externo" value="2" formControlName="identificador_id"></p-radioButton>
+                        <p-radioButton id="externo" value="2" formControlName="identificador_id" class="disabled-radio"></p-radioButton>
                     </div>
 
                     <div class="field" style="visibility: hidden">
@@ -84,30 +84,30 @@
                     <div class="field">
                         <label class="entidad-label">ENTIDAD</label>
                         <textarea class="entidad-input" pInputTextarea formControlName="entidad" rows="3"
-                            cols="50"></textarea>
+                            cols="50" readonly></textarea>
                     </div>
                     <div class="field">
                         <textarea pInputTextarea class="entidad-input" formControlName="objeto_operacion_credito"
                             rows="5" cols="50"></textarea>
                     </div>
                     <div class="field">
-                        <textarea pInputTextarea class="entidad-input" formControlName="acreedor"></textarea>
+                        <textarea pInputTextarea class="entidad-input" formControlName="acreedor" readonly></textarea>
                     </div>
                     <!-- field centrar -->
                     <div class="field-centrar">
                         <label for="moneda">MONEDA:</label>
-                        <input id="moneda" pInputText formControlName="moneda">
+                        <input id="moneda" pInputText formControlName="moneda" readonly>
                     </div>
                     <div class="field-centrar">
                         <label for="moneda">COMISIÓN:</label>
-                        <textarea pInputTextarea formControlName="comision"></textarea>
+                        <textarea pInputTextarea formControlName="comision" readonly></textarea>
                     </div>
                     <div class="field-centrar">
                         <label>GRACIA(AÑOS):</label>
                         <!-- <input pInputText formControlName="periodo_gracia"> -->
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="periodo_gracia"
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
-                            [locale]="'de-DE'" placeholder="0.000,00">
+                            [locale]="'de-DE'" placeholder="0.000,00" [readonly]="true">
                         </p-inputNumber>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
             </div>
 
 
-            <div style="display: flex; justify-content: center; gap: 15px;">
+         <!--    <div style="display: flex; justify-content: center; gap: 15px;">
                 <div class="text-center">
                     <button pButton type="submit" [disabled]="!certificadoForm.valid" class="p-button-success"
                         label="Generar Certificado" icon="pi pi-file-o"></button>
@@ -158,7 +158,7 @@
                     <button pButton type="submit" [disabled]="!certificadoForm.valid" class="p-button-danger"
                         label="Generar Nota" icon="pi pi-file-excel"></button>
                 </div>
-            </div>
+            </div> -->
         </form>
     </div>
 

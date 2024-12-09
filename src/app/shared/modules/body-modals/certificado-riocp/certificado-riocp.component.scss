@@ -245,3 +245,9 @@ textarea,
   align-items: center;
   justify-content: center;
 }
+
+.disabled-radio {
+  pointer-events: none;
+  opacity: 0.5;
+  outline: none;
+}

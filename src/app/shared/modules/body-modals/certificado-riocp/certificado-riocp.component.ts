@@ -9,61 +9,30 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CertificadoRiocpComponent {
   token = localStorage.getItem('token');
+  @Input() seguimientoForm!: FormGroup;
   @Input() idSolicitud: any;
   @Output() tipoNotaRiocp: EventEmitter<string> = new EventEmitter<string>();
 
+  // enviamos sd y vpd hasta componente nota de rechazo
+  @Output() sd = new EventEmitter<any>();
+  @Output() vpd = new EventEmitter<any>();
 
-  certificadoForm!: FormGroup;
+
+  //certificadoForm!: FormGroup;
   radio: any;
   visible: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
     public _certificadoRiocpService: CertificadoRiocpService,
 
   ) {
-    this.certificadoForm = this.fb.group({
-      identificador_id: [{ value: '', disabled: true }, Validators.required],
-      nro_solicitud: [{ value: '', disabled: true }, Validators.required],
-      codigo: [{ value: '', disabled: true }, Validators.required],
-      entidad: [{ value: '', disabled: true }, Validators.required],
-      objeto_operacion_credito: [''],
-      acreedor: [{ value: '', disabled: true }],
-      monto_total: [{ value: '', disabled: true }, Validators.required],
-      moneda: [{ value: '', disabled: true }, Validators.required],
-      interes_anual: [{ value: '', disabled: true }, Validators.required],
-      comision: [{ value: '', disabled: true }, Validators.required],
-      plazo: [{ value: '', disabled: true }, Validators.required],
-      periodo_gracia: [{ value: '', disabled: true }, Validators.required],
-      servicio_deuda: ['', Validators.required],
-      valor_presente_deuda_total: ['', Validators.required],
-      solicitud_id: [''],
-    });
+
   }
 
   ngOnInit() {
     this.datosCertificado();
     console.log("idSolicitud =>" + this.idSolicitud);
 
-  }
-
-  onSubmit() {
-    this.certificadoForm.patchValue({
-      solicitud_id: this.idSolicitud,
-    });
-
-    console.log(this.certificadoForm.value);
-
-    this._certificadoRiocpService.PostFormularioRegistro(this.certificadoForm.value, this.token!)
-      .subscribe({
-        next: (value) => {
-          console.log(value);
-
-        }, error: (err) => {
-          console.error(err);
-
-        },
-      })
   }
 
   datosCertificado() {
@@ -78,9 +47,8 @@ export class CertificadoRiocpComponent {
           this.tipoNotaRiocp.emit('RECHAZO');
         }
 
-
         console.log("riocp=>" + JSON.stringify(data[0]));
-        this.certificadoForm.patchValue({
+        this.seguimientoForm.patchValue({
           identificador_id: data[0].identificador_id,
           solicitud_id: data[0].solicitud_id,
           nro_solicitud: data[0].nro_solicitud,
@@ -107,9 +75,10 @@ export class CertificadoRiocpComponent {
 
   detectarRangoSD(e: any) {
     let valorNumerico = parseFloat(e); // Convierte a número
+    this.sd.emit(valorNumerico);
 
     if (isNaN(valorNumerico)) {
-      this.certificadoForm.patchValue({
+      this.seguimientoForm.patchValue({
         servicio_deuda: 0
       });
 
@@ -127,12 +96,10 @@ export class CertificadoRiocpComponent {
 
   detectarRangoVPD(e: any) {
     let valorNumerico = parseFloat(e);
-
-    console.log(valorNumerico);
-  
+    this.vpd.emit(valorNumerico);
 
     if (isNaN(valorNumerico)) {
-      this.certificadoForm.patchValue({
+      this.seguimientoForm.patchValue({
         valor_presente_deuda_total: 0
       });
       this.tipoNotaRiocp.emit('RECHAZO');
