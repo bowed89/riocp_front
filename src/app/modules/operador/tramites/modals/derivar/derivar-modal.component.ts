@@ -80,48 +80,39 @@ export class DerivarModalComponent implements OnInit {
       valor_presente_deuda_total: [''],
 
       // nota
-      fecha: [''],
-      nro_nota: [''],
-      header: [''],
-      referencia: [''],
-      body: [''],
-      remitente: [''],
-      revisado: [''],
-      
+      fecha: ['', Validators.required],
+      nro_nota: ['', Validators.required],
+      header: ['', Validators.required],
+      referencia: ['', Validators.required],
+      body: ['', Validators.required],
+      remitente: ['', Validators.required],
+      revisado: ['', Validators.required],
+
+      // observacion
+      esObservado: ['', Validators.required]
+
     });
   }
 
   ngOnChanges(): void {
-    // Asegúrate de actualizar la validez del formulario
-    if (this.seguimientoForm) {
-      console.log('entra??');
-
-      this.seguimientoForm.updateValueAndValidity();
-    }
-
-    console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
-
-    console.log("this.observationsFormArray ===>", this.observationsFormArray);
-
+    console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
 
     if (this.selectedSolicitud !== undefined) {
       this.getTipoObservacion();
+
+      this.seguimientoForm.patchValue({
+        solicitud_id: this.selectedSolicitud,
+        id_seguimiento: this.selectedSeguimiento
+      });
     }
-    this.seguimientoForm.patchValue({
-      solicitud_id: this.selectedSolicitud,
-      id_seguimiento: this.selectedSeguimiento
-    });
 
-
-    /*    this.seguimientoForm.valueChanges.subscribe(() => {
-         console.log('Formulario válido:', this.seguimientoForm.valid);
-       }); */
   }
 
 
 
   ngOnInit(): void {
+    console.log('entra a derivar-modal');
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -164,6 +155,7 @@ export class DerivarModalComponent implements OnInit {
     console.log('Estado recibido desde el hijo actualizarEstadoBotonRiocp:', estado);
 
     if (estado) {
+      this.seguimientoForm.patchValue({ esObservado: false });
       // Cambiar validadores para los campos DE CERTIFICADO RIOCP
       this.seguimientoForm.get('identificador_id')?.setValidators([Validators.required]);
       this.seguimientoForm.get('nro_solicitud')?.setValidators([Validators.required]);
@@ -179,6 +171,9 @@ export class DerivarModalComponent implements OnInit {
       this.seguimientoForm.get('periodo_gracia')?.setValidators([Validators.required]);
       this.seguimientoForm.get('servicio_deuda')?.setValidators([Validators.required]);
       this.seguimientoForm.get('valor_presente_deuda_total')?.setValidators([Validators.required]);
+
+    } else {
+      this.seguimientoForm.patchValue({ esObservado: true })
     }
   }
 
@@ -299,7 +294,6 @@ export class DerivarModalComponent implements OnInit {
     console.log(this.seguimientoForm.value);
     if (this.seguimientoForm.valid) {
 
-      return;
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Observación Agregada', message!);
@@ -316,8 +310,6 @@ export class DerivarModalComponent implements OnInit {
       this._messagesService.MessageError('Observación inválida', 'Por favor complete todos los campos requeridos.');
     }
   }
-
-
 
 }
 

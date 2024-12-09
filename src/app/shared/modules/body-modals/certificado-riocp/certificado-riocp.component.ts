@@ -50,7 +50,6 @@ export class CertificadoRiocpComponent {
         console.log("riocp=>" + JSON.stringify(data[0]));
         this.seguimientoForm.patchValue({
           identificador_id: data[0].identificador_id,
-          solicitud_id: data[0].solicitud_id,
           nro_solicitud: data[0].nro_solicitud,
           codigo: data[0].codigo,
           entidad: data[0].entidad,
