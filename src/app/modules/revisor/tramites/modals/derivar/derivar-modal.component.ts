@@ -1,24 +1,18 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
-import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
+
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
-import { ObservacionRevisorService } from '../../services/observacion-revisor.service';
+import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 
 @Component({
   selector: 'app-derivar-modal',
   templateUrl: './derivar-modal.component.html',
   styleUrls: ['./derivar-modal.component.scss']
 })
+
 export class DerivarModalComponent implements OnInit {
-  tipoRol = 'Jefe Unidad';
-
-  @Input() visible: boolean = false;
-  @Input() selectedSolicitud: any;
-  @Input() selectedSeguimiento: any;
-
-  @Output() visibleChange = new EventEmitter<boolean>();
-  @Output() seguimientoChanged = new EventEmitter<void>();
+  tipoRol = 'Revisor(a)';
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
@@ -28,47 +22,102 @@ export class DerivarModalComponent implements OnInit {
 
   selectedSolicitudForm: any
 
+  // desactivar boton de la siguiente pestaña certificado riocp
+  botonRiocp: boolean = true;
+  botonNota: boolean = false;
+  botonDerivar: boolean = false;
+
+  // desactivar boton de la siguiente pestaña nota de rechazo
+  tipoNotaRiocp: string = "APROBACIÓN";
+
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
+
+  @Input() visible: boolean = false;
+  @Input() selectedSolicitud: any;
+  @Input() selectedSeguimiento: any;
+
+  @Output() visibleChange = new EventEmitter<boolean>();
+  @Output() seguimientoChanged = new EventEmitter<void>();
+
+  // intermediario para pasar sd y vpd desde componente certificado-riocp a nota-rechazo
+  sd: any;
+  vpd: any;
+
+  valoresHijo: any;  // Para almacenar los valores del formulario hijo
+
 
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
-
   seguimientoForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public _seguimientoRevisorService: SeguimientoRevisorService,
+    public _seguimientoOperadorService: SeguimientoOperadorService,
     public _messagesService: MessagesService,
     public _abrirDocumentoService: AbrirDocumentoService,
-    public _observacionRevisorService: ObservacionRevisorService,
     private cdRef: ChangeDetectorRef
   ) {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
       usuario_destino_id: [null, Validators.required],
-      observacion: ['DERIVAR A JEFE DE UNIDAD', Validators.required],
-      solicitud_id: [null],
+      observacion: ['DERIVAR A REVISOR', Validators.required],
+      solicitud_id: [null], // tambien cuenta solicitud RIOCP *
       id_seguimiento: [null],
       observaciones: this.fb.array([]),
+
+      // Campos del formulario del certificado RIOCP *
+      identificador_id: [null],
+      nro_solicitud: [null],
+      codigo: [''],
+      entidad: [''],
+      objeto_operacion_credito: [''],
+      acreedor: [''],
+      monto_total: [''],
+      moneda: [''],
+      interes_anual: [''],
+      comision: [''],
+      plazo: [''],
+      periodo_gracia: [''],
+      servicio_deuda: [''],
+      valor_presente_deuda_total: [''],
+
+      // nota
+      fecha: ['', Validators.required],
+      nro_nota: ['', Validators.required],
+      header: ['', Validators.required],
+      referencia: ['', Validators.required],
+      body: ['', Validators.required],
+      remitente: ['', Validators.required],
+      revisado: ['', Validators.required],
+
+      // observacion
+      esObservado: [false, Validators.required],
+
+      // observacion tecnico
       observacion_tecnico: this.fb.array([])
     });
   }
 
   ngOnChanges(): void {
-    console.log("this.selectedSolicitud** ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
+    console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
 
     if (this.selectedSolicitud !== undefined) {
+      //this.getTipoObservacion();
+
+      this.seguimientoForm.patchValue({
+        solicitud_id: this.selectedSolicitud,
+        id_seguimiento: this.selectedSeguimiento
+      });
     }
 
-    this.seguimientoForm.patchValue({
-      solicitud_id: this.selectedSolicitud,
-      id_seguimiento: this.selectedSeguimiento
-    });
   }
 
   ngOnInit(): void {
-    this._seguimientoRevisorService.GetJefeUnidad(this.token!).subscribe({
+    this.getTipoObservacion();
+
+    console.log('entra a derivar-modal');
+    this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
         this.tecnicos = data.map((tecnico: any) => ({
@@ -87,13 +136,79 @@ export class DerivarModalComponent implements OnInit {
     }
   }
 
-  changeModal(tab: string) {
-    this.activeTab = tab;
-    this.getTipoObservacion();
-    this.observationTecnicoFormArray.clear();
+  get observationTecnicoFormArray(): FormArray {
+    return this.seguimientoForm.get('observacion_tecnico') as FormArray;
   }
 
-  abrirModales(i: number) {
+  capturarSD(dato: any) {
+    this.sd = dato;
+  }
+  capturarVPD(dato: any) {
+    this.vpd = dato;
+  }
+
+  closeModal(flag?: boolean) {
+    this.visible = flag ?? false;
+
+    this.seguimientoForm.reset();
+    this.observationsFormArray.clear();
+
+    this.visibleChange.emit(this.visible);
+    this.cdRef.detectChanges(); // Fuerza la detección de cambios
+  }
+
+  // Método para manejar el evento
+  actualizarEstadoBotonRiocp(estado: boolean) {
+    this.botonRiocp = estado;
+    console.log('Estado recibido desde el hijo actualizarEstadoBotonRiocp:', estado);
+
+    if (estado) {
+      // SI NO EXISTEN OBSERVACIONES
+      this.botonNota = false;
+      this.botonDerivar = false; // desactivo el btn derivar
+
+      this.seguimientoForm.patchValue({ esObservado: false });
+      // Cambiar validadores para los campos DE CERTIFICADO RIOCP
+      this.seguimientoForm.get('identificador_id')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('nro_solicitud')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('codigo')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('entidad')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('objeto_operacion_credito')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('acreedor')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('monto_total')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('moneda')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('interes_anual')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('comision')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('plazo')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('periodo_gracia')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('servicio_deuda')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('valor_presente_deuda_total')?.setValidators([Validators.required]);
+
+    } else {
+      // SI EXISTEN OBSERVACIONES
+      this.seguimientoForm.patchValue({ esObservado: true });
+      this.botonNota = true;
+      this.botonDerivar = false;
+
+    }
+  }
+
+  obtenerBotonNota(valor: any) {
+    this.botonNota = valor;
+  }
+
+  obtenerBotonDerivar(valor: any) {
+    this.botonDerivar = valor;
+  }
+
+  obtenerTipoNotaRiocp(tipo: string) {
+    this.tipoNotaRiocp = tipo;
+    console.log('Tipo recibido desde el hijo obtenerTipoNotaRiocp:', tipo);
+  }
+
+  abrirModales(i: any) {
+    console.log(i);
+
     if (i === 0) {
       this.openDocumentoCorrespondencia(this.selectedSolicitud, 'carta_solicitud');
     }
@@ -129,36 +244,30 @@ export class DerivarModalComponent implements OnInit {
       const idTipo = 3;
       this.openDocument(this.selectedSolicitud, idTipo, 'informacion_financiera');
     }
+
   }
 
   getTipoObservacion() {
-
-    if (this.observationsFormArray.length === 0) {
-      this._observacionRevisorService.GetTecnicoObservacion(this.token!, this.selectedSolicitud).subscribe({
-        next: ({ data }: any) => {
-          data.forEach((res: any) => {
-            this.observationsFormArray.push(this.fb.group({
-              enumeracion: [`${res.enumeracion}.`],
-              cumple: [res.cumple, Validators.required],
-              descripcion: [res.tipo_observacion, Validators.required],
-              tipo_observacion_id: [res.tipo_observacion_id, Validators.required],
-              observacion: [res.observacion, Validators.required]
-            }));
-          });
-        },
-        error(err) {
-          console.error(err);
-        },
-      });
-    }
+    this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
+      next: ({ data }: any) => {
+        data.forEach((res: any) => {
+          this.observationsFormArray.push(this.fb.group({
+            enumeracion: [`${res.enumeracion}.`],
+            cumple: [1, Validators.required],
+            descripcion: [res.observacion, Validators.required],
+            tipo_observacion_id: [res.id, Validators.required],
+            observacion: ['SIN OBSERVACIONES', Validators.required]
+          }));
+        });
+      },
+      error(err) {
+        console.error(err);
+      },
+    });
   }
 
   get observationsFormArray(): FormArray {
     return this.seguimientoForm.get('observaciones') as FormArray;
-  }
-
-  get observationTecnicoFormArray(): FormArray {
-    return this.seguimientoForm.get('observacion_tecnico') as FormArray;
   }
 
   openDocument(idSolicitud: number, idTipo: number, nombreDoc: string) {
@@ -204,31 +313,26 @@ export class DerivarModalComponent implements OnInit {
     })
   };
 
-  closeModal(flag?: boolean) {
-    console.log(flag);
-    this.visible = flag ?? false;
-    this.visibleChange.emit(this.visible);
-    this.cdRef.detectChanges(); // Fuerza la detección de cambios
-  }
-
   onSubmit() {
+    console.log(this.seguimientoForm.value);
+
     if (this.seguimientoForm.valid) {
-      console.log(this.seguimientoForm.value);
-      this._seguimientoRevisorService.PostAsignarRevisorJefeUnidad(this.seguimientoForm.value, this.token!)
-        .subscribe({
-          next: ({ message }) => {
-            this._messagesService.MessageSuccess('Solicitud Dervidada', message!);
-            this.seguimientoChanged.emit();
-            this.closeModal();
-          },
-          error: (error) => {
-            this._messagesService.MessageError('Error al Dervivar', error.error.message);
-            this.closeModal();
-          },
-        });
+
+      this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
+        next: ({ message }) => {
+          this._messagesService.MessageSuccess('Observación Agregada', message!);
+          this.seguimientoChanged.emit();
+          this.closeModal();
+        },
+        error: (error) => {
+          this._messagesService.MessageError('Error al Agregar', error.error.message);
+          this.closeModal();
+        },
+      });
+
     } else {
-      this._messagesService.MessageError('Formulario inválido', 'Por favor complete todos los campos requeridos.');
+      this._messagesService.MessageError('Observación inválida', 'Por favor complete todos los campos requeridos.');
     }
   }
-}
 
+}

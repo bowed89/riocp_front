@@ -1,17 +1,24 @@
 <p-toast></p-toast>
-
-<p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-    [style]="{ width: '70vw' }" (onHide)="closeModal()">
-
+<p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false" [modal]="true" (onHide)="closeModal()"
+    [style]="{ width: '80vw' }">
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="changeModal('tab1')">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
             Observaciones Técnico
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="changeModal('tab2')">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
             Revisar Requisitos
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="changeModal('tab3')">
+        <button class="tab-button" [disabled]="!botonRiocp" [ngClass]="{'active': activeTab === 'tab3'}"
+            (click)="activeTab = 'tab2'">
+            Certificado RIOCP
+        </button>
+        <button class="tab-button" [disabled]="!botonNota" [ngClass]="{'active': activeTab === 'tab4'}"
+            (click)="activeTab = 'tab3'">
+            Nota
+        </button>
+        <button class="tab-button" [disabled]="!botonDerivar" [ngClass]="{'active': activeTab === 'tab5'}"
+            (click)="activeTab = 'tab4'">
             Derivar
         </button>
     </div>
@@ -20,28 +27,34 @@
         <div class="tab-content">
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
-                <app-revisar-tecnico
-                    [observationsFormArray]=" observationTecnicoFormArray"
-                    (envioModal)="abrirModales($event)"
-                    [selectedSolicitud]="selectedSolicitud"></app-revisar-tecnico>
+                <app-revisar-tecnico [observationsFormArray]=" observationTecnicoFormArray"
+                    (envioModal)="abrirModales($event)" [selectedSolicitud]="selectedSolicitud"></app-revisar-tecnico>
             </div>
-
-            
-
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
-                <app-revisar-requisitos
-                    [observationsFormArray]=" observationsFormArray"
-                    (envioModal)="abrirModales($event)"></app-revisar-requisitos>
+                <app-revisar-requisitos [observationsFormArray]=" observationsFormArray"
+                    (envioModal)="abrirModales($event)" [seguimientoForm]="seguimientoForm"
+                    (botonRiocp)="actualizarEstadoBotonRiocp($event)"
+                    (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"></app-revisar-requisitos>
             </div>
             <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
+                <app-certificado-riocp (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"
+                    (botonNota)="obtenerBotonNota($event)" (sd)="capturarSD($event)" (vpd)="capturarVPD($event)"
+                    [seguimientoForm]="seguimientoForm" [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
+            </div>
+            <!-- Contenido de la Pestaña 4 -->
+            <div *ngIf="activeTab === 'tab4'" class="form-container">
+                <app-nota-rechazo [sd]="sd" [vpd]="vpd" [tipoNotaRiocp]="tipoNotaRiocp"
+                    (botonDerivar)="obtenerBotonDerivar($event)" [idSolicitud]="selectedSolicitud"
+                    [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
+            </div>
 
-                <app-derivar
-                    [tipoRol]="tipoRol"
-                    [listadoRol]="tecnicos"
-                    [seguimientoForm]="seguimientoForm"
-                    (valorBooleano)="closeModal($event)"></app-derivar>
+            <!-- Contenido de la Pestaña 5 -->
+            <div *ngIf="activeTab === 'tab5'" class="form-container">
+                <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
+                    (valorBooleano)="closeModal($event)">
+                </app-derivar>
             </div>
         </div>
     </form>
@@ -61,4 +74,5 @@
     <!-- MODAL FORMULARIO 4 -->
     <app-formulario-cuatro-view [(visibleForm4)]="form4ModalVisible"
         [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-cuatro-view>
+
 </p-dialog>

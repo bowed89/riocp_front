@@ -1,0 +1,64 @@
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [style]="{ width: '70vw' }" (onHide)="closeModal()">
+
+    <!-- Contenedor de Pestañas -->
+    <div class="tab-header">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="changeModal('tab1')">
+            Observaciones Técnico
+        </button>
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="changeModal('tab2')">
+            Revisar Requisitos
+        </button>
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="changeModal('tab3')">
+            Derivar
+        </button>
+    </div>
+
+    <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
+        <div class="tab-content">
+            <!-- Contenido de la Pestaña 1 -->
+            <div *ngIf="activeTab === 'tab1'" class="form-container">
+                <app-revisar-tecnico
+                    [observationsFormArray]=" observationTecnicoFormArray"
+                    (envioModal)="abrirModales($event)"
+                    [selectedSolicitud]="selectedSolicitud"></app-revisar-tecnico>
+            </div>
+
+            
+
+            <!-- Contenido de la Pestaña 2 -->
+            <div *ngIf="activeTab === 'tab2'" class="form-container">
+                <app-revisar-requisitos
+                    [observationsFormArray]=" observationsFormArray"
+                    (envioModal)="abrirModales($event)"></app-revisar-requisitos>
+            </div>
+            <!-- Contenido de la Pestaña 3 -->
+            <div *ngIf="activeTab === 'tab3'" class="form-container">
+
+                <app-derivar
+                    [tipoRol]="tipoRol"
+                    [listadoRol]="tecnicos"
+                    [seguimientoForm]="seguimientoForm"
+                    (valorBooleano)="closeModal($event)"></app-derivar>
+            </div>
+        </div>
+    </form>
+
+    <!-- MODAL FORMULARIO 1 -->
+    <app-formulario-uno-view [(visibleForm1)]="form1ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-uno-view>
+
+    <!-- MODAL FORMULARIO 2 -->
+    <app-formulario-dos-view [(visibleForm2)]="form2ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-dos-view>
+
+    <!-- MODAL FORMULARIO 3 -->
+    <app-formulario-tres-view [(visibleForm3)]="form3ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-tres-view>
+
+    <!-- MODAL FORMULARIO 4 -->
+    <app-formulario-cuatro-view [(visibleForm4)]="form4ModalVisible"
+        [selectedSolicitudForm]="selectedSolicitudForm"></app-formulario-cuatro-view>
+</p-dialog>

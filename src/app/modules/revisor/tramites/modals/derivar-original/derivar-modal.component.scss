@@ -1,0 +1,61 @@
+
+
+.p-button {
+    width: 100%;
+    /* Ancho completo */
+    padding: 10px;
+    /* Espaciado interno */
+    font-weight: bold;
+    /* Negrita en el texto del botón */
+    transition: background-color 0.3s;
+    /* Transición suave para el botón */
+}
+
+.p-button-success {
+    background-color: #28a745;
+    /* Color verde para el botón */
+    color: white;
+    /* Color de texto blanco */
+}
+
+.p-button-success:hover {
+    background-color: #218838;
+    /* Color más oscuro al pasar el mouse */
+}
+
+.p-button-success:focus {
+    outline: none;
+    /* Sin borde adicional en foco */
+}
+
+
+/* TABS */
+
+.tab-header {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1em;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+    color: #666;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    border-bottom: 2px solid #007bff;
+    /* Color para la pestaña activa */
+    font-weight: bold;
+    color: #007bff;
+}
+
+.tab-content {
+    padding: 10px;
+}
+
