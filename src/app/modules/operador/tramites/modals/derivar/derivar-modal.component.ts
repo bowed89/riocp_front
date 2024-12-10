@@ -23,10 +23,11 @@ export class DerivarModalComponent implements OnInit {
 
   // desactivar boton de la siguiente pestaña certificado riocp
   botonRiocp: boolean = true;
+  botonNota: boolean = false;
+  botonDerivar: boolean = false;
 
   // desactivar boton de la siguiente pestaña nota de rechazo
-  botonNotaRechazo: boolean = true;
-  tipoNotaRiocp: string = "";
+  tipoNotaRiocp: string = "APROBACIÓN";
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
@@ -89,7 +90,7 @@ export class DerivarModalComponent implements OnInit {
       revisado: ['', Validators.required],
 
       // observacion
-      esObservado: ['', Validators.required]
+      esObservado: [false, Validators.required]
 
     });
   }
@@ -99,7 +100,7 @@ export class DerivarModalComponent implements OnInit {
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
 
     if (this.selectedSolicitud !== undefined) {
-      this.getTipoObservacion();
+      //this.getTipoObservacion();
 
       this.seguimientoForm.patchValue({
         solicitud_id: this.selectedSolicitud,
@@ -112,6 +113,8 @@ export class DerivarModalComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getTipoObservacion();
+
     console.log('entra a derivar-modal');
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
@@ -155,6 +158,10 @@ export class DerivarModalComponent implements OnInit {
     console.log('Estado recibido desde el hijo actualizarEstadoBotonRiocp:', estado);
 
     if (estado) {
+      // SI NO EXISTEN OBSERVACIONES
+      this.botonNota = false;
+      this.botonDerivar = false; // desactivo el btn derivar
+
       this.seguimientoForm.patchValue({ esObservado: false });
       // Cambiar validadores para los campos DE CERTIFICADO RIOCP
       this.seguimientoForm.get('identificador_id')?.setValidators([Validators.required]);
@@ -173,8 +180,20 @@ export class DerivarModalComponent implements OnInit {
       this.seguimientoForm.get('valor_presente_deuda_total')?.setValidators([Validators.required]);
 
     } else {
-      this.seguimientoForm.patchValue({ esObservado: true })
+      // SI EXISTEN OBSERVACIONES
+      this.seguimientoForm.patchValue({ esObservado: true });
+      this.botonNota = true;
+      this.botonDerivar = false;
+
     }
+  }
+
+  obtenerBotonNota(valor: any) {
+    this.botonNota = valor;
+  }
+
+  obtenerBotonDerivar(valor: any) {
+    this.botonDerivar = valor;
   }
 
 
@@ -292,6 +311,7 @@ export class DerivarModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
+
     if (this.seguimientoForm.valid) {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

@@ -13,6 +13,8 @@ export class CertificadoRiocpComponent {
   @Input() idSolicitud: any;
   @Output() tipoNotaRiocp: EventEmitter<string> = new EventEmitter<string>();
 
+  @Output() botonNota = new EventEmitter<any>();
+
   // enviamos sd y vpd hasta componente nota de rechazo
   @Output() sd = new EventEmitter<any>();
   @Output() vpd = new EventEmitter<any>();
@@ -25,13 +27,21 @@ export class CertificadoRiocpComponent {
   constructor(
     public _certificadoRiocpService: CertificadoRiocpService,
 
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.datosCertificado();
     console.log("idSolicitud =>" + this.idSolicitud);
+
+    // Escuchar cambios en el formulario, estos cambios son para cambiar el flag del btn 
+    // de la pestaña 'Nota', si no tiene contenido esos 3 valores esta deshabilitado esa pestaña 
+    this.seguimientoForm.valueChanges.subscribe(({ objeto_operacion_credito, valor_presente_deuda_total, servicio_deuda }): any => {
+      if (objeto_operacion_credito.length > 0 && valor_presente_deuda_total >= 0 && servicio_deuda >= 0) {
+        this.botonNota.emit(true);
+      } else {
+        this.botonNota.emit(false);
+      }
+    });
 
   }
 

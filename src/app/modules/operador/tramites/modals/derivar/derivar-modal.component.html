@@ -11,11 +11,12 @@
             (click)="activeTab = 'tab2'">
             Certificado RIOCP
         </button>
-        <button class="tab-button" [disabled]="!botonNotaRechazo" [ngClass]="{'active': activeTab === 'tab3'}"
+        <button class="tab-button" [disabled]="!botonNota" [ngClass]="{'active': activeTab === 'tab3'}"
             (click)="activeTab = 'tab3'">
             Nota
         </button>
-        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab4'}" (click)="activeTab = 'tab4'">
+        <button class="tab-button" [disabled]="!botonDerivar" [ngClass]="{'active': activeTab === 'tab4'}"
+            (click)="activeTab = 'tab4'">
             Derivar
         </button>
     </div>
@@ -25,7 +26,7 @@
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
                 <app-revisar-requisitos [observationsFormArray]=" observationsFormArray"
-                    (envioModal)="abrirModales($event)" [seguimientoForm]="seguimientoForm" 
+                    (envioModal)="abrirModales($event)" [seguimientoForm]="seguimientoForm"
                     (botonRiocp)="actualizarEstadoBotonRiocp($event)"
                     (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"></app-revisar-requisitos>
             </div>
@@ -33,6 +34,7 @@
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
                 <app-certificado-riocp (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"
+                    (botonNota)="obtenerBotonNota($event)"
                     (sd)="capturarSD($event)"
                     (vpd)="capturarVPD($event)"
                     [seguimientoForm]="seguimientoForm"
@@ -41,8 +43,10 @@
 
             <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
-                <app-nota-rechazo [sd]="sd" [vpd]="vpd" [tipoNotaRiocp]="tipoNotaRiocp"
-                    [idSolicitud]="selectedSolicitud"  [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
+                <app-nota-rechazo [sd]="sd" [vpd]="vpd"
+                    [tipoNotaRiocp]="tipoNotaRiocp"
+                    (botonDerivar)="obtenerBotonDerivar($event)"
+                    [idSolicitud]="selectedSolicitud" [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
             </div>
 
             <!-- Contenido de la Pestaña 4 -->

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certificado-riocp.service';
 
@@ -16,22 +16,14 @@ export class NotaRechazoComponent {
   @Input() vpd: any;
   @Input() seguimientoForm!: FormGroup;
 
+  @Output() botonDerivar = new EventEmitter<any>();
+
   //certificadoForm!: FormGroup;
   token = localStorage.getItem('token');
 
   constructor(
     private _notaCertificadoRiocpService: NotaCertificadoRiocpService
-  ) {
-/*     this.certificadoForm = this.fb.group({
-      fecha: ['', Validators.required],
-      nro_nota: ['', Validators.required],
-      header: ['', Validators.required],
-      referencia: ['', Validators.required],
-      body: ['', Validators.required],
-      remitente: ['', Validators.required],
-      revisado: ['', Validators.required],
-    }); */
-  }
+  ) { }
 
   ngOnInit() {
     console.log("idSolicitud =>" + this.idSolicitud);
@@ -39,6 +31,26 @@ export class NotaRechazoComponent {
     console.log("sd =>" + this.sd);
     console.log("vpd =>" + this.vpd);
 
+
+    // Escuchar cambios en el formulario, estos cambios son para cambiar el flag del btn 
+    // de la pestaña 'Derivar', si tienen contenido esos valores se habilita esa pestaña 
+    this.seguimientoForm.valueChanges.subscribe(({
+      fecha, nro_nota, header, referencia, body, remitente, revisado
+    }): any => {
+
+      console.log(fecha, nro_nota, header, referencia, body, remitente, revisado);
+
+      if (fecha.length > 0 && nro_nota.length > 0 && header.length > 0 && referencia.length > 0 && body.length > 0
+        && remitente.length > 0 && revisado.length > 0) {
+
+        this.botonDerivar.emit(true);
+
+      } else {
+        this.botonDerivar.emit(false);
+      }
+    });
+
+    // Cargamos el tipo de nota
     switch (this.tipoNotaRiocp) {
       case 'APROBACIÓN':
         this.obtenerDatosNotaAprobado();
