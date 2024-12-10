@@ -30,23 +30,17 @@
                     (botonRiocp)="actualizarEstadoBotonRiocp($event)"
                     (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"></app-revisar-requisitos>
             </div>
-
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
                 <app-certificado-riocp (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"
-                    (botonNota)="obtenerBotonNota($event)"
-                    (sd)="capturarSD($event)"
-                    (vpd)="capturarVPD($event)"
-                    [seguimientoForm]="seguimientoForm"
-                    [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
+                    (botonNota)="obtenerBotonNota($event)" (sd)="capturarSD($event)" (vpd)="capturarVPD($event)"
+                    [seguimientoForm]="seguimientoForm" [idSolicitud]="selectedSolicitud"></app-certificado-riocp>
             </div>
-
             <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
-                <app-nota-rechazo [sd]="sd" [vpd]="vpd"
-                    [tipoNotaRiocp]="tipoNotaRiocp"
-                    (botonDerivar)="obtenerBotonDerivar($event)"
-                    [idSolicitud]="selectedSolicitud" [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
+                <app-nota-rechazo [sd]="sd" [vpd]="vpd" [tipoNotaRiocp]="tipoNotaRiocp"
+                    (botonDerivar)="obtenerBotonDerivar($event)" [idSolicitud]="selectedSolicitud"
+                    [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
             </div>
 
             <!-- Contenido de la Pestaña 4 -->

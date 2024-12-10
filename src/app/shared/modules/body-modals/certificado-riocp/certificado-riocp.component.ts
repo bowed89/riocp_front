@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CertificadoRiocpService } from 'src/app/shared/services/certificado-riocp.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-certificado-riocp',
@@ -18,7 +18,6 @@ export class CertificadoRiocpComponent {
   // enviamos sd y vpd hasta componente nota de rechazo
   @Output() sd = new EventEmitter<any>();
   @Output() vpd = new EventEmitter<any>();
-
 
   //certificadoForm!: FormGroup;
   radio: any;

@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
-import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 import { ObservacionRevisorService } from '../../services/observacion-revisor.service';
 
 @Component({

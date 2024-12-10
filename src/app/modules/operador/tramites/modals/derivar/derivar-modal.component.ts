@@ -110,8 +110,6 @@ export class DerivarModalComponent implements OnInit {
 
   }
 
-
-
   ngOnInit(): void {
     this.getTipoObservacion();
 
@@ -195,7 +193,6 @@ export class DerivarModalComponent implements OnInit {
   obtenerBotonDerivar(valor: any) {
     this.botonDerivar = valor;
   }
-
 
   obtenerTipoNotaRiocp(tipo: string) {
     this.tipoNotaRiocp = tipo;
@@ -311,7 +308,7 @@ export class DerivarModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
-
+    
     if (this.seguimientoForm.valid) {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
@@ -332,6 +329,3 @@ export class DerivarModalComponent implements OnInit {
   }
 
 }
-
-
-

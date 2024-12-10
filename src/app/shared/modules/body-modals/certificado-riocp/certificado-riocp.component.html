@@ -44,7 +44,7 @@
                         <!-- <input id="codigo" pInputText formControlName="monto_total"> -->
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="monto_total"
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
-                            [locale]="'de-DE'" placeholder="0.000,00" [readonly]="true" >
+                            [locale]="'de-DE'" placeholder="0.000,00" [readonly]="true">
                         </p-inputNumber>
                     </div>
 
@@ -74,7 +74,8 @@
                 <div class="column2">
                     <div class="field-radio">
                         <label for="externo">CRÉDITO PÚBLICO EXTERNO</label>
-                        <p-radioButton id="externo" value="2" formControlName="identificador_id" class="disabled-radio"></p-radioButton>
+                        <p-radioButton id="externo" value="2" formControlName="identificador_id"
+                            class="disabled-radio"></p-radioButton>
                     </div>
 
                     <div class="field" style="visibility: hidden">
@@ -83,8 +84,8 @@
                     </div>
                     <div class="field">
                         <label class="entidad-label">ENTIDAD</label>
-                        <textarea class="entidad-input" pInputTextarea formControlName="entidad" rows="3"
-                            cols="50" readonly></textarea>
+                        <textarea class="entidad-input" pInputTextarea formControlName="entidad" rows="3" cols="50"
+                            readonly></textarea>
                     </div>
                     <div class="field">
                         <textarea pInputTextarea class="entidad-input" formControlName="objeto_operacion_credito"
@@ -133,6 +134,7 @@
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="servicio_deuda"
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
                             [locale]="'de-DE'" placeholder="0.000,00" (ngModelChange)="detectarRangoSD($event)">
+
                         </p-inputNumber>
                     </div>
                     <div class="field2">
@@ -145,22 +147,7 @@
                     </div>
                 </div>
             </div>
-
-
-         <!--    <div style="display: flex; justify-content: center; gap: 15px;">
-                <div class="text-center">
-                    <button pButton type="submit" [disabled]="!certificadoForm.valid" class="p-button-success"
-                        label="Generar Certificado" icon="pi pi-file-o"></button>
-                </div>
-
-
-                <div class="text-center">
-                    <button pButton type="submit" [disabled]="!certificadoForm.valid" class="p-button-danger"
-                        label="Generar Nota" icon="pi pi-file-excel"></button>
-                </div>
-            </div> -->
         </form>
     </div>
-
 
 </div>
