@@ -90,8 +90,7 @@ export class DerivarModalComponent implements OnInit {
       revisado: ['', Validators.required],
 
       // observacion
-      esObservado: [false, Validators.required]
-
+      esObservado: [false, Validators.required],
     });
   }
 
