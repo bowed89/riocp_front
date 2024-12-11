@@ -150,8 +150,31 @@ export class DerivarModalComponent implements OnInit {
   closeModal(flag?: boolean) {
     this.visible = flag ?? false;
 
-    this.seguimientoForm.reset();
-    this.observationsFormArray.clear();
+    // al cerrar ventana lo ponemos los valores de los btn de las pestañas por defecto
+    this.botonRiocp = true;
+    this.botonNota = false;
+    this.botonDerivar = false;
+
+    // Reseteo del formulario con valores iniciales
+    this.seguimientoForm.reset({
+      usuario_destino_id: null,
+      observacion: 'DERIVAR A REVISOR',
+      solicitud_id: null,
+      id_seguimiento: null,
+      fecha: '',
+      nro_nota: '',
+      header: '',
+      referencia: '',
+      body: '',
+      remitente: '',
+      revisado: '',
+      esObservado: false,
+    });
+
+    // Limpieza del FormArray
+    while (this.observationsFormArray.length !== 0) {
+      this.observationsFormArray.removeAt(0);
+    }
 
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios

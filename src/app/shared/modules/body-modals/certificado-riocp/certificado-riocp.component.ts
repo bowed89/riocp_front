@@ -30,12 +30,12 @@ export class CertificadoRiocpComponent {
 
   ngOnInit() {
     this.datosCertificado();
-    console.log("idSolicitud =>" + this.idSolicitud);
+    console.log("idSolicitud certificado riocp=>" + this.idSolicitud);
 
     // Escuchar cambios en el formulario, estos cambios son para cambiar el flag del btn 
     // de la pestaña 'Nota', si no tiene contenido esos 3 valores esta deshabilitado esa pestaña 
     this.seguimientoForm.valueChanges.subscribe(({ objeto_operacion_credito, valor_presente_deuda_total, servicio_deuda }): any => {
-      if (objeto_operacion_credito.length > 0 && valor_presente_deuda_total >= 0 && servicio_deuda >= 0) {
+      if (objeto_operacion_credito?.length > 0 && valor_presente_deuda_total >= 0 && servicio_deuda >= 0) {
         this.botonNota.emit(true);
       } else {
         this.botonNota.emit(false);

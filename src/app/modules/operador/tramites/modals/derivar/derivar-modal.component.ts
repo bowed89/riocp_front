@@ -97,9 +97,11 @@ export class DerivarModalComponent implements OnInit {
   ngOnChanges(): void {
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
+    this.activeTab = 'tab1'; // siempre inicia en la primera pestaña
+
 
     if (this.selectedSolicitud !== undefined) {
-      //this.getTipoObservacion();
+      this.getTipoObservacion();
 
       this.seguimientoForm.patchValue({
         solicitud_id: this.selectedSolicitud,
@@ -110,9 +112,7 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTipoObservacion();
-
-    console.log('entra a derivar-modal');
+    // this.getTipoObservacion();
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -142,8 +142,33 @@ export class DerivarModalComponent implements OnInit {
   closeModal(flag?: boolean) {
     this.visible = flag ?? false;
 
-    this.seguimientoForm.reset();
-    this.observationsFormArray.clear();
+    // al cerrar ventana lo ponemos los valores de los btn de las pestañas por defecto
+    this.botonRiocp = true;
+    this.botonNota = false;
+    this.botonDerivar = false;
+
+    // Reseteo del formulario con valores iniciales
+    this.seguimientoForm.reset({
+      usuario_destino_id: null,
+      observacion: 'DERIVAR A REVISOR',
+      solicitud_id: null,
+      id_seguimiento: null,
+      fecha: '',
+      nro_nota: '',
+      header: '',
+      referencia: '',
+      body: '',
+      remitente: '',
+      revisado: '',
+      esObservado: false,
+    });
+
+    // Limpieza del FormArray
+    while (this.observationsFormArray.length !== 0) {
+      this.observationsFormArray.removeAt(0);
+    }
+
+
 
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
@@ -243,6 +268,8 @@ export class DerivarModalComponent implements OnInit {
     this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
       next: ({ data }: any) => {
         data.forEach((res: any) => {
+          console.log('res: ' + res);
+
           this.observationsFormArray.push(this.fb.group({
             enumeracion: [`${res.enumeracion}.`],
             cumple: [1, Validators.required],
@@ -307,7 +334,7 @@ export class DerivarModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
-    
+
     if (this.seguimientoForm.valid) {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

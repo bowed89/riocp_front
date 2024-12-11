@@ -14,9 +14,7 @@ export class RevisarTecnicoComponent {
 
   // valor output que envia desde el hijo hasta el padre
   @Output() envioModal = new EventEmitter();
-
   token = localStorage.getItem('token');
-
 
   constructor(
     private fb: FormBuilder,
@@ -29,17 +27,20 @@ export class RevisarTecnicoComponent {
     }
   }
 
-
   abrirModales(i: any) {
     this.envioModal.emit(i);
   }
 
-
   obtenerObservacionTecnico() {
+    if (this.observationsFormArray.length <= 9) {
+      console.log('entraa');
+
+      this.observationsFormArray.clear();
+    }
+
     this._observacionRevisorService.GetTecnicoObservacion(this.token!, this.selectedSolicitud)
       .subscribe({
         next: ({ data }) => {
-
           data.forEach((res: any) => {
             this.observationsFormArray.push(this.fb.group({
               enumeracion: [`${res.enumeracion}.`],
@@ -51,12 +52,9 @@ export class RevisarTecnicoComponent {
 
           this.observationsFormArray.disable();
 
-
         }, error(err) {
           console.error(err);
-
-        },
-
+        }
       })
   }
 
