@@ -148,6 +148,7 @@ export class DerivarModalComponent implements OnInit {
     this.botonDerivar = false;
 
     // Reseteo del formulario con valores iniciales
+
     this.seguimientoForm.reset({
       usuario_destino_id: null,
       observacion: 'DERIVAR A REVISOR',
@@ -167,8 +168,6 @@ export class DerivarModalComponent implements OnInit {
     while (this.observationsFormArray.length !== 0) {
       this.observationsFormArray.removeAt(0);
     }
-
-
 
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios

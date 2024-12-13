@@ -4,6 +4,7 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
+import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
 
 @Component({
   selector: 'app-derivar-modal',
@@ -12,7 +13,7 @@ import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/se
 })
 
 export class DerivarModalComponent implements OnInit {
-  tipoRol = 'Revisor(a)';
+  tipoRol = 'Jefe Unidad';
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
@@ -53,6 +54,7 @@ export class DerivarModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public _seguimientoOperadorService: SeguimientoOperadorService,
+    public _seguimientoRevisorService: SeguimientoRevisorService,
     public _messagesService: MessagesService,
     public _abrirDocumentoService: AbrirDocumentoService,
     private cdRef: ChangeDetectorRef
@@ -60,7 +62,7 @@ export class DerivarModalComponent implements OnInit {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
       usuario_destino_id: [null, Validators.required],
-      observacion: ['DERIVAR A REVISOR', Validators.required],
+      observacion: ['DERIVAR A JEFE DE UNIDAD', Validators.required],
       solicitud_id: [null], // tambien cuenta solicitud RIOCP *
       id_seguimiento: [null],
       observaciones: this.fb.array([]),
@@ -99,11 +101,14 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnChanges(): void {
+    this.activeTab = 'tab1'; // siempre inicia en la primera pestaña
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
 
     if (this.selectedSolicitud !== undefined) {
-      //this.getTipoObservacion();
+      if (this.observationsFormArray.length === 0) {
+        this.getTipoObservacion();
+      }
 
       this.seguimientoForm.patchValue({
         solicitud_id: this.selectedSolicitud,
@@ -114,10 +119,10 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTipoObservacion();
+    // this.getTipoObservacion();
 
     console.log('entra a derivar-modal');
-    this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
+    this._seguimientoRevisorService.GetJefeUnidad(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
         this.tecnicos = data.map((tecnico: any) => ({
@@ -148,6 +153,9 @@ export class DerivarModalComponent implements OnInit {
   }
 
   closeModal(flag?: boolean) {
+
+    console.log('closeModal', this.observationsFormArray.length);
+
     this.visible = flag ?? false;
 
     // al cerrar ventana lo ponemos los valores de los btn de las pestañas por defecto
@@ -158,7 +166,7 @@ export class DerivarModalComponent implements OnInit {
     // Reseteo del formulario con valores iniciales
     this.seguimientoForm.reset({
       usuario_destino_id: null,
-      observacion: 'DERIVAR A REVISOR',
+      observacion: 'DERIVAR A JEFE UNIDAD',
       solicitud_id: null,
       id_seguimiento: null,
       fecha: '',
@@ -212,7 +220,6 @@ export class DerivarModalComponent implements OnInit {
       this.seguimientoForm.patchValue({ esObservado: true });
       this.botonNota = true;
       this.botonDerivar = false;
-
     }
   }
 
@@ -338,7 +345,6 @@ export class DerivarModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
-
     if (this.seguimientoForm.valid) {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

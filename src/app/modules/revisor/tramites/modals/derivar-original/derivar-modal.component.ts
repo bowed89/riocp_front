@@ -68,6 +68,7 @@ export class DerivarModalOriginalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this._seguimientoRevisorService.GetJefeUnidad(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);

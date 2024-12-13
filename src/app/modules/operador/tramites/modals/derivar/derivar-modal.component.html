@@ -1,7 +1,7 @@
 <p-toast></p-toast>
 
 <p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false" [modal]="true" (onHide)="closeModal()"
-    [style]="{ width: '80vw' }">
+    [style]="{ width: '80vw' }" [closeOnEscape]="true">
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">

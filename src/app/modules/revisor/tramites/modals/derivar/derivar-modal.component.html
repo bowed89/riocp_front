@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false" [modal]="true" (onHide)="closeModal()"
-    [style]="{ width: '80vw' }">
+    [style]="{ width: '80vw' }" [closeOnEscape]="true">
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
@@ -10,15 +10,15 @@
             Revisar Requisitos
         </button>
         <button class="tab-button" [disabled]="!botonRiocp" [ngClass]="{'active': activeTab === 'tab3'}"
-            (click)="activeTab = 'tab2'">
+            (click)="activeTab = 'tab3'">
             Certificado RIOCP
         </button>
         <button class="tab-button" [disabled]="!botonNota" [ngClass]="{'active': activeTab === 'tab4'}"
-            (click)="activeTab = 'tab3'">
+            (click)="activeTab = 'tab4'">
             Nota
         </button>
         <button class="tab-button" [disabled]="!botonDerivar" [ngClass]="{'active': activeTab === 'tab5'}"
-            (click)="activeTab = 'tab4'">
+            (click)="activeTab = 'tab5'">
             Derivar
         </button>
     </div>
