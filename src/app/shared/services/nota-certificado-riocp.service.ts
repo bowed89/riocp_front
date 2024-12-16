@@ -39,6 +39,33 @@ export class NotaCertificadoRiocpService {
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 
+  /* GENERAR NOTAS DESDE EL BACKEND */
+  /*   PostNotaObservacion(token: string, body: any): Observable<any> {
+      const url = `${API.local}/nota-observacion-view`;
+      return this.http.post<any>(url, this.getHttpOptions(token), body);
+    }
+   */
+
+  PostNotaObservacion(token: string, body: any): Observable<any> {
+    const url = `${API.local}/nota-observacion-view`;
+
+    // Configura los headers
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    // Retorna la petición HTTP con `responseType: 'text'`
+    return this.http.post(url, body, {
+      headers: headers,
+      responseType: 'text', // Cambiar el tipo de respuesta a texto
+    });
+  }
+
+  GetNotaObservadorVerificadaRevisor(token: string, solicitudId: number): Observable<any> {
+    return this.http.get<any>(`${API.local}/usuario/dgaft/notas-observacion/${solicitudId}`, this.getHttpOptions(token))
+
+  }
 
 
 }

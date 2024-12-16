@@ -15,6 +15,8 @@ import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.se
 export class DerivarModalComponent implements OnInit {
   tipoRol = 'Jefe Unidad';
 
+  rolRevisarObservacion = 'REVISOR'; // rol que envia la solicitud
+
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
   form2ModalVisible: boolean = false;
@@ -115,7 +117,6 @@ export class DerivarModalComponent implements OnInit {
         id_seguimiento: this.selectedSeguimiento
       });
     }
-
   }
 
   ngOnInit(): void {
@@ -184,6 +185,7 @@ export class DerivarModalComponent implements OnInit {
       this.observationsFormArray.removeAt(0);
     }
 
+    this.activeTab = ''; // al cerrar la pestaña se limpia
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
   }

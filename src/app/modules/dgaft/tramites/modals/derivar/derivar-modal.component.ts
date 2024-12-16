@@ -12,6 +12,8 @@ import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.s
 
 export class DerivarModalComponent implements OnInit {
   tipoRol = 'Revisor(a)';
+  rolRevisarObservacion = 'DGAFT'; // rol que envia la solicitud
+
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
@@ -19,8 +21,7 @@ export class DerivarModalComponent implements OnInit {
   form3ModalVisible: boolean = false;
   form4ModalVisible: boolean = false;
 
-  selectedSolicitudForm: any
-
+  selectedSolicitudForm: any;
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
@@ -53,11 +54,10 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnChanges(): void {
+    this.activeTab = 'tab1'; // siempre inicia en la primera pestaña
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
-    if (this.selectedSolicitud !== undefined) {
-      this.getTipoObservacion();
-    }
+
     this.seguimientoForm.patchValue({
       solicitud_id: this.selectedSolicitud,
       id_seguimiento: this.selectedSeguimiento
@@ -65,6 +65,7 @@ export class DerivarModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
       next: ({ data }) => {
         console.log(data);
@@ -88,8 +89,14 @@ export class DerivarModalComponent implements OnInit {
     this.visible = flag ?? false;
 
     this.seguimientoForm.reset();
-    this.observationsFormArray.clear();
 
+    // Limpieza del FormArray
+    while (this.observationsFormArray.length !== 0) {
+      this.observationsFormArray.removeAt(0);
+    }
+
+    this.activeTab = ''; // al cerrar la pestaña se limpia
+    //this.rolRevisarObservacion = '';
     this.visibleChange.emit(this.visible);
     this.cdRef.detectChanges(); // Fuerza la detección de cambios
   }
@@ -132,25 +139,6 @@ export class DerivarModalComponent implements OnInit {
       const idTipo = 3;
       this.openDocument(this.selectedSolicitud, idTipo, 'informacion_financiera');
     }
-  }
-
-  getTipoObservacion() {
-    this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
-      next: ({ data }: any) => {
-        data.forEach((res: any) => {
-          this.observationsFormArray.push(this.fb.group({
-            enumeracion: [`${res.enumeracion}.`],
-            cumple: [1, Validators.required],
-            descripcion: [res.observacion, Validators.required],
-            tipo_observacion_id: [res.id, Validators.required],
-            observacion: ['SIN OBSERVACIONES', Validators.required]
-          }));
-        });
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
   }
 
   get observationsFormArray(): FormArray {

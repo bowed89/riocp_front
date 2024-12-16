@@ -23,6 +23,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { NotaObservacionViewComponent } from './nota-observacion-view/nota-observacion-view.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     RevisarTecnicoComponent,
     CertificadoRiocpComponent,
     NotaRechazoComponent,
+    NotaObservacionViewComponent,
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     DerivarComponent,
     RevisarTecnicoComponent,
     CertificadoRiocpComponent,
-    NotaRechazoComponent
+    NotaRechazoComponent,
+    NotaObservacionViewComponent
   ]
 })
 export class BodyModalsModule { }

@@ -1,72 +1,40 @@
 <p-toast></p-toast>
 
 <p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false" [modal]="true" (onHide)="closeModal()"
-    [style]="{ width: '80vw' }">
+    [style]="{ width: '80vw' }" [closeOnEscape]="true">
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
-            Revisar Requisitos
+            Verificar Observaciones
         </button>
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
+            Nota de Observación
+        </button>
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab3'}" (click)="activeTab = 'tab3'">
             Derivar
         </button>
     </div>
     <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()">
-
         <div class="tab-content">
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
-                <app-revisar-requisitos
-                    [observationsFormArray]=" observationsFormArray"
-                    (envioModal)="abrirModales($event)"></app-revisar-requisitos>
+                <app-revisar-tecnico [rolRevisarObservacion]="rolRevisarObservacion"
+                    [observationsFormArray]=" observationsFormArray" (envioModal)="abrirModales($event)"
+                    [selectedSolicitud]="selectedSolicitud"></app-revisar-tecnico>
+
             </div>
 
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
-                <app-derivar
-                    [tipoRol]="tipoRol"
-                    [listadoRol]="tecnicos"
-                    [seguimientoForm]="seguimientoForm"
-                    (valorBooleano)="closeModal($event)"></app-derivar>
-
-
-                <!--   <div class="form-container">
-                    <h4 style="text-align: center;">Derivar Solicitud</h4>
-                    <div>
-                        <div class="form-group">
-                            <label for="tecnico">Revisor:</label>
-                            <p-dropdown formControlName="usuario_destino_id" [options]="tecnicos" optionLabel="nombre"
-                                optionValue="id" placeholder="Seleccionar"></p-dropdown>
-                            <div *ngIf="seguimientoForm.get('usuario_de stino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"
-                                class="error">
-                                Seleccione un Revisor.
-                            </div>
-                        </div>
-                        <div>
-                            <label for="observaciones">Observaciones:</label>
-                            <textarea rows="5" cols="30" pInputTextarea formControlName="observacion"
-                                style="width: 100%; margin-bottom: 30px;">
-                            </textarea>
-                            <div *ngIf="seguimientoForm.get('observacion')?.touched && seguimientoForm.get('observacion')?.invalid"
-                                class="error">
-                                Las observaciones son requeridas.
-                            </div>
-                        </div>
-
-                        <div class="p-dialog-footer">
-                            <button pButton type="button" label="Cancelar" (click)="closeModal()" icon="pi pi-times"
-                                class="p-button-text"></button>
-                            <button pButton type="submit" label="Guardar" class="p-button-success"
-                                [disabled]="seguimientoForm.invalid"></button>
-                        </div>
-                    </div>
-                </div> -->
-
+                <app-nota-observacion-view [selectedSolicitud]="selectedSolicitud"></app-nota-observacion-view>
             </div>
 
+            <!-- Contenido de la Pestaña 3 -->
+            <div *ngIf="activeTab === 'tab3'" class="form-container">
+                <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
+                    (valorBooleano)="closeModal($event)"></app-derivar>
+            </div>
         </div>
-
-
     </form>
 
     <!-- MODAL FORMULARIO 1 -->

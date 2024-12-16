@@ -27,8 +27,10 @@
         <div class="tab-content">
             <!-- Contenido de la Pestaña 1 -->
             <div *ngIf="activeTab === 'tab1'" class="form-container">
-                <app-revisar-tecnico [observationsFormArray]=" observationTecnicoFormArray"
-                    (envioModal)="abrirModales($event)" [selectedSolicitud]="selectedSolicitud"></app-revisar-tecnico>
+                <app-revisar-tecnico [rolRevisarObservacion]="rolRevisarObservacion"
+                    [observationsFormArray]=" observationTecnicoFormArray" (envioModal)="abrirModales($event)"
+                    [selectedSolicitud]="selectedSolicitud">
+                </app-revisar-tecnico>
             </div>
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
