@@ -35,7 +35,6 @@ export class RevisarTecnicoComponent {
         this.obtenerObservacionRevisor();
 
       }
-
     }
   }
 

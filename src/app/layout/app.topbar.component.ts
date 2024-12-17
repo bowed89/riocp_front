@@ -45,7 +45,7 @@ export class AppTopBarComponent {
     }
 
     ngOnInit() {
-    }
+}
 
     logout() {
         const token = localStorage.getItem('token');
@@ -92,7 +92,12 @@ export class AppTopBarComponent {
             /**************** NOTIFICACIONES ****************/
             // Jefe Unidad
             if (rolIdUsuario !== 1) {
-                const tipoUrl = rolIdUsuario === 2 ? 'admin' : rolIdUsuario === 3 ? 'operador' : rolIdUsuario === 4 && 'revisor';
+                const tipoUrl =
+                    rolIdUsuario === 2 ? 'jefe-unidad' :
+                        rolIdUsuario === 3 ? 'operador' :
+                            rolIdUsuario === 4 ? 'revisor' :
+                                rolIdUsuario === 5 && 'dgaft';
+
                 this.getNotificacionesJefeUnidad();
                 this.webSocketService.listenNotificacion((data) => {
                     console.log(data);
@@ -107,8 +112,6 @@ export class AppTopBarComponent {
                     ];
                 });
             }
-
-
         });
     }
 
@@ -120,9 +123,7 @@ export class AppTopBarComponent {
         this._notificacionService.NotificacionJefeUnidad(this.token!).subscribe({
             next(res) {
                 console.log("dsddssdsdfsd" + res);
-
             }
         })
     }
-
 }

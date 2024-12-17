@@ -11,6 +11,7 @@ export class NotaObservacionViewComponent {
   @Input() selectedSolicitud!: number
   token = localStorage.getItem('token');
   pdfUrl: any;
+
   constructor(
     public _notaCertificadoRiocpService: NotaCertificadoRiocpService,
     private sanitizer: DomSanitizer
@@ -20,44 +21,38 @@ export class NotaObservacionViewComponent {
   }
 
   ngOnInit() {
-    this.generarNotaObservacion();
-
-
 
   }
 
   ngOnChanges(): void {
-    console.log(this.selectedSolicitud);
     if (this.selectedSolicitud !== undefined) {
-      this.verNotas(this.selectedSolicitud);
+
+      this.verNotas();
     }
   }
 
-  generarNotaObservacion() {
-    const body = {
-      nombre: 'juancito perez'
-    }
 
-    this._notaCertificadoRiocpService.PostNotaObservacion(this.token!, body)
-      .subscribe({
-        next: (value) => {
-          const blob = new Blob([value], { type: 'text/html' });
-          const url = URL.createObjectURL(blob);
-          this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-
-
-        }, error: (error) => {
-          console.error(error);
-        }
-      })
-  }
-
-  verNotas(selectedSolicitud: number) {
+  verNotas() {
     this._notaCertificadoRiocpService
-      .GetNotaObservadorVerificadaRevisor(this.token!, selectedSolicitud)
+      .GetNotaObservadorVerificadaRevisor(this.token!, this.selectedSolicitud)
       .subscribe({
-        next: (value) => {
-          console.log(value);
+        next: ({ data }) => {
+          /* Obtener notas */
+          this._notaCertificadoRiocpService.PostNotaObservacion(this.token!, data)
+            .subscribe({
+              next: (value) => {
+
+                console.log(value);
+                
+                const blob = new Blob([value], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+              }, error: (error) => {
+                console.error(error);
+              }
+            })
+
 
         }, error: (error) => {
           console.error(error);
