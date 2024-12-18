@@ -34,7 +34,7 @@ export class DerivarModalComponent implements OnInit {
     this.seguimientoForm = this.fb.group({
       id_seguimiento: [null],
       observacion: [''],
-      nro_hoja_ruta: [''],
+     // nro_hoja_ruta: [''],
       solicitud_id: [null],
       usuario_destino_id: ['']
     });
@@ -59,7 +59,7 @@ export class DerivarModalComponent implements OnInit {
         this.seguimientoForm = this.fb.group({
           id_seguimiento: [this.selectedSeguimiento],
           observacion: ['DERIVAR A TÉCNICO SELECCIONADO', Validators.required],
-          nro_hoja_ruta: ['', Validators.required],
+          //nro_hoja_ruta: ['', Validators.required],
           solicitud_id: [this.selectedSolicitud],
           usuario_destino_id: ['', Validators.required],
         });
@@ -112,8 +112,8 @@ export class DerivarModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
-    if (this.seguimientoForm.valid) {
 
+    if (this.seguimientoForm.valid) {
       this._seguimientoAdminService.PostSeguimientoAdmin(this.seguimientoForm.value, this.token!).subscribe({
         next: ({ message }) => {
           this._messagesService.MessageSuccess('Formulario Agregado', message!);
@@ -125,7 +125,6 @@ export class DerivarModalComponent implements OnInit {
           this.closeModal();
         },
       });
-
     }
   }
 }

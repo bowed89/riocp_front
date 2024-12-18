@@ -19,9 +19,7 @@ export class DerivarComponent {
 
 
   ngOnChanges(): void {
-    console.log("sasaasasasasas", this.tipoRol);
-
-    if (this.tipoRol === 'Técnico') {
+    if (this.tipoRol === 'Revisor(a)') {
       this.hoja_ruta = true;
     } else {
       this.hoja_ruta = false;
@@ -31,7 +29,7 @@ export class DerivarComponent {
 
   ngOnInit(): void {
     // Cuando el formulario cambia, emite los valores
-  
+
   }
 
 
@@ -39,7 +37,7 @@ export class DerivarComponent {
     this.valorBooleano.emit(flag); // Emitimos el valor booleano al padre
   }
 
- 
+
 
 
 }
