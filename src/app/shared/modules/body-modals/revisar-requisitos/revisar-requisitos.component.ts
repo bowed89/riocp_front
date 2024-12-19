@@ -22,9 +22,7 @@ export class RevisarRequisitosComponent {
 
     ) { }
 
-    ngOnInit() {
-    }
-
+    ngOnInit() { }
 
     abrirModales(i: any) {
         this.envioModal.emit(i);
@@ -52,8 +50,6 @@ export class RevisarRequisitosComponent {
             this.seguimientoForm.get('periodo_gracia')?.setValidators(null);
             this.seguimientoForm.get('servicio_deuda')?.setValidators(null);
             this.seguimientoForm.get('valor_presente_deuda_total')?.setValidators(null);
-
-
 
             console.log('hay observaciones');
             this.tipoNotaRiocp.emit("OBSERVACIONES");

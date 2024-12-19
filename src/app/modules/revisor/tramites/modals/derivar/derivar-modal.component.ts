@@ -97,6 +97,11 @@ export class DerivarModalComponent implements OnInit {
       // observacion
       esObservado: [false, Validators.required],
 
+      // revision si cometio errores en la revision el técnico
+      tieneErrores: [false, Validators.required],
+      comentario: [null],
+      tipo_error_id: [null],
+      
       // observacion tecnico
       observacion_tecnico: this.fb.array([])
     });
@@ -178,6 +183,7 @@ export class DerivarModalComponent implements OnInit {
       remitente: '',
       revisado: '',
       esObservado: false,
+      tieneErrores: false,
     });
 
     // Limpieza del FormArray
@@ -194,7 +200,6 @@ export class DerivarModalComponent implements OnInit {
   actualizarEstadoBotonRiocp(estado: boolean) {
     this.botonRiocp = estado;
     console.log('Estado recibido desde el hijo actualizarEstadoBotonRiocp:', estado);
-
     if (estado) {
       // SI NO EXISTEN OBSERVACIONES
       this.botonNota = false;
@@ -347,6 +352,10 @@ export class DerivarModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
+
+
+
+    return
     if (this.seguimientoForm.valid) {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

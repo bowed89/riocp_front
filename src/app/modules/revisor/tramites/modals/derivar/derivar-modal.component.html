@@ -1,6 +1,7 @@
 <p-toast></p-toast>
 <p-dialog [(visible)]="visible" [draggable]="false" [closeOnEscape]="false" [modal]="true" (onHide)="closeModal()"
     [style]="{ width: '80vw' }" [closeOnEscape]="true">
+
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
@@ -32,13 +33,15 @@
                     [selectedSolicitud]="selectedSolicitud">
                 </app-revisar-tecnico>
             </div>
+
             <!-- Contenido de la Pestaña 2 -->
             <div *ngIf="activeTab === 'tab2'" class="form-container">
                 <app-revisar-requisitos [observationsFormArray]=" observationsFormArray"
                     (envioModal)="abrirModales($event)" [seguimientoForm]="seguimientoForm"
-                    (botonRiocp)="actualizarEstadoBotonRiocp($event)"
-                    (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"></app-revisar-requisitos>
+                    (botonRiocp)="actualizarEstadoBotonRiocp($event)" (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)">
+                </app-revisar-requisitos>
             </div>
+
             <!-- Contenido de la Pestaña 3 -->
             <div *ngIf="activeTab === 'tab3'" class="form-container">
                 <app-certificado-riocp (tipoNotaRiocp)="obtenerTipoNotaRiocp($event)"
@@ -51,7 +54,6 @@
                     (botonDerivar)="obtenerBotonDerivar($event)" [idSolicitud]="selectedSolicitud"
                     [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
             </div>
-
             <!-- Contenido de la Pestaña 5 -->
             <div *ngIf="activeTab === 'tab5'" class="form-container">
                 <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"

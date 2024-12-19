@@ -100,7 +100,6 @@ export class DerivarModalComponent implements OnInit {
         console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
         this.activeTab = 'tab1'; // siempre inicia en la primera pestaña
 
-
         if (this.selectedSolicitud !== undefined) {
             this.getTipoObservacion();
 

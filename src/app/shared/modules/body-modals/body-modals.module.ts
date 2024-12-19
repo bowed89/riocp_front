@@ -51,7 +51,8 @@ import { NotaObservacionViewComponent } from './nota-observacion-view/nota-obser
     FileUploadModule,
     CalendarModule,
     DialogModule,
-    InputTextareaModule
+    InputTextareaModule,
+    
 
   ], exports: [
     RevisarRequisitosComponent,
