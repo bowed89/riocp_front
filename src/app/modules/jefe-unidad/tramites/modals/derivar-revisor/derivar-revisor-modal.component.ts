@@ -4,17 +4,16 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
-import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
+import { SeguimientoRevisorService } from 'src/app/modules/revisor/tramites/services/seguimiento-revisor.service';
 
 @Component({
-  selector: 'app-derivar-modal',
-  templateUrl: './derivar-modal.component.html',
-  styleUrls: ['./derivar-modal.component.scss']
+  selector: 'app-derivar-revisor-modal',
+  templateUrl: './derivar-revisor-modal.component.html',
+  styleUrls: ['./derivar-revisor-modal.component.scss']
 })
 
-export class DerivarModalComponent implements OnInit {
+export class DerivarRevisorModalComponent implements OnInit {
   tipoRol = 'Jefe Unidad';
-
   rolRevisarObservacion = 'REVISOR'; // rol que envia la solicitud
 
   // submodales
@@ -47,8 +46,7 @@ export class DerivarModalComponent implements OnInit {
   vpd: any;
 
   valoresHijo: any;  // Para almacenar los valores del formulario hijo
-
-
+  
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
   seguimientoForm: FormGroup;
@@ -228,6 +226,7 @@ export class DerivarModalComponent implements OnInit {
       this.botonNota = true;
       this.botonDerivar = false;
     }
+
   }
 
   obtenerBotonNota(valor: any) {

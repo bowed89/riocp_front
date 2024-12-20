@@ -1,19 +1,18 @@
 <div class="table-container">
-    <app-filter
-        (arrayEmitido)="getFilterSeguimientos($event)"
-        [idRol]="idRol">
+    <app-filter (arrayEmitido)="getFilterSeguimientos($event)" [idRol]="idRol">
     </app-filter>
 
-    <app-table
-        [seguimientos]="seguimientos"
-        [title]="title"
-        (enviarSeguimiento)="addDerivar($event)">
+    <app-table [seguimientos]="seguimientos" [title]="title" (enviarSeguimiento)="addDerivar($event)">
     </app-table>
 
 </div>
 
-<!-- Modals -->
+<!-- Modal para abrir del rol entidad solicitante -->
 <app-derivar-modal [(visible)]="newVisible" [selectedSolicitud]="selectedSolicitud"
-    [selectedIdRolOrigen]="selectedIdRolOrigen"
-    [selectedSeguimiento]="selectedSeguimiento" (seguimientoChanged)="seguimientoChanged()">
+    [selectedIdRolOrigen]="selectedIdRolOrigen" [selectedSeguimiento]="selectedSeguimiento"
+    (seguimientoChanged)="seguimientoChanged()">
 </app-derivar-modal>
+
+<!-- Modal para abrir del rol revisor -->
+<app-derivar-revisor-modal [(visible)]="newVisibleRevisor" [selectedSolicitud]="selectedSolicitud"
+    [selectedSeguimiento]="selectedSeguimiento" (seguimientoChanged)="seguimientoChanged()"></app-derivar-revisor-modal>

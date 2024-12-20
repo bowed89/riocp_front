@@ -4,7 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { TramitesRoutingModule } from './tramites-routing.module';
 import { MisTramitesComponent } from './components/mis-tramites/mis-tramites.component';
+
 import { DerivarModalComponent } from './modals/derivar/derivar-modal.component';
+import { DerivarRevisorModalComponent } from './modals/derivar-revisor/derivar-revisor-modal.component';
 
 import { BodyModalsModule } from 'src/app/shared/modules/body-modals/body-modals.module';
 import { MisTramitesModule } from 'src/app/shared/modules/mis-tramites/mis-tramites.module';
@@ -22,12 +24,14 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormularioSharedModule } from "../../../shared/modules/formularios-views/formularios.shared.module";
 
 
 @NgModule({
   declarations: [
     MisTramitesComponent,
-    DerivarModalComponent
+    DerivarModalComponent,
+    DerivarRevisorModalComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +48,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputTextareaModule,
     ToastModule,
     BodyModalsModule,
-    MisTramitesModule
-  ]
+    MisTramitesModule,
+    FormularioSharedModule
+]
 })
 export class TramitesModule { }

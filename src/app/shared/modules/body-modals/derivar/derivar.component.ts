@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { TipoErroresRevisionService } from 'src/app/shared/services/tipo-errores-revision.service';
 
 @Component({
@@ -47,9 +47,17 @@ export class DerivarComponent {
   revisarErrores(e: any) {
     if (e.value === '1') {
       this.seguimientoForm.patchValue({ tieneErrores: true });
+      this.seguimientoForm.get('comentario')?.setValidators([Validators.required]);
+      this.seguimientoForm.get('tipo_error_id')?.setValidators([Validators.required]);
+
     } else {
       this.seguimientoForm.patchValue({ tieneErrores: false });
+      this.seguimientoForm.get('comentario')?.clearValidators();
+      this.seguimientoForm.get('tipo_error_id')?.clearValidators();
     }
+    // actualiza los cambios
+    this.seguimientoForm.get('comentario')?.updateValueAndValidity();
+    this.seguimientoForm.get('tipo_error_id')?.updateValueAndValidity();
   }
 
   closeModal(flag: boolean) {
@@ -69,10 +77,7 @@ export class DerivarComponent {
       },
     })
   }
-
-
-
-
+  
 }
 
 
