@@ -12,7 +12,7 @@ export class MisTramitesComponent {
   seguimientos: any[] = [];
   newVisible: boolean = false;
   newVisibleRevisor: boolean = false;
-  
+
   idRol: number = 2;
 
   searchText: string = '';
@@ -29,20 +29,21 @@ export class MisTramitesComponent {
     console.log("seguimiento ===>", seguimiento);
     const { solicitud_id, id_seguimiento, id_rol_origen } = seguimiento;
 
-
-
     // Identificar el rol de origen que estamos abriendo la solicitud
     // Si el rol de origen es 1 esta abriendo una solicitud de una Entidad Solicitante
     // Si el rol de origen es 4 esta abriendo una solicitud del Revisor
 
     if (id_rol_origen === 1) {
+      this.newVisible = true;
       this.selectedSolicitud = solicitud_id;
       this.selectedSeguimiento = id_seguimiento;
       this.selectedIdRolOrigen = id_rol_origen;
-      this.newVisible = true;
 
     } else if (id_rol_origen === 4) {
       this.newVisibleRevisor = true;
+      this.selectedSolicitud = solicitud_id;
+      this.selectedSeguimiento = id_seguimiento;
+      this.selectedIdRolOrigen = id_rol_origen;
     }
   }
 

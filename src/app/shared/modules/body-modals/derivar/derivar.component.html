@@ -3,7 +3,7 @@
     <div [formGroup]="seguimientoForm">
         
         <div class="form-group">
-            <label for="tecnico">Derivar {{tipoRol}}</label>
+            <label for="tecnico">Derivar {{tipoRol | uppercase }}</label>
             <p-dropdown formControlName="usuario_destino_id" [options]="listadoRol" optionLabel="nombre"
                 optionValue="id" placeholder="Seleccionar"></p-dropdown>
             <div *ngIf="seguimientoForm.get('usuario_destino_id')?.touched && seguimientoForm.get('usuario_destino_id')?.invalid"

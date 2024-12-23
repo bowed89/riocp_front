@@ -24,7 +24,12 @@ export class ObservacionRevisorService {
   }
 
   GetTecnicoObservacion(token: string, id: number): Observable<Response<any>> {
-    const url = `${API.local}/usuario/revisor/${id}`;
+    const url = `${API.local}/usuario/observacion-tecnico/${id}`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  }
+
+  GetRevisorJefeUnidadObservacion(token: string, id: number): Observable<Response<any>> {
+    const url = `${API.local}/usuario/observacion-revisor/${id}`;
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 
@@ -32,5 +37,5 @@ export class ObservacionRevisorService {
     const url = `${API.local}/usuario/dgaft/${id}`;
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
-
+  
 }

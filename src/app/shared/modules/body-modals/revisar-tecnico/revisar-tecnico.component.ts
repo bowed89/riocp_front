@@ -30,11 +30,16 @@ export class RevisarTecnicoComponent {
       console.log("this.rolRevisarObservacion " + this.rolRevisarObservacion);
 
       if (this.rolRevisarObservacion == 'REVISOR') {
+        // ver observacion para el revisor
         this.obtenerObservacionTecnico();
-      } else if (this.rolRevisarObservacion == 'DGAFT') {
-        this.obtenerObservacionRevisor();
-
       }
+      else if (this.rolRevisarObservacion == 'JEFE UNIDAD') {
+        this.obtenerObservacionRevisorJefeUnidad();
+      }
+      else if (this.rolRevisarObservacion == 'DGAFT') {
+        this.obtenerObservacionRevisor();
+      }
+      
     }
   }
 
@@ -51,6 +56,33 @@ export class RevisarTecnicoComponent {
     }
 
     this._observacionRevisorService.GetTecnicoObservacion(this.token!, this.selectedSolicitud)
+      .subscribe({
+        next: ({ data }) => {
+          data.forEach((res: any) => {
+            this.observationsFormArray.push(this.fb.group({
+              enumeracion: [`${res.enumeracion}.`],
+              cumple: [res.cumple, Validators.required],
+              descripcion: [res.tipo_observacion, Validators.required],
+              observacion: [res.observacion, Validators.required]
+            }));
+          });
+
+          this.observationsFormArray.disable();
+
+        }, error(err) {
+          console.error(err);
+        }
+      })
+  }
+
+  
+  obtenerObservacionRevisorJefeUnidad() {
+    if (this.observationsFormArray.length <= 9) {
+      console.log('entraa');
+      this.observationsFormArray.clear();
+    }
+
+    this._observacionRevisorService.GetRevisorJefeUnidadObservacion(this.token!, this.selectedSolicitud)
       .subscribe({
         next: ({ data }) => {
           data.forEach((res: any) => {

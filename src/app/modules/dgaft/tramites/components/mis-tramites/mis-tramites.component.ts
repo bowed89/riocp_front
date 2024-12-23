@@ -42,7 +42,6 @@ export class MisTramitesComponent {
     }
   }
 
-
   getSeguimientos() {
     this._seguimientoOperadorService.GetSeguimientoOperador(this.token!).subscribe({
       next: ({ data }) => {

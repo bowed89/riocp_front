@@ -29,19 +29,24 @@ export class DerivarComponent {
   ) { }
 
   ngOnChanges(): void {
+    console.log("this.tipoRol  ==> " + this.tipoRol);
+
+    // tipoRol es el rol donde se esta derivando desde el rol de origen
     if (this.tipoRol === 'Revisor(a)') {
       this.hoja_ruta = true;
+
     } else {
       this.hoja_ruta = false;
     }
 
-    if (this.tipoRol == 'Jefe Unidad') {
+    if (this.tipoRol === 'Jefe Unidad' || this.tipoRol === 'dgaft') {
       this.tipoErroresRevision();
       this.errorRevision = true;
 
     } else {
       this.errorRevision = false;
     }
+
   }
 
   revisarErrores(e: any) {
@@ -77,7 +82,7 @@ export class DerivarComponent {
       },
     })
   }
-  
+
 }
 
 

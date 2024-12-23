@@ -5,6 +5,7 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 import { SeguimientoRevisorService } from 'src/app/modules/revisor/tramites/services/seguimiento-revisor.service';
+import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
 
 @Component({
   selector: 'app-derivar-revisor-modal',
@@ -13,8 +14,8 @@ import { SeguimientoRevisorService } from 'src/app/modules/revisor/tramites/serv
 })
 
 export class DerivarRevisorModalComponent implements OnInit {
-  tipoRol = 'Jefe Unidad';
-  rolRevisarObservacion = 'REVISOR'; // rol que envia la solicitud
+  tipoRol = 'dgaft';
+  rolRevisarObservacion = 'JEFE UNIDAD'; // rol que envia la solicitud
 
   // submodales
   form1ModalVisible: boolean = false; // Para el modal de documentos
@@ -46,7 +47,7 @@ export class DerivarRevisorModalComponent implements OnInit {
   vpd: any;
 
   valoresHijo: any;  // Para almacenar los valores del formulario hijo
-  
+
   tecnicos: any[] = [];
   token = localStorage.getItem('token');
   seguimientoForm: FormGroup;
@@ -57,6 +58,7 @@ export class DerivarRevisorModalComponent implements OnInit {
     public _seguimientoRevisorService: SeguimientoRevisorService,
     public _messagesService: MessagesService,
     public _abrirDocumentoService: AbrirDocumentoService,
+    public _seguimientoAdminService: SeguimientoAdminService,
     private cdRef: ChangeDetectorRef
   ) {
     // Crear el formulario reactivo
@@ -95,11 +97,11 @@ export class DerivarRevisorModalComponent implements OnInit {
       // observacion
       esObservado: [false, Validators.required],
 
-      // revision si cometio errores en la revision el técnico
+      // revision si cometio errores en la revision el rol "revisor"
       tieneErrores: [false, Validators.required],
       comentario: [null],
       tipo_error_id: [null],
-      
+
       // observacion tecnico
       observacion_tecnico: this.fb.array([])
     });
@@ -107,6 +109,7 @@ export class DerivarRevisorModalComponent implements OnInit {
 
   ngOnChanges(): void {
     this.activeTab = 'tab1'; // siempre inicia en la primera pestaña
+
     console.log("this.selectedSeguimiento ===>", this.selectedSeguimiento);
     console.log("this.selectedSolicitud ===>", this.selectedSolicitud);
 
@@ -123,18 +126,7 @@ export class DerivarRevisorModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getTipoObservacion();
-
-    console.log('entra a derivar-modal');
-    this._seguimientoRevisorService.GetJefeUnidad(this.token!).subscribe({
-      next: ({ data }) => {
-        console.log(data);
-        this.tecnicos = data.map((tecnico: any) => ({
-          nombre: `${tecnico.nombre} ${tecnico.apellido}`,
-          id: tecnico.id
-        }));
-      }
-    });
+    this.GetListadoDgaft(); // listado de  DGAFT para seleccionar cuando derive
 
     // Asignar valores iniciales a los controles
     if (this.selectedSolicitud) {
@@ -157,7 +149,6 @@ export class DerivarRevisorModalComponent implements OnInit {
   }
 
   closeModal(flag?: boolean) {
-
     console.log('closeModal', this.observationsFormArray.length);
 
     this.visible = flag ?? false;
@@ -227,6 +218,18 @@ export class DerivarRevisorModalComponent implements OnInit {
       this.botonDerivar = false;
     }
 
+  }
+
+  GetListadoDgaft() {
+    this._seguimientoAdminService.GetDgaft(this.token!).subscribe({
+      next: ({ data }) => {
+        console.log(data);
+        this.tecnicos = data.map((tecnico: any) => ({
+          nombre: `${tecnico.nombre} ${tecnico.apellido}`,
+          id: tecnico.id
+        }));
+      }
+    });
   }
 
   obtenerBotonNota(valor: any) {
