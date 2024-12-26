@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormGroup, Validators } from '@angular/forms';
+import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certificado-riocp.service';
 
 @Component({
     selector: 'app-revisar-requisitos',
@@ -18,17 +19,34 @@ export class RevisarRequisitosComponent {
 
 
     constructor(
-        private cdRef: ChangeDetectorRef,
+        private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
 
     ) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        setTimeout(() => {
+            const nuevoEstado = !this.observationsFormArray.value.some((item: any) => Number(item.cumple) === 0);
+            this.botonRiocp.emit(nuevoEstado); //   activar/desactivar botón
+
+            console.log("nuevoEstado ===>" + nuevoEstado);
+
+            if (!nuevoEstado) {
+                this.tipoNotaRiocp.emit("OBSERVACIONES");
+            } else {
+                this.tipoNotaRiocp.emit("");
+            }
+        });
+
+    }
 
     abrirModales(i: any) {
         this.envioModal.emit(i);
     }
 
     activarBotonRiocp(i?: any) {
+        // cambie las observaciones y por ende se borra la nota cargada anteriormente
+        this._notaCertificadoRiocpService.tieneNotaCargadaAnterior = false;
+
         const nuevoEstado = !this.observationsFormArray.value.some((item: any) => Number(item.cumple) === 0);
         this.botonRiocp.emit(nuevoEstado); //  activar/desactivar btn de pestaña certificado RIOCP
 
@@ -53,6 +71,7 @@ export class RevisarRequisitosComponent {
 
             console.log('hay observaciones');
             this.tipoNotaRiocp.emit("OBSERVACIONES");
+            this._notaCertificadoRiocpService.cargarUnaVezNota = '';
 
         } else {
             this.observationsFormArray.at(i).get('observacion')?.setValue('SIN OBSERVACIONES'); // Borra el valor
@@ -75,8 +94,10 @@ export class RevisarRequisitosComponent {
 
             console.log('no hay observaciones');
             this.tipoNotaRiocp.emit("");
+            this._notaCertificadoRiocpService.cargarUnaVezNota = '';
 
         }
+
 
     }
 }

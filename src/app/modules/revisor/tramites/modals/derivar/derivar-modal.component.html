@@ -5,7 +5,7 @@
     <!-- Contenedor de Pestañas -->
     <div class="tab-header">
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab1'}" (click)="activeTab = 'tab1'">
-            Observaciones Técnico
+            Observaciones del Técnico
         </button>
         <button class="tab-button" [ngClass]="{'active': activeTab === 'tab2'}" (click)="activeTab = 'tab2'">
             Revisar Requisitos
@@ -14,12 +14,15 @@
             (click)="activeTab = 'tab3'">
             Certificado RIOCP
         </button>
-        <button class="tab-button" [disabled]="!botonNota" [ngClass]="{'active': activeTab === 'tab4'}"
-            (click)="activeTab = 'tab4'">
+        <button class="tab-button" [ngClass]="{'active': activeTab === 'tab4'}" (click)="activeTab = 'tab4'">
+            Nota del Técnico
+        </button>
+        <button class="tab-button" [disabled]="!botonNota" [ngClass]="{'active': activeTab === 'tab5'}"
+            (click)="activeTab = 'tab5'">
             Nota
         </button>
-        <button class="tab-button" [disabled]="!botonDerivar" [ngClass]="{'active': activeTab === 'tab5'}"
-            (click)="activeTab = 'tab5'">
+        <button class="tab-button" [disabled]="!botonDerivar" [ngClass]="{'active': activeTab === 'tab6'}"
+            (click)="activeTab = 'tab6'">
             Derivar
         </button>
     </div>
@@ -50,12 +53,18 @@
             </div>
             <!-- Contenido de la Pestaña 4 -->
             <div *ngIf="activeTab === 'tab4'" class="form-container">
+                <app-nota-observacion-view [rolRevisarObservacion]="rolRevisarObservacion"
+                    [selectedSolicitud]="selectedSolicitud"></app-nota-observacion-view>
+
+            </div>
+            <!-- Contenido de la Pestaña 5 -->
+            <div *ngIf="activeTab === 'tab5'" class="form-container">
                 <app-nota-rechazo [sd]="sd" [vpd]="vpd" [tipoNotaRiocp]="tipoNotaRiocp"
                     (botonDerivar)="obtenerBotonDerivar($event)" [idSolicitud]="selectedSolicitud"
                     [seguimientoForm]="seguimientoForm"></app-nota-rechazo>
             </div>
-            <!-- Contenido de la Pestaña 5 -->
-            <div *ngIf="activeTab === 'tab5'" class="form-container">
+            <!-- Contenido de la Pestaña 6 -->
+            <div *ngIf="activeTab === 'tab6'" class="form-container">
                 <app-derivar [tipoRol]="tipoRol" [listadoRol]="tecnicos" [seguimientoForm]="seguimientoForm"
                     (valorBooleano)="closeModal($event)">
                 </app-derivar>

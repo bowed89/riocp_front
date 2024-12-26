@@ -1,7 +1,7 @@
 <div class="form-container">
     <h4 style="text-align: center;">Derivar Solicitud</h4>
     <div [formGroup]="seguimientoForm">
-        
+
         <div class="form-group">
             <label for="tecnico">Derivar {{tipoRol | uppercase }}</label>
             <p-dropdown formControlName="usuario_destino_id" [options]="listadoRol" optionLabel="nombre"
@@ -40,7 +40,7 @@
             </div>
 
             <div *ngIf="seguimientoForm.get('tieneErrores')?.value" class="flex justify-content-start gap-3 mt-3">
-                <textarea rows="5" cols="30" formControlName="comentario" pInputTextarea style="width: 100%; margin-bottom: 30px;"></textarea>
+                <textarea rows="5" cols="30" formControlName="comentario" placeholder="Describa brevemente el error que se cometió" pInputTextarea style="width: 100%; margin-bottom: 30px;"></textarea>
             </div>
         </div>
 
