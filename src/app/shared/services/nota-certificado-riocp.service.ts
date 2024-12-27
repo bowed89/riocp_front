@@ -71,10 +71,13 @@ export class NotaCertificadoRiocpService {
 
     }
 
-
     GetNotaObservadorVerificadaTecnico(token: string, solicitudId: number): Observable<any> {
         return this.http.get<any>(`${API.local}/usuario/revisor/notas-observacion/${solicitudId}`, this.getHttpOptions(token))
 
+    }
+
+    GetNotaObservadorVerificadaJefeUnidad(token: string, solicitudId: number): Observable<any> {
+        return this.http.get<any>(`${API.local}/usuario/jefe-unidad/notas-observacion/${solicitudId}`, this.getHttpOptions(token))
     }
 
 

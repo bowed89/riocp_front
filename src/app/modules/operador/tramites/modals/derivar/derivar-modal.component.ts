@@ -340,7 +340,7 @@ export class DerivarModalComponent implements OnInit {
         }
 
         if (this.seguimientoForm.valid) {
-
+            
             this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
                 next: ({ message }) => {
                     this._messagesService.MessageSuccess('Observación Agregada', message!);

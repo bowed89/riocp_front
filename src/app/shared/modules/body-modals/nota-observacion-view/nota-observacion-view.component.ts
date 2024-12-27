@@ -33,11 +33,44 @@ export class NotaObservacionViewComponent {
             if (this.rolRevisarObservacion === 'REVISOR') {
                 this.verNotasRevisor();
 
-            } else {
+            }
+            else if (this.rolRevisarObservacion === 'DGAFT') {
                 this.verNotasDgaft();
 
             }
+            else if (this.rolRevisarObservacion === 'JEFE UNIDAD') {
+                this.verNotasJefeUnidad();
+            }
         }
+    }
+
+    verNotasJefeUnidad() {
+        this._notaCertificadoRiocpService.GetNotaObservadorVerificadaJefeUnidad(this.token!, this.selectedSolicitud)
+            .subscribe({
+                next: ({ data }) => {
+
+                    console.log(data);
+
+                    /* Obtener notas */
+                    this._notaCertificadoRiocpService.PostNotaObservacion(this.token!, data)
+                        .subscribe({
+                            next: (value) => {
+
+                                const blob = new Blob([value], { type: 'text/html' });
+                                const url = URL.createObjectURL(blob);
+                                this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+                            }, error: (error) => {
+                                console.error(error);
+                            }
+                        })
+
+
+                }, error: (error) => {
+                    console.error(error);
+                }
+
+            })
     }
 
 

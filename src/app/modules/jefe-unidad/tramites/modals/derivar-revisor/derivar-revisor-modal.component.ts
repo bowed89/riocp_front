@@ -6,6 +6,7 @@ import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.s
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 import { SeguimientoRevisorService } from 'src/app/modules/revisor/tramites/services/seguimiento-revisor.service';
 import { SeguimientoAdminService } from '../../services/seguimiento-admin.service';
+import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certificado-riocp.service';
 
 @Component({
   selector: 'app-derivar-revisor-modal',
@@ -26,7 +27,7 @@ export class DerivarRevisorModalComponent implements OnInit {
   selectedSolicitudForm: any
 
   // desactivar boton de la siguiente pestaña certificado riocp
-  botonRiocp: boolean = true;
+  botonRiocp: boolean = false;
   botonNota: boolean = false;
   botonDerivar: boolean = false;
 
@@ -59,7 +60,9 @@ export class DerivarRevisorModalComponent implements OnInit {
     public _messagesService: MessagesService,
     public _abrirDocumentoService: AbrirDocumentoService,
     public _seguimientoAdminService: SeguimientoAdminService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
+
   ) {
     // Crear el formulario reactivo
     this.seguimientoForm = this.fb.group({
@@ -115,7 +118,7 @@ export class DerivarRevisorModalComponent implements OnInit {
 
     if (this.selectedSolicitud !== undefined) {
       if (this.observationsFormArray.length === 0) {
-        this.getTipoObservacion();
+        // this.getTipoObservacion();
       }
 
       this.seguimientoForm.patchValue({
@@ -157,6 +160,9 @@ export class DerivarRevisorModalComponent implements OnInit {
     this.botonRiocp = true;
     this.botonNota = false;
     this.botonDerivar = false;
+
+    // limpia la variable de las notas
+    this._notaCertificadoRiocpService.cargarUnaVezNota = '';
 
     // Reseteo del formulario con valores iniciales
     this.seguimientoForm.reset({
@@ -286,24 +292,6 @@ export class DerivarRevisorModalComponent implements OnInit {
 
   }
 
-  getTipoObservacion() {
-    this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
-      next: ({ data }: any) => {
-        data.forEach((res: any) => {
-          this.observationsFormArray.push(this.fb.group({
-            enumeracion: [`${res.enumeracion}.`],
-            cumple: [1, Validators.required],
-            descripcion: [res.observacion, Validators.required],
-            tipo_observacion_id: [res.id, Validators.required],
-            observacion: ['SIN OBSERVACIONES', Validators.required]
-          }));
-        });
-      },
-      error(err) {
-        console.error(err);
-      },
-    });
-  }
 
   get observationsFormArray(): FormArray {
     return this.seguimientoForm.get('observaciones') as FormArray;
@@ -354,6 +342,7 @@ export class DerivarRevisorModalComponent implements OnInit {
 
   onSubmit() {
     console.log(this.seguimientoForm.value);
+    
     if (this.seguimientoForm.valid) {
 
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

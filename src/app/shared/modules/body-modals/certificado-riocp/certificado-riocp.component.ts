@@ -31,11 +31,11 @@ export class CertificadoRiocpComponent {
     ) { }
 
     ngOnInit() {
-        if(this._notaCertificadoRiocpService.cargarUnaVezNota !== '')
+        if (this._notaCertificadoRiocpService.cargarUnaVezNota !== '')
             return;
 
         this.datosCertificado();
-        console.log("idSolicitud certificado riocp=>" + this.idSolicitud);
+        console.log("idSolicitud certificado riocpS=>" + this.idSolicitud);
 
         // Escuchar cambios en el formulario, estos cambios son para cambiar el flag del btn
         // de la pestaña 'Nota', si no tiene contenido esos 3 valores esta deshabilitado esa pestaña
@@ -46,7 +46,6 @@ export class CertificadoRiocpComponent {
                 this.botonNota.emit(false);
             }
         });
-
     }
 
     datosCertificado() {

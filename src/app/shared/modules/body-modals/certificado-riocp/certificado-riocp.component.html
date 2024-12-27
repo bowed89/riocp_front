@@ -134,10 +134,12 @@
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
                             [locale]="'de-DE'" placeholder="0.000,00" (ngModelChange)="detectarRangoSD($event)">
                         </p-inputNumber> -->
+                    
                         <p-inputNumber class="p-fluid" styleClass="input-styling" formControlName="servicio_deuda"
                             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" [useGrouping]="true"
                             [locale]="'de-DE'" placeholder="0.000,00">
                         </p-inputNumber>
+                    
                     </div>
                     <div class="field2">
                         <!-- <p-inputNumber class="p-fluid" styleClass="input-styling"
@@ -150,6 +152,7 @@
                             formControlName="valor_presente_deuda_total" mode="decimal" [minFractionDigits]="2"
                             [maxFractionDigits]="2" [useGrouping]="true" [locale]="'de-DE'" placeholder="0.000,00">
                         </p-inputNumber>
+
                     </div>
                 </div>
             </div>

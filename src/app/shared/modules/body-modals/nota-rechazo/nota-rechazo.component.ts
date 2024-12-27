@@ -10,6 +10,7 @@ import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certif
 export class NotaRechazoComponent {
     @Input() idSolicitud: any;
     @Input() tipoNotaRiocp: any;
+    @Input() rolRevisarObservacion!: string;
 
     // recibimos sd y vpd desde certificado riocp componente con internediario en derivar-modal
     @Input() sd: any;
@@ -25,16 +26,27 @@ export class NotaRechazoComponent {
         private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
     ) { }
 
+    procesarTexto() {
+        // Obtiene el valor del textarea
+        const textoOriginal = this.seguimientoForm.get('body')?.value;
+
+        // Reemplaza los saltos de línea (\n) con <br>
+        const textoProcesado = textoOriginal.replace(/\n/g, '<br>');
+
+        // Actualiza el valor procesado en el formulario
+        this.seguimientoForm.get('body')?.setValue(textoProcesado);
+    }
+
 
     ngOnInit() {
         setTimeout(() => {
             console.log("idSolicitud =>" + this.idSolicitud);
             console.log("tipoNotaRiocp =>" + this.tipoNotaRiocp);
+            console.log("rolRevisarObservacion =>" + this.rolRevisarObservacion);
             console.log("sd =>" + this.sd);
             console.log("vpd =>" + this.vpd);
 
             // pregunto si tiene una nota_certificado_riocp anterior de otro tecnico
-
 
             // inicia preguntando si tienen valores
             if (this.tipoNotaRiocp !== '') {
@@ -52,16 +64,6 @@ export class NotaRechazoComponent {
             this.seguimientoForm.valueChanges.subscribe(({
                 fecha, nro_nota, header, referencia, body, remitente, revisado
             }): any => {
-
-                // console.log(fecha, nro_nota, header, referencia, body, remitente, revisado);
-                console.log("Fecha => " + fecha);
-                console.log("Nro => " + nro_nota);
-                console.log("header => " + header);
-                console.log("referencia => " + referencia);
-                console.log("body => " + body);
-                console.log("remitente => " + remitente);
-                console.log("revisado => " + revisado);
-
                 if (fecha.length > 0 && nro_nota.length > 0 && header.length > 0 && referencia.length > 0 && body.length > 0
                     && remitente.length > 0 && revisado.length > 0) {
 
@@ -116,6 +118,10 @@ export class NotaRechazoComponent {
 
     obtenerDatosNotaAprobado() {
         console.log(this.idSolicitud);
+        // "this._notaCertificadoRiocpService.tieneNotaCargadaAnterior"
+        // pregunto si se tiene una nota anterior cargada (en caso de revisor y jefe de unidad)
+        // sino se tiene  una nota anterior cargada, quiere decir q el rol es de tecnico porque
+        // no revisa de nadie una nota...
 
         if (!this._notaCertificadoRiocpService.tieneNotaCargadaAnterior) {
             this._notaCertificadoRiocpService.GetDatosNotaAprobadoRiocp(this.token!, this.idSolicitud).subscribe({
@@ -133,25 +139,40 @@ export class NotaRechazoComponent {
             });
 
         } else {
-            this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
-                .subscribe({
-                    next: ({ data }) => {
-                        const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
-                        this.seguimientoForm.patchValue({
-                            body, footer, header, referencia, fecha, nro_nota, remitente, revisado
-                        });
+            if (this.rolRevisarObservacion === 'REVISOR') {
+                this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
+                    .subscribe({
+                        next: ({ data }) => {
+                            const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
+                            this.seguimientoForm.patchValue({
+                                body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+                            });
 
-                        this._notaCertificadoRiocpService.cargarUnaVezNota = body;
+                            this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
-                    }, error: (error) => {
-                        console.error(error);
-                    }
+                        }, error: (error) => {
+                            console.error(error);
+                        }
 
-                })
+                    });
+            } else if (this.rolRevisarObservacion === 'JEFE UNIDAD') {
+                this._notaCertificadoRiocpService.GetNotaObservadorVerificadaJefeUnidad(this.token!, this.idSolicitud)
+                    .subscribe({
+                        next: ({ data }) => {
+                            const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
+                            this.seguimientoForm.patchValue({
+                                body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+                            });
+
+                            this._notaCertificadoRiocpService.cargarUnaVezNota = body;
+
+                        }, error: (error) => {
+                            console.error(error);
+                        }
+
+                    });
+            }
         }
-
-
-
 
     }
 
@@ -173,21 +194,39 @@ export class NotaRechazoComponent {
             })
 
         } else {
-            this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
-                .subscribe({
-                    next: ({ data }) => {
-                        const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
-                        this.seguimientoForm.patchValue({
-                            body, footer, header, referencia, fecha, nro_nota, remitente, revisado
-                        });
+            if (this.rolRevisarObservacion === 'REVISOR') {
+                this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
+                    .subscribe({
+                        next: ({ data }) => {
+                            const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
+                            this.seguimientoForm.patchValue({
+                                body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+                            });
 
-                        this._notaCertificadoRiocpService.cargarUnaVezNota = body;
+                            this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
-                    }, error: (error) => {
-                        console.error(error);
-                    }
+                        }, error: (error) => {
+                            console.error(error);
+                        }
 
-                })
+                    });
+            } else if (this.rolRevisarObservacion === 'JEFE UNIDAD') {
+                this._notaCertificadoRiocpService.GetNotaObservadorVerificadaJefeUnidad(this.token!, this.idSolicitud)
+                    .subscribe({
+                        next: ({ data }) => {
+                            const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
+                            this.seguimientoForm.patchValue({
+                                body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+                            });
+
+                            this._notaCertificadoRiocpService.cargarUnaVezNota = body;
+
+                        }, error: (error) => {
+                            console.error(error);
+                        }
+
+                    });
+            }
         }
     }
 
@@ -209,22 +248,40 @@ export class NotaRechazoComponent {
             })
 
         } else {
+            if (this.rolRevisarObservacion === 'REVISOR') {
+                this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
+                    .subscribe({
+                        next: ({ data }) => {
+                            const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
+                            this.seguimientoForm.patchValue({
+                                body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+                            });
 
-            this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
-                .subscribe({
-                    next: ({ data }) => {
-                        const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
-                        this.seguimientoForm.patchValue({
-                            body, footer, header, referencia, fecha, nro_nota, remitente, revisado
-                        });
+                            this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
-                        this._notaCertificadoRiocpService.cargarUnaVezNota = body;
+                        }, error: (error) => {
+                            console.error(error);
+                        }
 
-                    }, error: (error) => {
-                        console.error(error);
-                    }
+                    });
 
-                })
+            } else if (this.rolRevisarObservacion === 'JEFE UNIDAD') {
+                this._notaCertificadoRiocpService.GetNotaObservadorVerificadaJefeUnidad(this.token!, this.idSolicitud)
+                    .subscribe({
+                        next: ({ data }) => {
+                            const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
+                            this.seguimientoForm.patchValue({
+                                body, footer, header, referencia, fecha, nro_nota, remitente, revisado
+                            });
+
+                            this._notaCertificadoRiocpService.cargarUnaVezNota = body;
+
+                        }, error: (error) => {
+                            console.error(error);
+                        }
+
+                    });
+            }
         }
     }
 

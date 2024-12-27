@@ -37,5 +37,10 @@ export class ObservacionRevisorService {
     const url = `${API.local}/usuario/dgaft/${id}`;
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
-  
+
+  dvdfvd(token: string, id: number): Observable<Response<any>> {
+    const url = `${API.local}/usuario/dgaft/${id}`;
+    return this.http.get<Response<any>>(url, this.getHttpOptions(token));
+  }
+
 }

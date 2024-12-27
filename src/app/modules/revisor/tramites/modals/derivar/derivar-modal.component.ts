@@ -5,7 +5,6 @@ import { MessagesService } from 'src/app/shared/services/messages.service';
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
 import { SeguimientoOperadorService } from 'src/app/modules/operador/tramites/services/seguimiento-operador.service';
 import { SeguimientoRevisorService } from '../../services/seguimiento-revisor.service';
-import { ObservacionRevisorService } from '../../services/observacion-revisor.service';
 import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certificado-riocp.service';
 
 @Component({
@@ -27,7 +26,7 @@ export class DerivarModalComponent implements OnInit {
     selectedSolicitudForm: any
 
     // desactivar boton de la siguiente pestaña certificado riocp
-    botonRiocp: boolean = true;
+    botonRiocp: boolean = false;
     botonNota: boolean = false;
     botonDerivar: boolean = false;
 
@@ -61,7 +60,6 @@ export class DerivarModalComponent implements OnInit {
         public _messagesService: MessagesService,
         public _abrirDocumentoService: AbrirDocumentoService,
         private cdRef: ChangeDetectorRef,
-        public _observacionRevisorService: ObservacionRevisorService,
         private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
 
 
@@ -119,11 +117,9 @@ export class DerivarModalComponent implements OnInit {
 
         if (this.selectedSolicitud !== undefined) {
             if (this.observationsFormArray.length === 0) {
-                this.getTipoObservacion();
-                const nuevoEstado = !this.observationsFormArray.value.some((item: any) => Number(item.cumple) === 0);
+                /* const nuevoEstado = !this.observationsFormArray.value.some((item: any) => Number(item.cumple) === 0);
                 console.log("this.botonRiocp " + nuevoEstado);
-
-                this.botonRiocp = nuevoEstado;
+                this.botonRiocp = nuevoEstado; */
             }
 
             this.seguimientoForm.patchValue({
@@ -297,43 +293,7 @@ export class DerivarModalComponent implements OnInit {
 
     }
 
-    getTipoObservacion() {
-        /*  this._seguimientoOperadorService.GetTipoObservacion(this.token!).subscribe({
-             next: ({ data }: any) => {
-                 data.forEach((res: any) => {
-                     this.observationsFormArray.push(this.fb.group({
-                         enumeracion: [`${res.enumeracion}.`],
-                         cumple: [1, Validators.required],
-                         descripcion: [res.observacion, Validators.required],
-                         tipo_observacion_id: [res.id, Validators.required],
-                         observacion: ['SIN OBSERVACIONES', Validators.required]
-                     }));
-                 });
-             },
-             error(err) {
-                 console.error(err);
-             },
-         }); */
 
-        this._observacionRevisorService.GetTecnicoObservacion(this.token!, this.selectedSolicitud)
-            .subscribe({
-                next: ({ data }) => {
-                    data.forEach((res: any) => {
-                        this.observationsFormArray.push(this.fb.group({
-                            enumeracion: [`${res.enumeracion}.`],
-                            cumple: [res.cumple, Validators.required],
-                            descripcion: [res.tipo_observacion, Validators.required],
-                            observacion: [res.observacion, Validators.required]
-                        }));
-                    });
-
-                }, error(err) {
-                    console.error(err);
-                }
-            })
-
-
-    }
 
     get observationsFormArray(): FormArray {
         return this.seguimientoForm.get('observaciones') as FormArray;
@@ -384,6 +344,10 @@ export class DerivarModalComponent implements OnInit {
 
     onSubmit() {
         console.log(this.seguimientoForm.value);
+
+
+        return
+
         if (this.seguimientoForm.valid) {
 
             this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
