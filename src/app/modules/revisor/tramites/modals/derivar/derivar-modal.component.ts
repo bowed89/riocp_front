@@ -343,10 +343,8 @@ export class DerivarModalComponent implements OnInit {
     };
 
     onSubmit() {
+        this.convertirBrHtml();
         console.log(this.seguimientoForm.value);
-
-
-        return
 
         if (this.seguimientoForm.valid) {
 
@@ -365,6 +363,14 @@ export class DerivarModalComponent implements OnInit {
         } else {
             this._messagesService.MessageError('Observación inválida', 'Por favor complete todos los campos requeridos.');
         }
+    }
+    // convertir de '\n' a '<br>' en el html de body
+    convertirBrHtml() {
+        const textoOriginal = this.seguimientoForm.get('body')?.value;
+        let textoConBr = textoOriginal.replace(/\n/g, '<br>');
+        this.seguimientoForm.patchValue({
+            body: textoConBr
+        });
     }
 
 }

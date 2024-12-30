@@ -26,23 +26,13 @@ export class NotaRechazoComponent {
         private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
     ) { }
 
-    procesarTexto() {
-        // Obtiene el valor del textarea
-        const textoOriginal = this.seguimientoForm.get('body')?.value;
-
-        // Reemplaza los saltos de línea (\n) con <br>
-        const textoProcesado = textoOriginal.replace(/\n/g, '<br>');
-
-        // Actualiza el valor procesado en el formulario
-        this.seguimientoForm.get('body')?.setValue(textoProcesado);
-    }
-
 
     ngOnInit() {
         setTimeout(() => {
             console.log("idSolicitud =>" + this.idSolicitud);
             console.log("tipoNotaRiocp =>" + this.tipoNotaRiocp);
             console.log("rolRevisarObservacion =>" + this.rolRevisarObservacion);
+            console.log("this._notaCertificadoRiocpService.cargarUnaVezNota =>" + this._notaCertificadoRiocpService.cargarUnaVezNota);
             console.log("sd =>" + this.sd);
             console.log("vpd =>" + this.vpd);
 
@@ -84,11 +74,13 @@ export class NotaRechazoComponent {
             // Cargamos el tipo de nota
             switch (this.tipoNotaRiocp) {
                 case 'APROBACIÓN':
+
                     if (this._notaCertificadoRiocpService.cargarUnaVezNota !== '') {
                         return
                     }
 
                     this.obtenerDatosNotaAprobado();
+
 
                     break;
                 case 'OBSERVACIONES':
@@ -131,6 +123,8 @@ export class NotaRechazoComponent {
                         body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                     });
 
+                    this.convertirNHtml();
+
                     this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
                 }, error(err) {
@@ -148,6 +142,8 @@ export class NotaRechazoComponent {
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                             });
 
+                            this.convertirNHtml();
+
                             this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
                         }, error: (error) => {
@@ -163,6 +159,7 @@ export class NotaRechazoComponent {
                             this.seguimientoForm.patchValue({
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                             });
+                            this.convertirNHtml();
 
                             this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
@@ -185,6 +182,7 @@ export class NotaRechazoComponent {
                     this.seguimientoForm.patchValue({
                         body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                     });
+                    this.convertirNHtml();
 
                     this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
@@ -202,6 +200,7 @@ export class NotaRechazoComponent {
                             this.seguimientoForm.patchValue({
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                             });
+                            this.convertirNHtml();
 
                             this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
@@ -218,6 +217,7 @@ export class NotaRechazoComponent {
                             this.seguimientoForm.patchValue({
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                             });
+                            this.convertirNHtml();
 
                             this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
@@ -232,7 +232,6 @@ export class NotaRechazoComponent {
 
     obtenerDatosNotaRechazo() {
         console.log(this.idSolicitud);
-
         if (!this._notaCertificadoRiocpService.tieneNotaCargadaAnterior) {
 
             this._notaCertificadoRiocpService.GetDatosNotaRechazoRiocp(this.token!, this.idSolicitud, this.sd, this.vpd).subscribe({
@@ -241,6 +240,9 @@ export class NotaRechazoComponent {
                     this.seguimientoForm.patchValue({
                         body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                     });
+
+                    this.convertirNHtml();
+                    this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
                 }, error(err) {
                     console.error(err);
@@ -257,6 +259,7 @@ export class NotaRechazoComponent {
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                             });
 
+                            this.convertirNHtml();
                             this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
                         }, error: (error) => {
@@ -274,6 +277,7 @@ export class NotaRechazoComponent {
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
                             });
 
+                            this.convertirNHtml();
                             this._notaCertificadoRiocpService.cargarUnaVezNota = body;
 
                         }, error: (error) => {
@@ -284,5 +288,15 @@ export class NotaRechazoComponent {
             }
         }
     }
+
+    // convertir de '<br>' a '\n' en el html de body
+    convertirNHtml() {
+        const textoOriginal = this.seguimientoForm.get('body')?.value;
+        let textoConSaltoDeLinea = textoOriginal.replace(/<br\s*\/?>/gi, '\n');
+        this.seguimientoForm.patchValue({
+            body: textoConSaltoDeLinea
+        });
+    }
+
 
 }

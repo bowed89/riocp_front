@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from 'src/app/shared/services/messages.service';
 import { SeguimientoOperadorService } from '../../services/seguimiento-operador.service';
 import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.service';
+import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certificado-riocp.service';
 
 @Component({
     selector: 'app-derivar-modal',
@@ -52,6 +53,7 @@ export class DerivarModalComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         public _seguimientoOperadorService: SeguimientoOperadorService,
+        private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
         public _messagesService: MessagesService,
         public _abrirDocumentoService: AbrirDocumentoService,
         private cdRef: ChangeDetectorRef
@@ -112,6 +114,8 @@ export class DerivarModalComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this._notaCertificadoRiocpService.tieneNotaCargadaAnterior = false;
+
         // this.getTipoObservacion();
         this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
             next: ({ data }) => {
@@ -329,8 +333,7 @@ export class DerivarModalComponent implements OnInit {
     };
 
     onSubmit() {
-        console.log(this.seguimientoForm.value);
-
+        this.convertirBrHtml();
         if (this.seguimientoForm.invalid) {
             const missingFields = this.findInvalidControls(this.seguimientoForm);
             console.log('Campos faltantes o inválidos:', missingFields);
@@ -340,7 +343,7 @@ export class DerivarModalComponent implements OnInit {
         }
 
         if (this.seguimientoForm.valid) {
-            
+
             this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({
                 next: ({ message }) => {
                     this._messagesService.MessageSuccess('Observación Agregada', message!);
@@ -387,4 +390,15 @@ export class DerivarModalComponent implements OnInit {
         return invalidControls;
     }
 
+
+    // convertir de '\n' a '<br>' en el html de body
+    convertirBrHtml() {
+        const textoOriginal = this.seguimientoForm.get('body')?.value;
+        let textoConBr = textoOriginal.replace(/\n/g, '<br>');
+        this.seguimientoForm.patchValue({
+            body: textoConBr
+        });
+    }
+
 }
+

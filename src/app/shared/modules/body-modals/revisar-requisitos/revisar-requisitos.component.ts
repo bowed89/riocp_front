@@ -32,7 +32,6 @@ export class RevisarRequisitosComponent {
 
     ngOnInit() {
         setTimeout(() => {
-            console.log(this.selectedSolicitud);
 
             if (this.selectedSolicitud !== undefined) {
 
@@ -117,7 +116,7 @@ export class RevisarRequisitosComponent {
     ObtenerObservacionesDeTecnico() {
 
         console.log("ObtenerObservacionesDeTecnico");
-        
+
 
         if (this.observationsFormArray.length === 0) {
             this._observacionRevisorService.GetTecnicoObservacion(this.token!, this.selectedSolicitud)
@@ -156,13 +155,13 @@ export class RevisarRequisitosComponent {
 
     ObtenerObservacionesDeRevisor() {
         console.log("ObtenerObservacionesDeRevisor");
-        
+
         if (this.observationsFormArray.length === 0) {
             this._observacionRevisorService.GetRevisorJefeUnidadObservacion(this.token!, this.selectedSolicitud)
                 .subscribe({
                     next: ({ data }) => {
 
-                        
+
                         data.forEach((res: any) => {
                             console.log("data ===>" + JSON.stringify(res));
 
