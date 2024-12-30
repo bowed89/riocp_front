@@ -341,11 +341,8 @@ export class DerivarRevisorModalComponent implements OnInit {
     };
 
     onSubmit() {
-
         this.convertirBrHtml();
         console.log("despues ==>", this.seguimientoForm.value);
-
-        return
 
         if (this.seguimientoForm.valid) {
 
@@ -366,13 +363,19 @@ export class DerivarRevisorModalComponent implements OnInit {
         }
     }
 
-    // convertir de '\n' a '<br>' en el html de body
+    // convertir de '\n' a '<br>' en el html de body y header
     convertirBrHtml() {
-        const textoOriginal = this.seguimientoForm.get('body')?.value;
-        let textoConBr = textoOriginal.replace(/\n/g, '<br>');
+        const textoBodyOriginal = this.seguimientoForm.get('body')?.value;
+        let textoBodyConBr = textoBodyOriginal.replace(/\n/g, '<br>');
+
+        const textoHeaderOriginal = this.seguimientoForm.get('header')?.value;
+        let textoHeaderConBr = textoBodyOriginal.replace(/\n/g, '<br>');
+
         this.seguimientoForm.patchValue({
-            body: textoConBr
+            body: textoBodyConBr,
+            header: textoHeaderConBr
         });
+        
     }
 
 }

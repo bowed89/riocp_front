@@ -25,8 +25,6 @@ export class NotaRechazoComponent {
     constructor(
         private _notaCertificadoRiocpService: NotaCertificadoRiocpService,
     ) { }
-
-
     ngOnInit() {
         setTimeout(() => {
             console.log("idSolicitud =>" + this.idSolicitud);
@@ -102,9 +100,7 @@ export class NotaRechazoComponent {
                     break;
             }
 
-
-
-        })
+        });
     }
 
 
@@ -289,14 +285,17 @@ export class NotaRechazoComponent {
         }
     }
 
-    // convertir de '<br>' a '\n' en el html de body
+    // convertir de '<br>' a '\n' en el html de body y header
     convertirNHtml() {
-        const textoOriginal = this.seguimientoForm.get('body')?.value;
-        let textoConSaltoDeLinea = textoOriginal.replace(/<br\s*\/?>/gi, '\n');
+        const textoBodyOriginal = this.seguimientoForm.get('body')?.value;
+        let textoBodyConSaltoDeLinea = textoBodyOriginal.replace(/<br\s*\/?>/gi, '\n');
+
+        const textoHeaderOriginal = this.seguimientoForm.get('header')?.value;
+        let textoHeaderConSaltoDeLinea = textoHeaderOriginal.replace(/<br\s*\/?>/gi, '\n');
+
         this.seguimientoForm.patchValue({
-            body: textoConSaltoDeLinea
+            body: textoBodyConSaltoDeLinea,
+            header: textoHeaderConSaltoDeLinea
         });
     }
-
-
 }
