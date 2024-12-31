@@ -26,21 +26,21 @@
         <div class="form-group mt-4" *ngIf="errorRevision">
             <label for="tecnico">¿El técnico cometió errores de revisión?</label>
             <div class="flex justify-content-start gap-3">
-                <p-radioButton value="1" formControlName="tieneErrores" label="Si"
-                    (onClick)="revisarErrores($event)">
+                <p-radioButton value="1" formControlName="tieneErrores" label="Si" (onClick)="revisarErrores($event)">
                 </p-radioButton>
-                <p-radioButton value="0" formControlName="tieneErrores" label="No"
-                    (onClick)="revisarErrores($event)">
+                <p-radioButton value="0" formControlName="tieneErrores" label="No" (onClick)="revisarErrores($event)">
                 </p-radioButton>
             </div>
 
             <div *ngIf="seguimientoForm.get('tieneErrores')?.value" class="flex justify-content-start gap-3 mt-3">
-                <p-dropdown formControlName="tipo_error_id" [options]="tipoErrores" optionLabel="tipo"
-                    optionValue="id" placeholder="Tipo de Error"></p-dropdown>
+                <p-dropdown formControlName="tipo_error_id" [options]="tipoErrores" optionLabel="tipo" optionValue="id"
+                    placeholder="Tipo de Error"></p-dropdown>
             </div>
 
             <div *ngIf="seguimientoForm.get('tieneErrores')?.value" class="flex justify-content-start gap-3 mt-3">
-                <textarea rows="5" cols="30" formControlName="comentario" placeholder="Describa brevemente el error que se cometió" pInputTextarea style="width: 100%; margin-bottom: 30px;"></textarea>
+                <textarea rows="5" cols="30" formControlName="comentario"
+                    placeholder="Describa brevemente el error que se cometió" pInputTextarea
+                    style="width: 100%; margin-bottom: 30px;"></textarea>
             </div>
         </div>
 

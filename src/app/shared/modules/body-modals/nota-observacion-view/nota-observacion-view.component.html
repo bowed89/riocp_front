@@ -1,13 +1,15 @@
-    <div>
-        <iframe
-        *ngIf="pdfUrl"
-        [src]="pdfUrl"
-        width="100%"
-        height="600px"
-        frameborder="0"
-        ></iframe>
-    </div>
+<div>
+    <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" frameborder="0"></iframe>
+</div>
 
-    <div>
-        odsddssd
+<div *ngIf="esDagft_Vctp">
+    <div class="text-center">
+        <p class="subtitulo-validacion">
+            2.- SUBA SU FORMULARIO PDF CON SU FIRMA DIGITAL.
+        </p>
+        <p-fileUpload chooseLabel="Subir Archivo PDF" cancelLabel="Cancelar" [showUploadButton]="false"
+            [showCancelButton]="false" (onSelect)="onFileSelect($event)" (onRemove)="onFileRemove()" [multiple]="false"
+            accept=".pdf" [maxFileSize]="10000000">
+        </p-fileUpload>
     </div>
+</div>

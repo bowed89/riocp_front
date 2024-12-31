@@ -11,7 +11,7 @@ import { AbrirDocumentoService } from 'src/app/shared/services/abrir-documento.s
 })
 
 export class DerivarModalComponent implements OnInit {
-  tipoRol = 'Revisor(a)';
+  tipoRol = 'vctp';
   rolRevisarObservacion = 'DGAFT'; // rol que envia la solicitud
 
 
@@ -22,6 +22,7 @@ export class DerivarModalComponent implements OnInit {
   form4ModalVisible: boolean = false;
 
   selectedSolicitudForm: any;
+  hoja_ruta = false;
 
   activeTab: string = 'tab1'; // Para manejar la pestaña activa
 
@@ -66,8 +67,11 @@ export class DerivarModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this._seguimientoOperadorService.GetRevisores(this.token!).subscribe({
+    this._seguimientoOperadorService.GetVctp(this.token!).subscribe({
       next: ({ data }) => {
+
+        console.log("dataaaa vctp ==>" + data);
+        
         console.log(data);
         this.tecnicos = data.map((tecnico: any) => ({
           nombre: `${tecnico.nombre} ${tecnico.apellido}`,
@@ -175,6 +179,11 @@ export class DerivarModalComponent implements OnInit {
   };
 
   onSubmit() {
+
+    console.log(this.seguimientoForm.value);
+    
+    return;
+    
     if (this.seguimientoForm.valid) {
       console.log(this.seguimientoForm.value);
       this._seguimientoOperadorService.PostTipoObservacion(this.seguimientoForm.value, this.token!).subscribe({

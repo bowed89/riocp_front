@@ -28,8 +28,8 @@ export class SeguimientoOperadorService {
     };
   }
 
-  GetRevisores(token: string): Observable<Response<any>> {
-    const url = `${API.local}/usuario/revisor`;
+  GetVctp(token: string): Observable<Response<any>> {
+    const url = `${API.local}/usuario/vctp`;
     return this.http.get<Response<any>>(url, this.getHttpOptions(token));
   }
 

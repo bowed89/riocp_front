@@ -10,6 +10,7 @@ import { NotaCertificadoRiocpService } from 'src/app/shared/services/nota-certif
 export class NotaObservacionViewComponent {
     @Input() selectedSolicitud!: number
     @Input() rolRevisarObservacion!: string;
+    esDagft_Vctp = false;
 
     token = localStorage.getItem('token');
     pdfUrl: any;
@@ -35,6 +36,7 @@ export class NotaObservacionViewComponent {
 
             }
             else if (this.rolRevisarObservacion === 'DGAFT') {
+                this.esDagft_Vctp = true;
                 this.verNotasDgaft();
 
             }
@@ -131,6 +133,71 @@ export class NotaObservacionViewComponent {
                 }
 
             })
+    }
+
+
+    /* SUBIR Y BORRAR ARCHIVOS */
+    onFileSelect(event: any) {
+        const file = event.files[0];
+
+        console.log(file);
+        
+        /* if (file) {
+            const maxSize = 11000000; // 11MB max
+            if (file.type !== 'application/pdf') {
+                this.solicitudForm.get('documento')?.setErrors({ invalidFileType: true });
+            } else if (file.size > maxSize) {
+                this.solicitudForm.get('documento')?.setErrors({ maxSizeExceeded: true });
+            } else {
+                // Convertir pdf a base64 y validar firma digital
+                this.spinnerFirma = true;
+
+                this._firmaDigitalService.ValidateDigitalSign(file, this.token!).subscribe(data => {
+                    console.log("firma digital ===>", data);
+                    this.spinnerFirma = true;
+                    this.onFileRemove();
+
+                    if (data.length > 0) {
+                        // valido cadenaConfianza,noModificado,firmadoAntesRevocacion,firmadoDuranteVigencia sean true
+                        if (data[0].cadenaConfianza &&
+                            data[0].noModificado &&
+                            data[0].firmadoAntesRevocacion &&
+                            data[0].firmadoDuranteVigencia) {
+
+                            this.firmaValido = true;
+                            this.firmaNombre = data[0].certificado.nombreSignatario;
+                            this.firmaInicioValidez = data[0].certificado.inicioValidez;
+                            this.firmaFinValidez = data[0].certificado.finValidez;
+
+                            this.solicitudForm.patchValue({ firma_digital: 1, entidad_id: this.idEntidad });
+                            this.solicitudForm.get('documento')?.setErrors(null); // Resetea errores si es válido
+                            this.solicitudForm.get('documento')?.setValue(file); // Guardar el archivo en el control
+
+                        } else {
+                            this.firmaMensajeError = 'LA VALIDEZ DE LA FIRMA DIGITAL VENCIO O TIENE PROBLEMAS';
+                            this.solicitudForm.patchValue({ firma_digital: 0 });
+                        }
+
+                    } else {
+                        this.firmaNoValido = true;
+                        this.firmaMensajeError = 'EL DOCUMENTO NO CUENTA CON FIRMA DIGITAL';
+                        this.solicitudForm.patchValue({ firma_digital: 0 });
+
+                    }
+                    this.spinnerFirma = false;
+                });
+
+            }
+        } */
+    }
+
+    onFileRemove() {
+      /*   this.solicitudForm.get('documento')?.setValue('');
+        this.firmaValido = false;
+        this.firmaNoValido = false;
+        this.firmaNombre = ''
+        this.firmaInicioValidez = ''
+        this.firmaFinValidez = '' */
     }
 
 }

@@ -13,7 +13,6 @@ export class DerivarComponent {
 
   // valor input que recibe desde el padre al hijo
   @Input() tipoRol!: string;
-
   @Input() listadoRol: any[] = [];
   @Input() seguimientoForm!: FormGroup;
 
