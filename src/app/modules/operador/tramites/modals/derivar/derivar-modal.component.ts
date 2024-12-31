@@ -334,6 +334,7 @@ export class DerivarModalComponent implements OnInit {
 
     onSubmit() {
         this.convertirBrHtml();
+
         if (this.seguimientoForm.invalid) {
             const missingFields = this.findInvalidControls(this.seguimientoForm);
             console.log('Campos faltantes o inválidos:', missingFields);
@@ -397,7 +398,7 @@ export class DerivarModalComponent implements OnInit {
         let textoBodyConBr = textoBodyOriginal.replace(/\n/g, '<br>');
 
         const textoHeaderOriginal = this.seguimientoForm.get('header')?.value;
-        let textoHeaderConBr = textoBodyOriginal.replace(/\n/g, '<br>');
+        let textoHeaderConBr = textoHeaderOriginal.replace(/\n/g, '<br>');
 
         this.seguimientoForm.patchValue({
             body: textoBodyConBr,

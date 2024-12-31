@@ -133,6 +133,9 @@ export class NotaRechazoComponent {
                 this._notaCertificadoRiocpService.GetNotaObservadorVerificadaTecnico(this.token!, this.idSolicitud)
                     .subscribe({
                         next: ({ data }) => {
+
+                            console.log(data);
+
                             const { body, footer, header, referencia, fecha, nro_nota, remitente, revisado }: any = data;
                             this.seguimientoForm.patchValue({
                                 body, footer, header, referencia, fecha, nro_nota, remitente, revisado
